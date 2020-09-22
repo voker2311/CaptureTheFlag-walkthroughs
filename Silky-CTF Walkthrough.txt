@@ -1,4 +1,4 @@
-SilkyCTF is boot2root intermediate machine.
+SilkyCTF is a boot2root intermediate machine.
 IP:192.168.0.109
 Lets start by scanning all the ports
 -> nmap -A -T4 -p- 192.168.0.109
@@ -159,3 +159,5 @@ flag: 489ca3ccb71640cce1a618a5dea48c25
 
 Congrats ;)
 # 
+
+Thank you...Happy Hacking :)
