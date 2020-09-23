@@ -1,4 +1,4 @@
-symfonos:1 is a intermediate boot2root machine.
+symfonos:1 is an intermediate boot2root machine.
 IP: 192.168.0.108
 
 Lets enumerate the system and try to exploit it.
