@@ -7,3 +7,4 @@
 5) Silky-CTF:0x01 Walkthrough (Intermediate)
 6) Web-developer:1 Walkthrough (Intermediate)
 7) symfonos:1 Walkthrough (Intermediate)
+8) SP-ike Walkthrough (Easy)
