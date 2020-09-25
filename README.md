@@ -8,3 +8,4 @@
 6) Web-developer:1 Walkthrough (Intermediate)
 7) symfonos:1 Walkthrough (Intermediate)
 8) SP-ike Walkthrough (Easy)
+9) DC-4 CTF Walkthrough (Intermediate)
