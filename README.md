@@ -11,3 +11,4 @@
 9) DC-4 CTF Walkthrough (Intermediate)
 10) symfonos:3 Walkthrough (Intermediate)
 11) Skydog CTF Con Walkthrough (Intermediate)
+12) JISCTF:Vulnupload Walkthrough (Intermediate)
