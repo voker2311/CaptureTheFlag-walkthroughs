@@ -14,3 +14,4 @@
 12) JISCTF:Vulnupload Walkthrough (Intermediate)
 13) Anonymous Tryhackme Walkthrough (Intermediate)
 14) hackerNote Tryhackme Walkthrough (Intermediate)
+15) Mindgames Tryhackme Walkthrough (Intermediate)
