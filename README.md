@@ -16,3 +16,4 @@
 14) hackerNote Tryhackme Walkthrough (Intermediate)
 15) Mindgames Tryhackme Walkthrough (Intermediate)
 16) YearoftheRabbit Tryhackme Walkthrough (Intermediate)
+17) JackOfAllTrades Tryhackme Walkthrough (Intermediate)
