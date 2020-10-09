@@ -281,7 +281,7 @@ ToDo:
 3.Meet up with Johny for a pint or two
 4.Move the body from the garage, maybe my old buddy Bill from the force can help me hide her?
 5.Remember to finish that contract for Lisa.
-6.Delete this: securi-tay2020_{6f125d32f38fb8ff9e720d2dbce2210a}
+6.Delete this: securi-tay2020_{#############################}
 jack@jack-of-all-trades:~$ 
 
 
