@@ -21,3 +21,4 @@
 19) Overpass Tryhackme Walkthrough (Easy)
 20) Lazy Admin Tryhackme Walkthrough (Easy)
 21) tomghost Tryhackme Walkthrough (Intermediate)
+22) Ghizer Tryhackme Walkthrough (Intermediate)
