@@ -22,3 +22,4 @@
 20) Lazy Admin Tryhackme Walkthrough (Easy)
 21) tomghost Tryhackme Walkthrough (Intermediate)
 22) Ghizer Tryhackme Walkthrough (Intermediate)
+23) HacktheBox Cache (Retired) - (Hard)
