@@ -23,3 +23,4 @@
 21) tomghost Tryhackme Walkthrough (Intermediate)
 22) Ghizer Tryhackme Walkthrough (Intermediate)
 23) HacktheBox Cache (Retired) - (Hard)
+24) Tartarus Tryhackme Walkthrough (Easy)
