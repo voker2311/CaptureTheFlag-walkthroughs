@@ -1,0 +1,221 @@
+1) Can you decode the following?
+-> VEhNe2p1NTdfZDNjMGQzXzdoM19iNDUzfQ==
+
+root@LAPTOP-U5913CMD:/home/akshay# echo 'VEhNe2p1NTdfZDNjMGQzXzdoM19iNDUzfQ==' | base64 -d
+THM{ju57_d3c0d3_7h3_b453}
+
+2) Meta! meta! meta! meta...................................
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# strings Findme.jpg | grep -iE "THM{.*}"
+THM{3x1f_0r_3x17}
+root@LAPTOP-U5913CMD:/home/akshay/Downloads#
+
+
+3)Something is hiding. That's all you need to know.
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# steghide extract -sf Extinction.jpg
+Enter passphrase:
+wrote extracted data to "Final_message.txt".
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# cat Fin
+Final_message.txt  Findme.jpg
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# cat Final_message.txt
+It going to be over soon. Sleep my child.
+
+THM{500n3r_0r_l473r_17_15_0ur_7urn}
+root@LAPTOP-U5913CMD:/home/akshay/Downloads#
+
+
+4) Huh, where is the flag? -> THM{wh173_fl46} : This part is hidden
+
+-> THM{wh173_fl46}
+
+5) Such technology is quite reliable.
+You have to use Online QR Decoder to get this.
+
+Raw text
+
+THM{qr_m4k3_l1f3_345y}
+
+Raw bytes
+
+41 65 44 84 d7 b7 17 25   f6 d3 46 b3 35 f6 c3 16
+63 35 f3 33 43 57 97 d0   ec 11 ec 11 ec 11 ec 11
+ec 11
+
+Barcode format  QR_CODE
+Parsed Result Type      TEXT
+Parsed Result
+
+THM{qr_m4k3_l1f3_345y}
+
+6) Both works, it's all up to you.
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# strings hello.hello | grep -iE "THM{.*}"
+THM{345y_f1nd_345y_60}
+
+7) Can you decode it?
+
+3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L
+
+The given string is base58 encoded.
+You can decode it using any online tool.
+THM{17_h45_l3553r_l3773r5}
+
+8) Left, right, left, right... Rot 13 is too mainstream. Solve this
+
+MAF{atbe_max_vtxltk}
+
+-> ROT13 is a rotation cipher and there are certain tools available online.
+
+THM{hail_the_caesar}
+
+You can use caesar cipher to do such stuffs.
+
+9) No downloadable file, no ciphered or encoded text. Huh .......
+-> Here inspect the element and you will get the flag.
+
+THM{4lw4y5_ch3ck_7h3_c0m3mn7}
+
+10) I accidentally messed up with this PNG file. Can you help me fix it? Thanks, ^^
+
+https://digital-forensics.sans.org/media/hex_file_and_regex_cheat_sheet.pdf
+
+To fix a PNG file header,
+we have to replace the first 4 places to
+
+89 50 4E 47
+
+flag-> THM{y35_w3_c4n}
+
+11)  Some hidden flag inside Tryhackme social account.
+
+
+
+12) What is this?
+
+++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++++++++++++++.------------.+++++.>+++++++++++++++++++++++.<<++++++++++++++++++.>>-------------------.---------.++++++++++++++.++++++++++++.<++++++++++++++++++.+++++++++.<+++.+.>----.>++++.
+
+This encoded strings is definately brainfuck.
+-> THM{0h_my_h34d}
+
+13) Exclusive strings for everyone!
+
+S1: 44585d6b2368737c65252166234f20626d
+S2: 1010101010101010101010101010101010
+
+-> >>> s1 = "44585d6b2368737c65252166234f20626d"
+>>> s2 = "1010101010101010101010101010101010"
+>>> string = hex(int(s1,16) ^ int(s2,16))
+>>> string
+'0x54484d7b3378636c75353176335f30727d'
+
+>>> print(bytes.fromhex(string[2:]))
+b'THM{3xclu51v3_0r}'
+
+14) Please exfiltrate my file :)
+
+-> root@LAPTOP-U5913CMD:/home/akshay/Downloads# binwalk hell.jpg
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.02
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+265845        0x40E75         Zip archive data, at least v2.0 to extract, uncompressed size: 69, name: hello_there.txt
+266099        0x40F73         End of Zip archive, footer length: 22
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# binwalk -e hell.jpg
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.02
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+265845        0x40E75         Zip archive data, at least v2.0 to extract, uncompressed size: 69, name: hello_there.txt
+266099        0x40F73         End of Zip archive, footer length: 22
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# cd _hell.jpg.extracted/
+root@LAPTOP-U5913CMD:/home/akshay/Downloads/_hell.jpg.extracted# ls
+40E75.zip  hello_there.txt
+root@LAPTOP-U5913CMD:/home/akshay/Downloads/_hell.jpg.extracted# cat hello_there.txt
+Thank you for extracting me, you are the best!
+
+THM{y0u_w4lk_m3_0u7}
+root@LAPTOP-U5913CMD:/home/akshay/Downloads/_hell.jpg.extracted#
+
+
+15) There is something lurking in the dark.
+
+-> Make the user of stegsolve.jar
+
+Command -> java -jar stegsolve.jar dark.png
+
+You will get the flag
+
+THM{7h3r3_15_h0p3_1n_7h3_d4rkn355}
+
+16) How good is your listening skill?
+
+P/S: The flag formatted as THM{Listened Flag}, the flag should be in All CAPS
+
+We can use normal QR decoder and we will get a link.
+
+https://soundcloud.com/user-86667759/thm-ctf-vol1
+
+SOUNDINGQR
+
+17) Can you solve the following? By the way, I lost the key. Sorry >.<
+
+MYKAHODTQ{RVG_YVGGK_FAL_WXF}
+
+Flag format: TRYHACKME{FLAG IN ALL CAP}
+
+-> https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx
+
+-- MESSAGE w/Key #1 = 'trc' ----------------
+thihqmkco{yee_feent_dhu_ueo}
+
+-- MESSAGE w/Key #2 = 'trs' ----------------
+thshqwkcy{yeo_feont_nhu_eeo}
+
+-- MESSAGE w/Key #3 = 'thc' ----------------
+trihamkmo{yoe_foend_dhe_uey}
+
+-- MESSAGE w/Key #4 = 'ths' ----------------
+trshawkmy{yoo_foond_nhe_eey}
+
+-- MESSAGE w/Key #5 = 'mrc' ----------------
+ahioqmrco{fee_meeut_dou_ulo}
+
+-- MESSAGE w/Key #6 = 'mrs' ----------------
+ahsoqwrcy{feo_meout_nou_elo}
+
+-- MESSAGE w/Key #7 = 'mhc' ----------------
+arioamrmo{foe_moeud_doe_uly}
+
+I just tried automatic decyption and guessed the flag.
+
+-> TRYHACKME{YOU_FOUND_THE_KEY}
+
+
+18) Decode the following text.
+
+581695969015253365094191591547859387620042736036246486373595515576333693
+
+-> dec -> hex -> text
+
+-> THM{17_ju57_4n_0rd1n4ry_b4535}
+
+19) I just hacked my neighbor's WiFi and try to capture some packet. He must be up to no good. Help me find it.
+
+->  THM{d0_n07_574lk_m3}
+
+Found me!
+
+20) Sometimes we need a 'machine' to dig the past
+
+Targetted website: https://www.embeddedhacker.com/
+Targetted time: 2 January 2020
+
+UNCATEGORIZED
+THM flag
+What did you just say? flag? THM{ch3ck_th3_h4ckb4ck}
