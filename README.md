@@ -26,3 +26,4 @@
 24) Tartarus Tryhackme Walkthrough (Easy)
 25) HA JokerCTF Tryhackme Walkthrough (Intermediate)
 26) GamingServer Tryhackme Walkthrough (Easy)
+27) CTF Collection Vol.1
