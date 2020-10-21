@@ -28,3 +28,4 @@
 26) GamingServer Tryhackme Walkthrough (Easy)
 27) CTF Collection Vol.1
 28) CTF Collection Vol.2
+29) Marketplace Tryhackme Walkthrough (Intermediate)
