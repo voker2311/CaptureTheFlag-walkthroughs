@@ -29,3 +29,4 @@
 27) CTF Collection Vol.1
 28) CTF Collection Vol.2
 29) Marketplace Tryhackme Walkthrough (Intermediate)
+30) Oday Tryhackme Walkthrough (Intermediate)
