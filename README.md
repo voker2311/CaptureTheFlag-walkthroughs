@@ -23,7 +23,7 @@
 21) tomghost Tryhackme Walkthrough (Intermediate)
 22) Ghizer Tryhackme Walkthrough (Intermediate)
 23) HacktheBox Cache (Retired) - (Hard)
-24) Tartarus Tryhackme Walkthrough (Easy)
+24) Tartarus Tryhackme Walkthrough (Intermediate)
 25) HA JokerCTF Tryhackme Walkthrough (Intermediate)
 26) GamingServer Tryhackme Walkthrough (Easy)
 27) CTF Collection Vol.1
