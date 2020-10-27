@@ -31,3 +31,4 @@
 29) Marketplace Tryhackme Walkthrough (Intermediate)
 30) [Oday Tryhackme Walkthrough](https://akshaydeepakshinde.medium.com/0day-tryhackme-walkthrough-ace69e57f2f9) (Intermediate)
 31) EthernalBlue Tryhackme Walkthrough (Intermediate)
+32) Ice Tryhackme Tutorial (Easy)
