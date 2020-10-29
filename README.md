@@ -33,3 +33,4 @@
 31) EthernalBlue Tryhackme Walkthrough (Intermediate) (Windows)
 32) Ice Tryhackme Tutorial (Easy) (Windows)
 33) blaster Tryhackme Tutorial (Easy) (Windows)
+34) Anonforce Tryhackme Walkthrough (Easy)
