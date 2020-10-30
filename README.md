@@ -29,7 +29,7 @@
 27) CTF Collection Vol.1
 28) CTF Collection Vol.2
 29) Marketplace Tryhackme Walkthrough (Intermediate)
-30) [Oday Tryhackme Walkthrough](https://akshaydeepakshinde.medium.com/0day-tryhackme-walkthrough-ace69e57f2f9) (Intermediate)
+30) [0day Tryhackme Walkthrough](https://akshaydeepakshinde.medium.com/0day-tryhackme-walkthrough-ace69e57f2f9) (Intermediate)
 31) EthernalBlue Tryhackme Walkthrough (Intermediate) (Windows)
 32) Ice Tryhackme Tutorial (Easy) (Windows)
 33) blaster Tryhackme Tutorial (Easy) (Windows)
