@@ -36,3 +36,4 @@
 34) Anonforce Tryhackme Walkthrough (Easy)
 35) B99 Tryhackme Walkthrough (Easy*)
 36) Willow Tryhackme Walkthrough (Intermediate)
+37) [Jacobtheboss Tryhackme Walkthrough](https://akshaydeepakshinde.medium.com/jacobtheboss-tryhackme-walkthrough-e205d77be719)
