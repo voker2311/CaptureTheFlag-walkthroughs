@@ -37,3 +37,4 @@
 35) B99 Tryhackme Walkthrough (Easy*)
 36) Willow Tryhackme Walkthrough (Intermediate)
 37) [Jacobtheboss Tryhackme Walkthrough](https://akshaydeepakshinde.medium.com/jacobtheboss-tryhackme-walkthrough-e205d77be719) (Intermediate)
+38) Revenge Tryhackme Walkthrough (Intermediate)
