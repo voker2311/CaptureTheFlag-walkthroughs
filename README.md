@@ -39,3 +39,4 @@
 37) [Jacobtheboss Tryhackme Walkthrough](https://akshaydeepakshinde.medium.com/jacobtheboss-tryhackme-walkthrough-e205d77be719) (Intermediate)
 38) Revenge Tryhackme Write-up (Intermediate)
 39) Zsecurity Tryhackme  Write-up (Easy)
+40) Nerdherd Tryhackme Write-up (Intermediate)
