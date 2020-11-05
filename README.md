@@ -40,3 +40,4 @@
 38) Revenge Tryhackme Write-up (Intermediate)
 39) Zsecurity Tryhackme  Write-up (Easy)
 40) Nerdherd Tryhackme Write-up (Intermediate)
+41) Undiscovered Tryhackme Write-up (Intermediate)
