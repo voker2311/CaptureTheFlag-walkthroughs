@@ -41,3 +41,4 @@
 39) Zsecurity Tryhackme  Write-up (Easy)
 40) Nerdherd Tryhackme Write-up (Intermediate)
 41) Undiscovered Tryhackme Write-up (Intermediate)
+42) The Server From Hell Tryhackme Write-up (Intermediate)
