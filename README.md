@@ -43,3 +43,4 @@
 41) Undiscovered Tryhackme Write-up (Intermediate)
 42) The Server From Hell Tryhackme Write-up (Intermediate)
 43) five86-1 Vulhub Walkthrough (Easy)
+44) Develpy Tryhackme Write-up (Easy) 
