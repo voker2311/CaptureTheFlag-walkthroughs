@@ -44,3 +44,4 @@
 42) The Server From Hell Tryhackme Write-up (Intermediate)
 43) five86-1 Vulhub Walkthrough (Easy)
 44) Develpy Tryhackme Write-up (Easy) 
+45) Nax Tryhackme Write-up (Intermediate)
