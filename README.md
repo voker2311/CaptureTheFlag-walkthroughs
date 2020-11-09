@@ -45,3 +45,4 @@
 43) five86-1 Vulhub Walkthrough (Easy)
 44) Develpy Tryhackme Write-up (Easy) 
 45) Nax Tryhackme Write-up (Intermediate)
+46) Startup Tryhackme Write-up (Easy) (Nice machine)
