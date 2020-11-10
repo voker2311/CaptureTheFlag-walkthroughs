@@ -46,3 +46,4 @@
 44) Develpy Tryhackme Write-up (Easy) 
 45) Nax Tryhackme Write-up (Intermediate)
 46) Startup Tryhackme Write-up (Easy) (Nice machine)
+47) GoldenEye Tryhackme Guided CTF (Intermediate)
