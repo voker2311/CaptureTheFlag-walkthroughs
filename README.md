@@ -48,3 +48,4 @@
 46) Startup Tryhackme Write-up (Easy) (Nice machine)
 47) GoldenEye Tryhackme Guided CTF (Intermediate)
 48) TonyTheTiger Tryhackme Write-up (Easy)
+49) Mneumonic Tryhackme Write-up (Easy)
