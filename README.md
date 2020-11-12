@@ -50,3 +50,4 @@
 48) TonyTheTiger Tryhackme Write-up (Easy)
 49) Mneumonic Tryhackme Write-up (Easy)
 50) The Blob Blog Tryhackme Write-up (Intermediate)
+51) Pickle Rick Tryhackme Write-up (Easy)
