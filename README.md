@@ -49,3 +49,4 @@
 47) GoldenEye Tryhackme Guided CTF (Intermediate)
 48) TonyTheTiger Tryhackme Write-up (Easy)
 49) Mneumonic Tryhackme Write-up (Easy)
+50) The Blob Blog Tryhackme Write-up (Intermediate)
