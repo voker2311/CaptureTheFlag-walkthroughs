@@ -51,3 +51,4 @@
 49) Mneumonic Tryhackme Write-up (Easy)
 50) The Blob Blog Tryhackme Write-up (Intermediate)
 51) Pickle Rick Tryhackme Write-up (Easy)
+52) Library Tryhackme Write-up (Easy)
