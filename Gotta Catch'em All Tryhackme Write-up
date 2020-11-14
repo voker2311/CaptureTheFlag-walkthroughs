@@ -1,0 +1,171 @@
+IP: 10.10.134.218
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon# nmap -A -T4 10.10.134.218
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-14 13:34 IST
+Nmap scan report for 10.10.134.218
+Host is up (0.18s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 58:14:75:69:1e:a9:59:5f:b2:3a:69:1c:6c:78:5c:27 (RSA)
+|   256 23:f5:fb:e7:57:c2:a5:3e:c2:26:29:0e:74:db:37:c2 (ECDSA)
+|_  256 f1:9b:b5:8a:b9:29:aa:b6:aa:a2:52:4a:6e:65:95:c5 (ED25519)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Can You Find Them All?
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/14%OT=22%CT=1%CU=38236%PV=Y%DS=2%DC=T%G=Y%TM=5FAF8F
+OS:D4%P=x86_64-pc-linux-gnu)SEQ(SP=106%GCD=1%ISR=10D%TI=Z%CI=Z%II=I%TS=A)SE
+OS:Q(SP=106%GCD=1%ISR=10D%TI=Z%CI=Z%TS=A)OPS(O1=M505ST11NW6%O2=M505ST11NW6%
+OS:O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST11NW6%O6=M505ST11)WIN(W1=F4B3%W2
+OS:=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN(R=Y%DF=Y%T=40%W=F507%O=M505NNS
+OS:NW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%
+OS:DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%
+OS:O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%
+OS:W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%
+OS:RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 143/tcp)
+HOP RTT       ADDRESS
+1   145.85 ms 10.9.0.1
+2   179.41 ms 10.10.134.218
+
+
+Go to the website:
+Check the console and you will find a array of pokemon names.
+
+(10) […]
+​
+0: "Bulbasaur"
+​
+1: "Charmander"
+​
+2: "Squirtle"
+​
+3: "Snorlax"
+​
+4: "Zapdos"
+​
+5: "Mew"
+​
+6: "Charizard"
+​
+7: "Grimer"
+​
+8: "Metapod"
+​
+9: "Magikarp"
+
+Find the Grass-Type Pokemon
+-> pokemon{Bulbasaur}
+
+Find the Water-Type Pokemon
+-> Squirtle_SqUaD{Squirtle}
+
+
+
+<pokemon>:<hack_the_pokemon>
+
+SSH Credentials
+
+
+^Croot@LAPTOP-U5913CMD:/home/akshay# ssh pokemon@10.10.134.218
+The authenticity of host '10.10.134.218 (10.10.134.218)' can't be established.
+ECDSA key fingerprint is SHA256:mXXTCQORSu35gV+cSi+nCjY/W0oabQFNjxuXUDrsUHI.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.134.218' (ECDSA) to the list of known hosts.
+pokemon@10.10.134.218's password:
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.15.0-112-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+84 packages can be updated.
+0 updates are security updates.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+pokemon@root:~$ id
+uid=1000(pokemon) gid=1000(pokemon) groups=1000(pokemon),4(adm),24(cdrom),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+pokemon@root:~$
+
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon# unzip P0kEmOn.zip
+Archive:  P0kEmOn.zip
+   creating: P0kEmOn/
+  inflating: P0kEmOn/grass-type.txt
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon# LS
+bash: LS: command not found
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon# ls
+P0kEmOn  P0kEmOn.zip  walkthrough.txt
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon# cd P0kEmOn
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon/P0kEmOn# ls
+grass-type.txt
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/Pokemon/P0kEmOn# cat grass-type.txt
+50 6f 4b 65 4d 6f 4e 7b 42 75 6c 62 61 73 61 75 72 7d
+
+pokemon@root:/var/www/html$ ls -la
+total 24
+drwxr-xr-x 2 root    root  4096 Jun 22 22:51 .
+drwxr-xr-x 3 root    root  4096 Jun 22 22:23 ..
+-rw-r--r-- 1 root    root 11217 Jun 24 14:36 index.html
+-rw-r--r-- 1 pokemon root    24 Jun 22 22:51 water-type.txt
+pokemon@root:/var/www/html$ cat water-type.txt
+Ecgudfxq_EcGmP{Ecgudfxq}
+
+
+pokemon@root:~/Videos/Gotta/Catch/Them/ALL!$ cat Could_this_be_what_Im_looking_for\?.cplusplus
+£ include <iostream>
+
+int main() {
+   std::cout << "ash : pikapika"
+   return 0;
+}
+
+pokemon@root:~/Videos/Gotta/Catch/Them/ALL!$ su ash
+Password:
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+bash: /home/ash/.bashrc: Permission denied
+ash@root:/home/pokemon/Videos/Gotta/Catch/Them/ALL!$ id
+uid=1001(ash) gid=1001(ash) groups=1001(ash),27(sudo)
+ash@root:/home/pokemon/Videos/Gotta/Catch/Them/ALL!$
+
+Pikachu!ash@root:/home$ sudo -l
+[sudo] password for ash:
+Matching Defaults entries for ash on root:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User ash may run the following commands on root:
+    (ALL : ALL) ALL
+ash@root:/home$ sudo bash
+root@root:/home£ id
+uid=0(root) gid=0(root) groups=0(root)
+
+
+root@root:/£ cd /etc
+root@root:/etc£ cd why_am_i_here\?/
+root@root:/etc/why_am_i_here?£ ls
+fire-type.txt
+root@root:/etc/why_am_i_here?£ cat fire-type.txt
+UDBrM20wbntDaGFybWFuZGVyfQ==root@root:/etc/why_am_i_here?£ echo "UDBrM20wbntDaGFybWFuZGVyfQ==" | base64 -d
+P0k3m0n{Charmander}
+root@root:/etc/why_am_i_here?£
+
+
+Who is Root's Favorite Pokemon?
+-> Pikachu!
