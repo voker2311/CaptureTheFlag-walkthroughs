@@ -53,3 +53,4 @@
 51) Pickle Rick Tryhackme Write-up (Easy)
 52) Library Tryhackme Write-up (Easy)
 53) Blueprint Tryhackme Write-up (Easy)
+54) Gotta Catch'em All Tryhackme Write-up (Easy)
