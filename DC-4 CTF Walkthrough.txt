@@ -590,4 +590,4 @@ challenges.
 If you enjoyed this CTF, send me a tweet via @DCAU7.
 root@dc-4:/root# 
 
-Thank you...Happy Hacking :)
+Thank you... Happy Hacking :)
