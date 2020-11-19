@@ -56,4 +56,5 @@
 54) Gotta Catch'em All Tryhackme Write-up (Easy)
 55) YearoftheFox Tryhackme Write-up (Hard)
 56) YearofthePig Tryhackme Write-up (Hard)
-57) Jeff Tryhackme Write-up (Hard) (not yet rooted)
+57) Jeff Tryhackme Write-up (Hard) (Rooted*)
+58) Food KoTH Tryhackme Write-up (Medium) 
