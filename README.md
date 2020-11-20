@@ -59,3 +59,4 @@
 57) Jeff Tryhackme Write-up (Hard) (Rooted*)
 58) Food KoTH Tryhackme Write-up (Medium) 
 59) Poster Tryhackme Write-up (Easy)
+60) Daily-Bugle Tryhackme Write-up (Hard)
