@@ -58,3 +58,4 @@
 56) YearofthePig Tryhackme Write-up (Hard)
 57) Jeff Tryhackme Write-up (Hard) (Rooted*)
 58) Food KoTH Tryhackme Write-up (Medium) 
+59) Poster Tryhackme Write-up (Easy)
