@@ -60,3 +60,4 @@
 58) Food KoTH Tryhackme Write-up (Medium) 
 59) Poster Tryhackme Write-up (Easy)
 60) Daily-Bugle Tryhackme Write-up (Hard)
+61) YearoftheDog Tryhackme Write-up (Hard)
