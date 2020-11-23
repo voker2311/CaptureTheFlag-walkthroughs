@@ -61,3 +61,4 @@
 59) Poster Tryhackme Write-up (Easy)
 60) Daily-Bugle Tryhackme Write-up (Hard)
 61) YearoftheDog Tryhackme Write-up (Hard)
+62) [CherryBlossom Tryhackme Write-up](https://akshaydeepakshinde.medium.com/tryhackme-cherryblossom-writeup-3c791b5f36f7) (Hard) 
