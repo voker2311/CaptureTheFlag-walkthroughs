@@ -63,3 +63,4 @@
 61) YearoftheDog Tryhackme Write-up (Hard)
 62) [CherryBlossom Tryhackme Write-up](https://akshaydeepakshinde.medium.com/tryhackme-cherryblossom-writeup-3c791b5f36f7) (Hard) 
 63) Warzone:2 Vulnhub Writeup (Medium)
+64) eLection Vulnhub Writeup (Medium) (OSCP)
