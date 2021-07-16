@@ -81,15 +81,17 @@ THM{4lw4y5_ch3ck_7h3_c0m3mn7}
 https://digital-forensics.sans.org/media/hex_file_and_regex_cheat_sheet.pdf
 
 To fix a PNG file header,
-we have to replace the first 4 places to
 
-89 50 4E 47
+a. open the file in vim and use this command `:%!xxd`
+b. replace the first 4 numbers with this "8950 4e47"
+c. back to insert and press `%!xxd -r`
+d. write and quit from vim
 
 flag-> THM{y35_w3_c4n}
 
-11)  Some hidden flag inside Tryhackme social account.
+11)  Some hidden flag inside Tryhackme social account. this user post it(https://www.reddit.com/user/hokelvin66)
 
-
+flag-> THM{50c14l_4cc0un7_15_p4r7_0f_051n7}
 
 12) What is this?
 
@@ -153,7 +155,8 @@ You will get the flag
 
 THM{7h3r3_15_h0p3_1n_7h3_d4rkn355}
 
-16) How good is your listening skill?
+
+17) How good is your listening skill?
 
 P/S: The flag formatted as THM{Listened Flag}, the flag should be in All CAPS
 
@@ -163,7 +166,17 @@ https://soundcloud.com/user-86667759/thm-ctf-vol1
 
 SOUNDINGQR
 
-17) Can you solve the following? By the way, I lost the key. Sorry >.<
+
+18) Sometimes we need a 'machine' to dig the past
+
+Targetted website: https://www.embeddedhacker.com/
+Targetted time: 2 January 2020
+
+UNCATEGORIZED
+THM flag
+What did you just say? flag? THM{ch3ck_th3_h4ckb4ck}
+
+19) Can you solve the following? By the way, I lost the key. Sorry >.<
 
 MYKAHODTQ{RVG_YVGGK_FAL_WXF}
 
@@ -197,7 +210,7 @@ I just tried automatic decyption and guessed the flag.
 -> TRYHACKME{YOU_FOUND_THE_KEY}
 
 
-18) Decode the following text.
+20) Decode the following text.
 
 581695969015253365094191591547859387620042736036246486373595515576333693
 
@@ -205,17 +218,8 @@ I just tried automatic decyption and guessed the flag.
 
 -> THM{17_ju57_4n_0rd1n4ry_b4535}
 
-19) I just hacked my neighbor's WiFi and try to capture some packet. He must be up to no good. Help me find it.
+
+21) I just hacked my neighbor's WiFi and try to capture some packet. He must be up to no good. Help me find it.
 
 ->  THM{d0_n07_574lk_m3}
-
-Found me!
-
-20) Sometimes we need a 'machine' to dig the past
-
-Targetted website: https://www.embeddedhacker.com/
-Targetted time: 2 January 2020
-
-UNCATEGORIZED
-THM flag
-What did you just say? flag? THM{ch3ck_th3_h4ckb4ck}
+You found me!
